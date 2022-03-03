@@ -1,0 +1,87 @@
+
+<%- include('partials/_header') %>
+
+
+<body class="bg-light">
+
+<div class="container mt-5">
+
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="card mb-5 shadow-sm">
+                <div class="card-body">
+        
+                    <form method="POST" action="/add" autocomplete="off">
+        
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input class="form-control" id="" name="name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Address</label>
+                            <input class="form-control" id="" name="address">
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Phone</label>
+                            <input class="form-control" id="" name="phone">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+        
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+        
+                    <h1>Customers</h1>
+        
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Phone</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <% data.forEach(function(customer){ %>
+                                <tr>
+                                    <th scope="row"><%= customer.id %></th>
+                                    <td><%= customer.name %></td>
+                                    <td><%= customer.address %></td>
+                                    <td><%= customer.phone %></td>
+                                  </tr>
+                            <% }); %>
+                          
+                        </tbody>
+                    </table>
+        
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+</body>
+
+
+
+
+<!-- <ul>
+    <% data.forEach(function(customer){ %>
+        <li><%= customer.name %></li>
+    <% }); %>
+</ul> -->
+
+
+
