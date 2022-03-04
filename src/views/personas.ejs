@@ -15,18 +15,14 @@
                     <form method="POST" action="/add" autocomplete="off">
         
                         <div class="mb-3">
-                            <label for="name" class="form-label">Name</label>
-                            <input class="form-control" id="" name="name">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input class="form-control" id="" name="nombre">
                         </div>
                         <div class="mb-3">
-                            <label for="address" class="form-label">Address</label>
-                            <input class="form-control" id="" name="address">
+                            <label for="apellido" class="form-label">Apellido</label>
+                            <input class="form-control" id="" name="apellido">
                         </div>
-                        <div class="mb-3">
-                            <label for="phone" class="form-label">Phone</label>
-                            <input class="form-control" id="" name="phone">
-                        </div>
-                        
+
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
         
@@ -39,24 +35,22 @@
             <div class="card shadow-sm">
                 <div class="card-body">
         
-                    <h1>Customers</h1>
+                    <h1>Personas</h1>
         
                     <table class="table">
                         <thead>
                           <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Address</th>
-                            <th scope="col">Phone</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellido</th>
                           </tr>
                         </thead>
                         <tbody>
-                            <% data.forEach(function(customer){ %>
+                            <% data.forEach(function(persona){ %>
                                 <tr>
-                                    <th scope="row"><%= customer.id %></th>
-                                    <td><%= customer.name %></td>
-                                    <td><%= customer.address %></td>
-                                    <td><%= customer.phone %></td>
+                                    <th scope="row"><%= persona.id %></th>
+                                    <td><%= persona.nombre %></td>
+                                    <td><%= persona.apellido %></td>
                                   </tr>
                             <% }); %>
                           
@@ -74,14 +68,6 @@
 
 </body>
 
-
-
-
-<!-- <ul>
-    <% data.forEach(function(customer){ %>
-        <li><%= customer.name %></li>
-    <% }); %>
-</ul> -->
 
 
 

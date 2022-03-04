@@ -3,17 +3,17 @@ const controller = {};
 controller.list = (req, res)=>{
 
     req.getConnection((err, conn)=>{
-        conn.query('SELECT * FROM customer', (err, customers)=>{
+        conn.query('SELECT * FROM personas', (err, personas)=>{
             
             if(err){
                 res.json(err);
             }
             
             //res.json(rows);
-            console.log(customers);
+            console.log(personas);
 
-            res.render('customers', {
-                data: customers
+            res.render('personas', {
+                data: personas
             })
         })
     });
@@ -24,13 +24,13 @@ controller.add = (req, res) =>{
 
     req.getConnection((err, conn)=>{
 
-        conn.query('insert into customer set ?;', [req.body], (err, customer)=>{
+        conn.query('insert into personas set ?;', [req.body], (err, persona)=>{
             
             if(err){
                 res.json(err);
             }
             
-            console.log(customer);
+            console.log(persona);
             res.redirect('/');
 
         })
