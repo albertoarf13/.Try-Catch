@@ -51,6 +51,12 @@
                                     <th scope="row"><%= persona.id %></th>
                                     <td><%= persona.nombre %></td>
                                     <td><%= persona.apellido %></td>
+                                    <td>
+                                        <form action="/delete" method="post">
+                                            <input name="id" value="<%= persona.id %>" type="hidden">
+                                            <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+                                        </form>
+                                    </td>
                                   </tr>
                             <% }); %>
                           

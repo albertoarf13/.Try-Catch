@@ -39,4 +39,24 @@ controller.add = (req, res) =>{
 }
 
 
+controller.delete = (req, res) =>{
+
+
+    req.getConnection((err, conn)=>{
+
+        conn.query('delete from personas where id = ?', [req.body.id], (err, persona)=>{
+            
+            if(err){
+                res.json(err);
+            }
+            
+            console.log(persona);
+            res.redirect('/');
+
+        })
+    });
+
+}
+
+
 module.exports = controller;

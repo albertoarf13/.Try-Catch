@@ -9,6 +9,7 @@ router.get('/', personasController.list);
 
 router.post('/add', personasController.add);
 
+router.post('/delete', personasController.delete);
 
 module.exports = router;
 
