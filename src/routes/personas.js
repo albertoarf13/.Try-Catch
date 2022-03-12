@@ -9,7 +9,8 @@ router.get('/', personasController.list);
 
 router.post('/add', personasController.add);
 
-router.post('/delete', personasController.delete);
+router.post('/delete', returne = personasController.delete);
+console.log(returne);
 
 module.exports = router;
 

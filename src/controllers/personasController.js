@@ -55,7 +55,7 @@ controller.delete = (req, res) =>{
 
         })
     });
-
+    return -1;
 }
 
 
