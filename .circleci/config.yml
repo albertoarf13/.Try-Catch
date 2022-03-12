@@ -14,5 +14,8 @@ jobs:
             find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/jest/ \;
           when: always
       - run: npm test
+      - store_artifacts:
+          path: /test-results/results.xml
+          destination: /test-results
       - store_test_results:
-          path: ~/test-results
+          path: /test-results
