@@ -14,11 +14,6 @@ jobs:
           name: Make artifact directories
           command: |
             mkdir -p /test-results/
-      - run:
-          name: Run Unit Tests
-          command: |
-            /opt/Unity/Editor/Unity - quit -batchmode -nographics -silent-crashes -logFile /dev/stdout -projectPath ./Source/ -runTests -testResults /test-results/results.xml
-          working_directory: ~/project/
       - store_artifacts:
           path: /test-results/results.xml
           destination: /test-results
