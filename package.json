@@ -14,17 +14,21 @@
     "ejs": "^3.1.6",
     "express": "^4.17.3",
     "express-myconnection": "^1.0.4",
+    "jest-junit": "13.0.0",
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
-    "jest-junit":"13.0.0"
+    "yarn": "^1.22.17"
   },
   "devDependencies": {
     "jest": "^27.5.1"
   },
-  "jest":{
-    "reporters": [ "default", "jest-junit" ]
+  "jest": {
+    "reporters": [
+      "default",
+      "jest-junit"
+    ]
   },
-  "jest-junit":{
+  "jest-junit": {
     "output": "./test-results/junit/results.xml"
-  } 
+  }
 }
