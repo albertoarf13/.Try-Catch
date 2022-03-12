@@ -10,7 +10,7 @@ jobs:
           key: npm-cache-v1-{{ checksum "package.json" }}
       - run:
           name: Install Dependencies
-          command: npm install
+          command: yarn install
       - save_cache:
           key: npm-cache-v1-{{ checksum "package.json" }}
           paths:
@@ -19,7 +19,7 @@ jobs:
           name: Run Tests
           command: |
             mkdir -p ./test-results
-            npm test --ci --reporters=jest-junit
+            yarn test --ci --reporters=jest-junit
           when: always
 
       - store_artifacts:
