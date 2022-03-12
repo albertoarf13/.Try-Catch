@@ -19,7 +19,7 @@ jobs:
           name: Run Tests
           command: |
             mkdir -p ./test-results
-            npm test --ci --reporters=jest
+            npm test --ci --reporters=jest-junit
           when: always
 
       - store_artifacts:
