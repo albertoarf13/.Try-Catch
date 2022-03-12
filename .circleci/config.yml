@@ -1,18 +1,13 @@
 version: 2.1
 jobs:
   build:
+    working_directory: /
     docker:
       - image: cimg/node:16.14
 
     steps:
       - checkout
       - run: npm install 
-      - run:
-          name: Run Tests
-          command: |
-            mkdir -p ~/test-results/jest
-          environment:
-            JEST_JUNIT_OUTPUT: ~/test-results/jest/results.xml
       - run: npm test
       - store_test_results:
-          path: ~/test-results
+          path: ~/test-results/jest
