@@ -16,5 +16,8 @@
     "express-myconnection": "^1.0.4",
     "morgan": "^1.10.0",
     "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "jest": "^27.5.1"
   }
 }
