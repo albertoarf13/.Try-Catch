@@ -6,7 +6,9 @@ jobs:
 
     steps:
       - checkout
-      - run: npm install package.json
+      - run:
+          name: Install Dependencies
+          command: yarn install
       - run:
           name: Run Tests
           command: |
@@ -15,7 +17,7 @@ jobs:
           when: always
 
       - store_artifacts:
-          path: ./test-results/results.txt
-          destination: test-results
+          path: ./test-results/junit
+          #destination: test-results
       - store_test_results:
           path: ./test-results
