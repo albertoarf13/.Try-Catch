@@ -14,5 +14,9 @@ jobs:
             npm test > ~/test-results/results.txt
             pwd
           when: always
+
+      - store_artifacts:
+          path: ~/test-results/results.txt
+          destination: artifact-file
       - store_test_results:
           path: ~/test-results/results.txt
