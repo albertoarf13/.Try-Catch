@@ -18,4 +18,4 @@ jobs:
           path: ~/test-results/results.txt
           destination: test-results
       - store_test_results:
-          path: test-results
+          path: ~/test-results/results.txt
