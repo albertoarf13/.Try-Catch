@@ -7,15 +7,6 @@
     "test": "jest",
     "dev": "nodemon src/app.js"
   },
-  "jest": {
-    "reporters": [
-      "default",
-      "jest-junit"
-    ]
-  },
-  "jest-junit": {
-    "outputDirectory": "test_results/junit/results.xml"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -24,8 +15,7 @@
     "express": "^4.17.3",
     "express-myconnection": "^1.0.4",
     "morgan": "^1.10.0",
-    "mysql": "^2.18.1",
-    "package.json": "^2.0.1"
+    "mysql": "^2.18.1"
   },
   "devDependencies": {
     "jest": "^27.5.1"
