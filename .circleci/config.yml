@@ -22,7 +22,7 @@ jobs:
             yarn test --ci --reporters=jest-junit
             find ./
       - store_artifacts:
-          path: ./test-results/junit
+          path: ./junit.xml
           #destination: test-results
       - store_test_results:
-          path: ./test-results
+          path: ./junit.xml
