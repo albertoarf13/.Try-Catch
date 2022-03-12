@@ -7,6 +7,15 @@
     "test": "jest",
     "dev": "nodemon src/app.js"
   },
+  "jest": {
+    "reporters": [
+      "default",
+      "jest-junit"
+    ]
+  },
+  "jest-junit": {
+    "outputDirectory": "test_results/junit"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
