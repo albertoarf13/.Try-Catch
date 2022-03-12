@@ -12,10 +12,10 @@ jobs:
           name: Save test results
           command: |
             mkdir -p ~/test-results/jest/
-            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/jest/ \;
+            npm test > ~/test-results/jest/results.txt
           when: always
       - store_artifacts:
-          path: /test-results/results.xml
+          path: /test-results/results.txt
           destination: /test-results
       - store_test_results:
           path: /test-results
