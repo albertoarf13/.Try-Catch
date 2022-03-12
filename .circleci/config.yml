@@ -8,6 +8,8 @@ jobs:
       - checkout
       - run: npm install 
       - run: npm test
-      - run: | 
-      mkdir /test-result
-      npm test >> /test-result
+      - run:
+          command: |
+            pipenv run python manage.py test
+      - store_test_results: # Upload test results for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
+          path: test-results
