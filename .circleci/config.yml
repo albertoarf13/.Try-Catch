@@ -8,8 +8,19 @@ jobs:
       - checkout
       - run: npm install 
       - run: npm test
+      - store_test_results:
+          path: /test-results
       - run:
+          name: Make artifact directories
           command: |
-            pipenv run python manage.py test
-      - store_test_results: # Upload test results for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
-          path: test-results
+            mkdir -p /test-results/
+      - run:
+          name: Run Unit Tests
+          command: |
+            /opt/Unity/Editor/Unity - quit -batchmode -nographics -silent-crashes -logFile /dev/stdout -projectPath ./Source/ -runTests -testResults /test-results/results.xml
+          working_directory: ~/project/
+      - store_artifacts:
+          path: /test-results/results.xml
+          destination: /test-results
+      - store_test_results:
+          path: /test-results
