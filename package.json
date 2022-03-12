@@ -14,7 +14,7 @@
     ]
   },
   "jest-junit": {
-    "outputDirectory": "test_results/junit"
+    "outputDirectory": "test_results/junit/results.xml"
   },
   "keywords": [],
   "author": "",

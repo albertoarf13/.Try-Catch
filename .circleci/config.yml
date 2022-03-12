@@ -4,24 +4,18 @@ jobs:
     docker:
       - image: cimg/node:16.14
 
-    working_directory: ~/repo
-    
     steps:
       - checkout
       - run: npm install
-      - run: npm ci
-
-      # First we save the split test file names into an env
-      # Then we pass that to jest
       - run:
-          name: Run Jest tests using test splitting
+          name: Run Tests
           command: |
-            TESTFILES=$(circleci tests glob "test/**/*.test.js" | circleci tests split --split-by=timings)
-            npm test $TESTFILES
-
-      - store_test_results:
-          path: test_results
+            mkdir -p ./test-results
+            yarn test --ci --reporters=jest-junit
+          when: always
 
       - store_artifacts:
-          path: test_results
-          destination: test_results
+          path: ./test-results/results.txt
+          destination: test-results
+      - store_test_results:
+          path: ./test-results
