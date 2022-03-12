@@ -12,7 +12,7 @@ jobs:
           command: |
             mkdir -p ~/test-results
             npm test > ~/test-results/results.txt
-            ~/test-results/results.txt
+            cat ~/test-results/results.txt
           when: always
 
       - store_artifacts:
