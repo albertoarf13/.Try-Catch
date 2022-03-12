@@ -10,12 +10,9 @@ jobs:
       - run:
           name: Save test results
           command: |
-            mkdir -p ~/test-results/jest/
-            npm test > ~/test-results/jest/results.txt
+            mkdir -p ~/test-results
+            npm test > ~/test-results/results.txt
             pwd
           when: always
-      - store_artifacts:
-          path: ~/test-results/results.txt
-          destination: ~/test-results
       - store_test_results:
           path: ~/test-results
