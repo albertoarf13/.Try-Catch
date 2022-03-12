@@ -12,6 +12,7 @@ jobs:
           command: |
             mkdir -p ~/test-results/jest/
             npm test > ~/test-results/jest/results.txt
+            pwd
           when: always
       - store_artifacts:
           path: ~/test-results/results.txt
