@@ -15,4 +15,4 @@ jobs:
             pwd
           when: always
       - store_test_results:
-          path: ~/test-results
+          path: ~/test-results/results.txt
