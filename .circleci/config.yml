@@ -7,6 +7,12 @@ jobs:
     steps:
       - checkout
       - run: npm install 
+      - run:
+          name: Run Tests
+          command: |
+            mkdir -p ~/test-results/jest
+          environment:
+            JEST_JUNIT_OUTPUT: ~/test-results/jest/results.xml
       - run: npm test
       - store_test_results:
-          path: ~/test-results/jest
+          path: ~/test-results
