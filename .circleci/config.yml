@@ -12,11 +12,8 @@ jobs:
           command: |
             mkdir -p ~/test-results
             CI=true npm test > ~/test-results/results.txt 2>&1
-            cat ~/test-results/results.txt
           when: always
 
       - store_artifacts:
           path: ~/test-results/results.txt
           destination: artifact-file
-      - store_test_results:
-          path: ~/test-results/results.txt
