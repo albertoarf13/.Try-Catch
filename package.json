@@ -19,5 +19,8 @@
   },
   "devDependencies": {
     "jest": "^27.5.1"
-  }
+  },
+  "jest-junit":{
+    "output": "./test-results/junit/results.xml"
+  } 
 }
