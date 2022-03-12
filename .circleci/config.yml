@@ -19,7 +19,8 @@ jobs:
           name: Run Tests
           command: |
             mkdir -p ./test-results
-            yarn test --ci --reporters=default --reporters=jest-junit
+            yarn test --ci --reporters=jest-junit
+            ls ./test-results/junit
       - store_artifacts:
           path: ./test-results/junit
           #destination: test-results
