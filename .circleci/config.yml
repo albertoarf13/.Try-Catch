@@ -1,13 +1,21 @@
 version: 2.1
 jobs:
   build:
-    working_directory: ~/project
     docker:
       - image: cimg/node:16.14
 
     steps:
       - checkout
-      - run: npm install 
-      - run: npm test
+      - run: npm install
+      - run:
+          name: Run Test and save results
+          command: |
+            mkdir -p ~/test-results
+            CI=true npm test > ~/test-results/results.txt 2>&1
+          when: always
+
+      - store_artifacts:
+          path: ~/test-results/results.txt
+          destination: test-results
       - store_test_results:
-          path: ~/test-results/jest
+          path: ~/test-results
