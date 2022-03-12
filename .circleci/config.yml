@@ -11,11 +11,11 @@ jobs:
           name: Save test results
           command: |
             mkdir -p ~/test-results
-            CI=true npm test > ~/test-results/results.xml 2>&1
+            CI=true npm test > ~/test-results/results.txt 2>&1
           when: always
 
       - store_artifacts:
-          path: ~/test-results/results.xml
+          path: ~/test-results/results.txt
           destination: test-results
       - store_test_results:
           path: ~/test-results/
