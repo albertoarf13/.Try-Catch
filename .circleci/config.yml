@@ -8,5 +8,6 @@ jobs:
       - checkout
       - run: npm install 
       - run: npm test
-      - store_test_results:
-          path: test-reports 
+      - run: | 
+      mkdir /test-result
+      npm test >> /test-result
