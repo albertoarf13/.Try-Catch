@@ -16,4 +16,6 @@ jobs:
 
       - store_artifacts:
           path: ~/test-results/results.txt
-          destination: artifact-file
+          destination: /test-results
+      - store_test_results:
+          path: /test-results
