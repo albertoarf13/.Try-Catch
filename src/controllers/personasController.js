@@ -2,7 +2,7 @@ const controller = {};
 
 controller.list = (req, res)=>{
 
-    req.getConnection((err, conn)=>{
+    /*req.getConnection((err, conn)=>{
         conn.query('SELECT * FROM personas', (err, personas)=>{
             
             if(err){
@@ -16,7 +16,9 @@ controller.list = (req, res)=>{
                 data: personas
             })
         })
-    });
+    });*/
+
+    res.render('index.ejs');
 };
 
 controller.add = (req, res) =>{

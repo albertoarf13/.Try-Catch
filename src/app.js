@@ -36,7 +36,7 @@ app.use('/', personasRoutes);
 
 
 //archivos estaticos
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 
 
 // Empezar el servidor
