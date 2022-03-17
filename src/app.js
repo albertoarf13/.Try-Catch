@@ -7,7 +7,7 @@ const myConnection = require('express-myconnection');
 const app = express();
 
 // importar rutas
-const personasRoutes = require('./routes/personas');
+const routes = require('./routes/routes');
 
 //settings
 app.set('port', process.env.PORT || 3000);
@@ -32,11 +32,11 @@ app.use(express.urlencoded({
 
 
 //routes
-app.use('/', personasRoutes);
+app.use('/', routes);
 
 
 //archivos estaticos
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 
 
 // Empezar el servidor
