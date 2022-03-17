@@ -22,3 +22,11 @@ usuarioController.sign_up = (req, res) => {
     res.redirect('/'); //Posibles cambios
 
 }
+
+usuarioController.sign_up_page = (req, res) => {
+    
+    res.render('sign-up.ejs');
+
+}
+
+module.exports = usuarioController;
