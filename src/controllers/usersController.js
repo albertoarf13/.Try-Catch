@@ -59,4 +59,10 @@ usuarioController.login_page = (req, res) => {
     res.render('login.ejs');
 }
 
+usuarioController.logout = (req, res) => {
+    
+    req.session.destroy();
+    res.redirect('/');
+}
+
 module.exports = usuarioController;

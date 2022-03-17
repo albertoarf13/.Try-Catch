@@ -17,6 +17,7 @@ router.get('/sign-up', usersController.sign_up_page);
 
 router.post('/login', usersController.login);
 router.get('/login', isNotLogged, usersController.login_page);
+router.get('/logout', isLogged, usersController.logout);
 
 
 function isLogged(req, res, next){
