@@ -6,5 +6,29 @@ jobs:
 
     steps:
       - checkout
+<<<<<<< HEAD
       - run: npm install 
       - run: npm test
+=======
+      - restore_cache:
+          key: npm-cache-v1-{{ checksum "package.json" }}
+      - run:
+          name: Install Dependencies
+          command: yarn install
+      - save_cache:
+          key: npm-cache-v1-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - run:
+          name: Run Tests
+          command: |
+            mkdir -p ./test-results
+            yarn test --ci --runInBand --reporters=default --reporters=jest-junit > ./test-results/results.txt 2>&1
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: ./reports/junit/
+      - store_artifacts:
+          path: ./test-results/results.txt
+          destination: test-results
+      - store_test_results:
+          path: ./reports/junit/
+>>>>>>> pablogamo_dev

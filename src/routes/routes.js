@@ -11,5 +11,7 @@ router.post('/add', personasController.add);
 
 router.post('/delete', personasController.delete);
 
+route.post('/sign-up', usuarioController.sign_up);
+
 module.exports = router;
 
