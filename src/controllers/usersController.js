@@ -7,6 +7,7 @@ usuarioController.sign_up = (req, res) => {
     //Comprobar entrada
 
     //Buscar Usuario: dbUser.find({email})
+
     if(user){ //Si existe
         return res.status(400).json({error: "El email ya esta siendo usado por una cuenta activa"})
     }
@@ -19,4 +20,5 @@ usuarioController.sign_up = (req, res) => {
     
     console.log(persona);
     res.redirect('/'); //Posibles cambios
+
 }
