@@ -13,7 +13,7 @@ router.post('/add', personasController.add);
 router.post('/delete', personasController.delete);
 
 router.post('/sign-up', usersController.sign_up);
-router.get('/sign-up', usersController.sign_up_page);
+router.get('/sign-up_page', usersController.sign_up_page);
 
 router.post('/login', usersController.login);
 router.get('/login', isNotLogged, usersController.login_page);

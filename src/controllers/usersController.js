@@ -2,25 +2,28 @@ const usuarioController = {};
 //const dbUser = require(../integracion/dbUser)
 
 usuarioController.sign_up = (req, res) => {
-    const {username, email, password} = req.body;
+    const {nombre, email, password} = req.body;
+    req.getConnection((err, conn)=>{
+        conn.query("SELECT * FROM usuario WHERE correo = ?", [email], (err, usuario)=>{
+            console.log("Aqui llego")
+            if(err){
+                res.json(err);
+            }
+            else if(usuario.length == 0){
+                conn.query("INSERT INTO usuario(nombre, correo, contraseya) VALUES (?,?,?)", [nombre, email, password], (err, usuario)=>{
+                    if(err){
+                        res.json(err);
+                    }else{
+                        console.log(usuario)
+                        res.redirect('/');
+                    }
+                });
+            }else{
+                res.render('login.ejs', { error: "Ya existe una cuenta con dicho correo" });
+            }
 
-    //Comprobar entrada
-
-    //Buscar Usuario: dbUser.find({email})
-
-    if(user){ //Si existe
-        return res.status(400).json({error: "El email ya esta siendo usado por una cuenta activa"})
-    }
-
-    //Crear usuario en la BD.
-
-    if(err){
-        res.json(err);
-    }
-    
-    console.log(persona);
-    res.redirect('/'); //Posibles cambios
-
+        });
+    });
 }
 
 usuarioController.sign_up_page = (req, res) => {
@@ -38,7 +41,7 @@ usuarioController.login = (req, res) => {
             if(err){
                 res.json(err);
             }
-            else if(!usuario){
+            else if(usuario.length == 0){
                 res.render('login.ejs', { error: "No existe el usuario/ contraseña incorrecta" });
             }
             else{
