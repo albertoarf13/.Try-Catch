@@ -3,6 +3,7 @@ const path = require('path')
 const mysql = require('mysql');
 const morgan = require('morgan');
 const myConnection = require('express-myconnection');
+const session = require('express-session');
 
 const app = express();
 
@@ -31,12 +32,26 @@ app.use(express.urlencoded({
 }));
 
 
+// session
+app.use(session({secret: '123',saveUninitialized: true,resave: true}));
+
+// Esto es para poder acceder al valor en todas las vistas edsde ejs
+app.use(function(request, response, next) {
+    if (request.session.correo) {
+        response.locals.correo = request.session.correo;
+    }
+    next();
+});
+
+
 //routes
 app.use('/', routes);
 
 
 //archivos estaticos
 app.use(express.static('public'));
+
+
 
 
 // Empezar el servidor

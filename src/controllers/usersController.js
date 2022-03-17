@@ -29,4 +29,34 @@ usuarioController.sign_up_page = (req, res) => {
 
 }
 
+usuarioController.login = (req, res) => {
+    const {correo, contraseya} = req.body;
+
+    req.getConnection((err, conn)=>{
+        conn.query("SELECT * FROM usuario WHERE correo = ? AND contraseya = ?", [correo, contraseya], (err, usuario)=>{
+            
+            if(err){
+                res.json(err);
+            }
+            else if(!usuario){
+                res.render('login.ejs', { error: "No existe el usuario/ contraseña incorrecta" });
+            }
+            else{
+                console.log(usuario);
+
+                req.session.correo = usuario[0].correo;
+                console.log(req.session);
+
+                res.redirect('/');
+            }
+
+        });
+    });
+}
+
+usuarioController.login_page = (req, res) => {
+    
+    res.render('login.ejs');
+}
+
 module.exports = usuarioController;

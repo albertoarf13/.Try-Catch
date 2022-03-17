@@ -38,7 +38,7 @@
     padding-right: 30px;
 }
 
-.header button{
+.header .button{
     margin-left: 10px;
     padding: 10px 20px 10px 20px;
     background-color: rgb(61, 61, 61);
@@ -47,6 +47,7 @@
     cursor: pointer;
     font-weight: bold;
     border-radius: 4px;
+    text-decoration: none;
 }
 
 .header .header__login{
@@ -57,6 +58,7 @@
 .header .header__registro{
     background-color: var(--naranja);
     border: 2px solid var(--naranja);
+    color: white;
 }
 
 .contenedor{
