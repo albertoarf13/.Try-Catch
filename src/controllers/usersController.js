@@ -4,6 +4,7 @@ const usuarioController = {};
 usuarioController.sign_up = (req, res) => {
     const {nombre, email, password} = req.body;
     req.getConnection((err, conn)=>{
+        
         conn.query("SELECT * FROM usuario WHERE correo = ?", [email], (err, usuario)=>{
             console.log("Aqui llego")
             if(err){
@@ -14,8 +15,8 @@ usuarioController.sign_up = (req, res) => {
                     if(err){
                         res.json(err);
                     }else{
-                        console.log(usuario)
-                        res.redirect('/');
+                        console.log(usuario);
+                        res.render('login.ejs', { mensaje: "Se ha registrado con exito" });
                     }
                 });
             }else{
