@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --runInBand",
+    "test:coverage": "jest --coverage",
     "dev": "nodemon src/app.js"
   },
   "keywords": [],
@@ -22,13 +23,16 @@
     "yarn": "^1.22.17"
   },
   "devDependencies": {
-    "jest": "^27.5.1"
+    "jest": "^27.5.1",
+    "supertest": "^6.2.2",
+    "nanoid" :"^3.1.10"
   },
   "jest": {
     "reporters": [
       "default",
       "jest-junit"
-    ]
+    ],
+    "testEnvironment": "node"
   },
   "jest-junit": {
     "output": "./test-results/junit/results.xml"

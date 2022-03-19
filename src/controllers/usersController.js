@@ -74,6 +74,13 @@ usuarioController.logout = (req, res) => {
     res.redirect('/');
 }
 
+function all_data(datos){
+    for(var key in datos){
+        if(datos[key] == '')
+            return false;
+    }
+    return true;
+}
 
 function checkEmail(email){
     var StrObj = email;

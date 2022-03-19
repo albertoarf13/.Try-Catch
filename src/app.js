@@ -59,3 +59,4 @@ app.listen(app.get('port'), ()=>{
     console.log('Server running')
 })
 
+module.exports = app;
