@@ -1,7 +1,7 @@
 
 <%- include('partials/_header') %>
         
-    
+<link rel="stylesheet" href="/styleslogin.css">   
 <div class="contenedor">
     <div class="sidebar">
         
@@ -12,20 +12,30 @@
         <div class="content-container">
 
             <div class="card mb-5 shadow-sm">
-                <div class="card-body">
-        
+                <div class="login">
+                    
+                    <h1>Iniciar sesion</h1>
                     <form method="POST" action="/login" autocomplete="off">
-        
-                        <div class="mb-3">
+                     
+                            <div class="inputs">
+                                <label for="email">Correo electronico</label>
+                                <input type="text" placeholder="Introduce el correo" name="correo">
+                    
+                                <label for="password">Contraseña</label>
+                                <input type="password" placeholder="Introduce contraseña" name="contraseya">
+                    
+                                <input type="submit" value="log in">
+                            </div>
+                        <!-- <div class="mb-3">
                             <label for="email" class="form-label">Correo</label>
                             <input class="form-control" name="correo">
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Contraseña</label>
                             <input type="password" class="form-control" name="contraseya">
-                        </div>
+                        </div> -->
 
-                        <button type="submit" class="btn btn-primary mb-3">Submit</button>
+                        <!-- <button type="submit" class="btn btn-primary mb-3">Submit</button> -->
 
 
                         <% if(typeof mensaje !== 'undefined' && mensaje) { %>
