@@ -2,9 +2,9 @@ const usuarioController = {};
 //const dbUser = require(../integracion/dbUser)
 
 usuarioController.sign_up = (req, res) => {
-    const {nombre, email, password} = req.body;
+    const {nombre, email, password, password2} = req.body;
 
-    if(nombre.length < 3 || !checkEmail(email) || !checkPassword(password)){
+    if(nombre.length < 3 || password != password2 || !checkEmail(email) || !checkPassword(password) || !all_data(req.body)){
         res.render('sign-up.ejs', { error: "No se ha podido completar el registro: entrada no válida" });
     }
 
@@ -74,6 +74,13 @@ usuarioController.logout = (req, res) => {
     res.redirect('/');
 }
 
+function all_data(datos){
+    for(var key in datos){
+        if(datos[key] == '')
+            return false;
+    }
+    return true;
+}
 
 function checkEmail(email){
     var StrObj = email;
