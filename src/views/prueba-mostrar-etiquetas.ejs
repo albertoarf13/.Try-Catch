@@ -1,0 +1,28 @@
+
+<%- include('partials/_header') %>
+
+<div class="contenedor">
+    <div class="sidebar">
+        
+    </div>
+
+    <div class="main">
+        <div class="content-container">
+
+            <% preguntas.forEach(function(pregunta){ %>
+                
+                <%= pregunta.titulo %>
+
+                <% pregunta.etiquetas.forEach(function(etiqueta){ %>
+                    <span class="badge bg-secondary"><%= etiqueta %></span>
+                <% }); %>
+
+                <hr>
+
+            <% }); %>
+
+        </div>
+    </div>
+</div>
+     
+<%- include('partials/_footer') %>

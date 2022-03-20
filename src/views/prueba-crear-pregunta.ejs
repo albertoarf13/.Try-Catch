@@ -25,8 +25,13 @@
                             <input class="form-control" name="descripcion">
                         </div>
                         <div class="mb-3">
-                            <label for="etiquetas" class="form-label">Etiquetas</label>
-                            <input class="form-control" name="etiquetas">
+                            <label for="etiquetas" class="form-label">Etiquetas (se pueden seleccionar varias con Ctrl)</label>
+                            <!-- <input class="form-control" name="etiquetas"> -->
+                            <select class="form-select" multiple name="etiquetas">
+                                <% etiquetas.forEach(function(etiqueta){ %>
+                                    <option value="<%= etiqueta.id %>"><%= etiqueta.nombre %></option>
+                                <% }); %>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="imagen" class="form-label">Imagen</label>

@@ -26,6 +26,7 @@ router.get('/logout', isLogged, usersController.logout);
 router.get('/preguntas/crear', isLogged, preguntasController.crear_pregunta_vista);
 router.post('/preguntas/crear', isLogged, upload.single("imagen"), preguntasController.crear_pregunta);
 router.get('/preguntas/mostrar-imagenes', preguntasController.prueba_mostrar_imagenes);
+router.get('/preguntas/mostrar-etiquetas', preguntasController.prueba_mostrar_etiquetas);
 
 
 function isLogged(req, res, next){
