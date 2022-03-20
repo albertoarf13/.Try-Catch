@@ -9,6 +9,11 @@ preguntasController.crear_pregunta = (req, res) => {
 
     const {titulo, descripcion, etiquetas} = req.body;
 
+    if(titulo.length <= 0 || descripcion.length <= 0){
+        res.render('prueba-crear-pregunta.ejs', { error: "El título y descripción no pueden estar vacíos" });
+    }
+
+
     let imagen = null;
 
     if(req.file != undefined){
