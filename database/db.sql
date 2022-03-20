@@ -9,7 +9,7 @@ CREATE TABLE pregunta(
 	id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   titulo VARCHAR(100),
   descripcion VARCHAR(100),
-  imagen varbinary(8000),
+  imagen LONGTEXT,
   correo VARCHAR(100) NOT NULL REFERENCES usuario(correo)  
 );
 

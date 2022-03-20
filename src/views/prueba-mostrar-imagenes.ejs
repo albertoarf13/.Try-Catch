@@ -12,7 +12,7 @@
             <% preguntas.forEach(function(pregunta){ %>
                 
                 <%= pregunta.titulo %>
-                <img src="data:image/png;base64,<%= pregunta.imagen %>" alt="">
+                <img src="data:image/png;base64,<%= pregunta.imagen %>" style="max-width: 300px;" alt="">
                 <hr>
 
             <% }); %>

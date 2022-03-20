@@ -34,7 +34,7 @@ preguntasController.crear_pregunta = (req, res) => {
 
     req.getConnection((err, conn)=>{
 
-        conn.query('INSERT INTO PREGUNTA_V2(titulo, descripcion, imagen, correo) VALUES(?,?,?,?)', [titulo, descripcion, imagen, req.session.correo], (err, result)=>{
+        conn.query('INSERT INTO pregunta(titulo, descripcion, imagen, correo) VALUES(?,?,?,?)', [titulo, descripcion, imagen, req.session.correo], (err, result)=>{
             if(err){
                 res.json(err);
             }
@@ -57,7 +57,7 @@ preguntasController.crear_pregunta = (req, res) => {
 preguntasController.prueba_mostrar_imagenes = (req, res) => {
 
     req.getConnection((err, conn)=>{
-        conn.query('SELECT * FROM pregunta_v2', (err, preguntas)=>{
+        conn.query('SELECT * FROM pregunta', (err, preguntas)=>{
             
             if(err){
                 res.json(err);
@@ -74,13 +74,13 @@ preguntasController.prueba_mostrar_imagenes = (req, res) => {
 preguntasController.prueba_mostrar_etiquetas = (req, res) => {
 
     req.getConnection((err, conn)=>{
-        conn.query(`select pregunta_v2.*, ifnull(GROUP_CONCAT(etiqueta.nombre), '') as etiquetas
-        from pregunta_v2
+        conn.query(`select pregunta.*, ifnull(GROUP_CONCAT(etiqueta.nombre), '') as etiquetas
+        from pregunta
         left join etiqueta_pregunta
-        on pregunta_v2.id =  etiqueta_pregunta.id_pregunta
+        on pregunta.id =  etiqueta_pregunta.id_pregunta
         left join etiqueta
         on etiqueta_pregunta.id_etiqueta = etiqueta.id
-        group by pregunta_v2.id;`, (err, preguntas)=>{
+        group by pregunta.id;`, (err, preguntas)=>{
             
             if(err){
                 res.json(err);
