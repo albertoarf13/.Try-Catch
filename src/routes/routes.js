@@ -1,6 +1,8 @@
 const express = require('express');
 const { route } = require('express/lib/application');
 const router = express.Router();
+const multer = require('multer');
+const upload = multer({ storage: multer.memoryStorage() });
 
 const personasController = require('../controllers/personasController');
 const usersController = require('../controllers/usersController');
@@ -22,7 +24,8 @@ router.get('/logout', isLogged, usersController.logout);
 
 //Preguntas
 router.get('/preguntas/crear', isLogged, preguntasController.crear_pregunta_vista);
-router.post('/preguntas/crear', isLogged, preguntasController.crear_pregunta);
+router.post('/preguntas/crear', isLogged, upload.single("imagen"), preguntasController.crear_pregunta);
+router.get('/preguntas/mostrar-imagenes', preguntasController.prueba_mostrar_imagenes);
 
 
 function isLogged(req, res, next){
