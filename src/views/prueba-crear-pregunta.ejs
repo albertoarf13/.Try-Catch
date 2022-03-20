@@ -1,0 +1,53 @@
+<%- include('partials/_header') %>
+    
+<div class="contenedor">
+    <div class="sidebar">
+        
+    </div>
+
+
+    <div class="main">
+        <div class="content-container">
+
+            <p>*Esto lo hice para poder probar el controller y eso</p>
+
+            <div class="card mb-5 shadow-sm">
+                <div class="card-body">
+        
+                    <form method="POST" action="/preguntas/crear" autocomplete="off">
+        
+                        <div class="mb-3">
+                            <label for="titulo" class="form-label">Titulo</label>
+                            <input class="form-control" name="titulo">
+                        </div>
+                        <div class="mb-3">
+                            <label for="descripcion" class="form-label">Descripcion</label>
+                            <input class="form-control" name="descripcion">
+                        </div>
+                        <div class="mb-3">
+                            <label for="etiquetas" class="form-label">Etiquetas</label>
+                            <input class="form-control" name="etiquetas">
+                        </div>
+                        <div class="mb-3">
+                            <label for="imagen" class="form-label">Imagen</label>
+                            <input type="file" class="form-control" name="imagen">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary mb-3">Submit</button>
+
+
+                        <% if(typeof error !== 'undefined' && error) { %>
+                            <div class="alert alert-danger mb-3" role="alert">
+                                <%= error %>
+                            </div>
+                        <% } %>
+                    </form>
+        
+                </div>
+            </div>
+    
+        </div>
+    </div>
+</div>
+    
+<%- include('partials/_footer') %>

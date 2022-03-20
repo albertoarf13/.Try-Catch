@@ -4,6 +4,7 @@ const router = express.Router();
 
 const personasController = require('../controllers/personasController');
 const usersController = require('../controllers/usersController');
+const preguntasController = require('../controllers/preguntasController');
 
 
 router.get('/', personasController.list);
@@ -18,6 +19,10 @@ router.get('/sign-up_page', usersController.sign_up_page);
 router.post('/login', usersController.login);
 router.get('/login', isNotLogged, usersController.login_page);
 router.get('/logout', isLogged, usersController.logout);
+
+//Preguntas
+router.get('/preguntas/crear', isLogged, preguntasController.crear_pregunta_vista);
+router.post('/preguntas/crear', isLogged, preguntasController.crear_pregunta);
 
 
 function isLogged(req, res, next){
