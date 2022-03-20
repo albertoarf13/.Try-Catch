@@ -10,8 +10,9 @@ preguntasController.crear_pregunta_vista = (req, res) => {
             }
 
             res.render('prueba-crear-pregunta.ejs', {
-                etiquetas: etiquetas
-            })
+                etiquetas: etiquetas,
+                error: req.query.error
+            });
         })
     });
 
@@ -21,8 +22,10 @@ preguntasController.crear_pregunta = (req, res) => {
 
     let {titulo, descripcion, etiquetas} = req.body;
 
-    if(titulo.length <= 0 || descripcion.length <= 0){
-        res.render('prueba-crear-pregunta.ejs', { error: "El título y descripción no pueden estar vacíos" });
+    if(titulo.length <= 0 || descripcion.length <= 0 || etiquetas == undefined){
+        //res.render('prueba-crear-pregunta.ejs', { error: "El título, descripción y etiquetas no pueden estar vacíos" });
+        res.redirect('/preguntas/crear?error=' + encodeURIComponent('El título, descripción y etiquetas no pueden estar vacíos'));
+        //res.redirect('/preguntas/crear');
         return;
     }
 
@@ -37,12 +40,21 @@ preguntasController.crear_pregunta = (req, res) => {
         conn.query('INSERT INTO pregunta(titulo, descripcion, imagen, correo) VALUES(?,?,?,?)', [titulo, descripcion, imagen, req.session.correo], (err, result)=>{
             if(err){
                 res.json(err);
+                return;
             }
             else{
+
+                if(!Array.isArray(etiquetas)){
+                    etiquetas = [etiquetas];
+                }
+
+                console.log(etiquetas);
+
                 etiquetas.forEach(etiqueta => {
                     conn.query('INSERT INTO etiqueta_pregunta(id_etiqueta, id_pregunta) VALUES(?,?)', [etiqueta, result.insertId], (err, result)=>{
                         if(err){
                             res.json(err);
+                            return;
                         }
                     })
                 })
