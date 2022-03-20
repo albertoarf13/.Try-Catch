@@ -3,15 +3,15 @@ const usuarioController = {};
 
 usuarioController.sign_up = (req, res) => {
     const {nombre, email, password, password2} = req.body;
-
+   
     if(nombre.length < 3 || password != password2 || !checkEmail(email) || !checkPassword(password) || !all_data(req.body)){
-        res.render('sign-up.ejs', { error: "No se ha podido completar el registro: entrada no válida" });
-    }
-
-    req.getConnection((err, conn)=>{
         
+        res.render('sign-up.ejs', { error: "No se ha podido completar el registro: entrada no válida" });
+        res.status(401).json('user incorrect');
+        return;
+    }
+    req.getConnection((err, conn)=>{
         conn.query("SELECT * FROM usuario WHERE correo = ?", [email], (err, usuario)=>{
-            console.log("Aqui llego")
             if(err){
                 res.json(err);
             }
@@ -22,14 +22,19 @@ usuarioController.sign_up = (req, res) => {
                     }else{
                         console.log(usuario);
                         res.render('login.ejs', { mensaje: "Se ha registrado con exito" });
+                        res.status(201).json('user correct');
                     }
                 });
             }else{
                 res.render('sign-up.ejs', { error: "No se ha podido completar el registro: Ya existe una cuenta con dicho correo" });
+                res.status(402).json('user repeated');
             }
 
         });
     });
+
+    
+  
 }
 
 usuarioController.sign_up_page = (req, res) => {
@@ -40,10 +45,10 @@ usuarioController.sign_up_page = (req, res) => {
 
 usuarioController.login = (req, res) => {
     const {correo, contraseya} = req.body;
-
+    
     req.getConnection((err, conn)=>{
         conn.query("SELECT * FROM usuario WHERE correo = ? AND contraseya = ?", [correo, contraseya], (err, usuario)=>{
-            
+   
             if(err){
                 res.json(err);
             }
@@ -74,9 +79,9 @@ usuarioController.logout = (req, res) => {
     res.redirect('/');
 }
 
-function all_data(datos){
+function all_data(datos){//Comprueba que todas las entradas reciben datos
     for(var key in datos){
-        if(datos[key] == '')
+        if(!datos[key])
             return false;
     }
     return true;
@@ -92,12 +97,11 @@ function checkEmail(email){
 
 function checkPassword(password){
     var StrObj = password;
-    
     if(password.length > 7){ //Contraseña de más de 7 caracteres
         nums = (StrObj.match(/[0-9]/g)||[]).length;  //Cuento cuantos numeros tiene la contraseña
         mayus = (StrObj.match(/[A-Z]/g)||[]).length; //Cuento cuantas mayusculas tiene la contraseña
         minus = (StrObj.match(/[a-a]/g)||[]).length; //Cuento cuantas minusculas tiene la contraseña
-
+        
         return nums >= 1 && mayus >= 1 && minus >= 1;
     }
 
