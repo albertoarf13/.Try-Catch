@@ -1,13 +1,13 @@
 const usuarioController = {};
-//const dbUser = require(../integracion/dbUser)
+var errorList = "";
 
 usuarioController.sign_up = (req, res) => {
     const {nombre, email, password, password2} = req.body;
-   
-    if(nombre.length < 3 || password != password2 || !checkEmail(email) || !checkPassword(password) || !all_data(req.body)){
-        
-        res.render('sign-up.ejs', { error: "No se ha podido completar el registro: entrada no válida" });
-        res.status(401).json('user incorrect');
+    errorList = "No se ha podido completar el registro: ";
+    
+    if(!all_data(req.body) || !checkUsername(nombre) || !checkEmail(email) || !checkPassword(password, password2)){
+        res.render('sign-up.ejs', { error: errorList});
+        res.status(401).json('Incorrect data');
         return;
     }
     req.getConnection((err, conn)=>{
@@ -22,12 +22,12 @@ usuarioController.sign_up = (req, res) => {
                     }else{
                         console.log(usuario);
                         res.render('login.ejs', { mensaje: "Se ha registrado con exito" });
-                        res.status(201).json('user correct');
+                        res.status(201).json('Correct user');
                     }
                 });
             }else{
                 res.render('sign-up.ejs', { error: "No se ha podido completar el registro: Ya existe una cuenta con dicho correo" });
-                res.status(402).json('user repeated');
+                res.status(402).json('Repeated user');
             }
 
         });
@@ -93,19 +93,41 @@ function checkEmail(email){
     if (emailsArray != null && emailsArray.length) {
         return true;
     }
+
+    errorList += "El correo no cumple los requisitos";
+    return false;
 }
 
-function checkPassword(password){
+function checkPassword(password, password2){
     var StrObj = password;
-    if(password.length > 7){ //Contraseña de más de 7 caracteres
-        nums = (StrObj.match(/[0-9]/g)||[]).length;  //Cuento cuantos numeros tiene la contraseña
-        mayus = (StrObj.match(/[A-Z]/g)||[]).length; //Cuento cuantas mayusculas tiene la contraseña
-        minus = (StrObj.match(/[a-a]/g)||[]).length; //Cuento cuantas minusculas tiene la contraseña
-        
-        return nums >= 1 && mayus >= 1 && minus >= 1;
+    
+    if(password == password2){
+        if(password.length > 7){ //Contraseña de más de 7 caracteres
+            nums = (StrObj.match(/[0-9]/g)||[]).length;  //Cuento cuantos numeros tiene la contraseña
+            mayus = (StrObj.match(/[A-Z]/g)||[]).length; //Cuento cuantas mayusculas tiene la contraseña
+            minus = (StrObj.match(/[a-a]/g)||[]).length; //Cuento cuantas minusculas tiene la contraseña
+    
+            if(nums >= 1 && mayus >= 1 && minus >= 1){
+                return true;
+            }
+    
+            errorList += "La contraseña no cumple los requisitos";
+        }else{
+            errorList += "La contraseña no cumple los requisitos";
+        }
+    }else{
+        errorList += "Las contraseñas no coinciden";
     }
 
     return false;
 }
+
+
+function checkUsername(nombre){
+    errorList += "El nombre de usuario debe contener al menos 3 caracteres";
+    return nombre.length > 3;
+}
+
+
 
 module.exports = usuarioController;
