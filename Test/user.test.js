@@ -4,7 +4,7 @@ const routes = require('../src/routes/routes');
 const { beforeAll, afterAll } = require('@jest/globals');
 
 beforeAll(() => {
-    app.use('/', routes);
+    app.use('/', routes);    
 });
 test('[Registro] Usuarios correcto', async () => {// no se esta eliminando, deberia?
     const usuario = { nombre: 'prueba', email: 'prueba@prueba.es', password: '1234567Aa', password2: '1234567Aa' };
@@ -61,5 +61,22 @@ test('[Registro] Usuarios contraseña falta minuscula', async () => {
     const usuario = { nombre: 'prueba', email: 'prueb.es', password: '1234567A', password2: '1234567A' };
     const response = await request(app).post("/sign-up").send(usuario);
     expect(response.status).toBe(401);
+
+});
+
+test('[Inicio de sesion] correo/contraseña correcto', async () => {
+    const usuario = { correo: 'prueba@prueba.es', contraseya: '1234567Aa'};
+    
+    const response = await request(app).post("/login").send(usuario);
+    expect(response.status).toBe(201);
+
+});
+
+test('[Inicio de sesion] Usuarios correo/contraseña incorrecto', async () => {
+    const usuario = { correo: 'prueba@prueba.es', contraseya: 'noexiste'};
+    console.log(usuario.correo);
+    
+    const response = await request(app).post("/login").send(usuario);
+    expect(response.status).toBe(500);
 
 });
