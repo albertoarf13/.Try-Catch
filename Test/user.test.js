@@ -64,4 +64,4 @@ test('[Registro] Usuarios contraseña falta minuscula', async () => {
 
 });
 
-
+//No se que esta pasando
