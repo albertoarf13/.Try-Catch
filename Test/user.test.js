@@ -63,3 +63,5 @@ test('[Registro] Usuarios contraseña falta minuscula', async () => {
     expect(response.status).toBe(401);
 
 });
+
+
