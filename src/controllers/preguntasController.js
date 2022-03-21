@@ -132,7 +132,8 @@ preguntasController.prueba_responder_vista = (req, res) => {
 
                     res.render('prueba-responder-pregunta.ejs', {
                         pregunta: preguntas[0],
-                        respuestas, respuestas
+                        respuestas, respuestas,
+                        error: req.query.error
                     })
  
                 })
@@ -148,6 +149,11 @@ preguntasController.responder_pregunta = (req, res) =>{
 
     let respuesta = req.body.respuesta;
     let idPregunta = req.params.id;
+
+    if(respuesta.length <= 0){
+        res.redirect('/preguntas/'+ idPregunta +'/responder?error=' + encodeURIComponent('La respuesta no puede estar vacía'));
+        return;
+    }
 
     let imagen = null;
 
