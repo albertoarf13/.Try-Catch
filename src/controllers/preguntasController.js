@@ -126,9 +126,17 @@ preguntasController.prueba_responder_vista = (req, res) => {
                 res.redirect('/');
             }
             else{
-                res.render('prueba-responder-pregunta.ejs', {
-                    pregunta: preguntas[0]
+
+                conn.query('SELECT * FROM respuesta WHERE idPregunta = ?', [id], (err, respuestas)=>{
+            
+
+                    res.render('prueba-responder-pregunta.ejs', {
+                        pregunta: preguntas[0],
+                        respuestas, respuestas
+                    })
+ 
                 })
+
             }
             
         })
@@ -140,7 +148,7 @@ preguntasController.responder_pregunta = (req, res) =>{
 
     let respuesta = req.body.respuesta;
     let idPregunta = req.params.id;
-    
+
 
     req.getConnection((err, conn)=>{
 
@@ -151,7 +159,7 @@ preguntasController.responder_pregunta = (req, res) =>{
                 return;
             }
             
-            res.redirect('/');
+            res.redirect('/preguntas/'+ idPregunta +'/responder');
         })
     });
 
