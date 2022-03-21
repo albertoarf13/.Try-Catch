@@ -1,20 +1,15 @@
 const express = require('express');
-const path = require('path')
-const mysql = require('mysql');
 const morgan = require('morgan');
+const mysql = require('mysql');
 const myConnection = require('express-myconnection');
-const session = require('express-session');
-
 const app = express();
+
 
 // importar rutas
 const routes = require('./routes/routes');
 
-//settings
-app.set('port', process.env.PORT || 3000);
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
-
+app.use(express.json());
+//routes
 
 //middlewares
 app.use(morgan('dev'));
@@ -30,33 +25,5 @@ app.use(myConnection(mysql, {
 app.use(express.urlencoded({
     extend: false
 }));
-
-
-// session
-app.use(session({secret: '123',saveUninitialized: true,resave: true}));
-
-// Esto es para poder acceder al valor en todas las vistas edsde ejs
-app.use(function(request, response, next) {
-    if (request.session.correo) {
-        response.locals.correo = request.session.correo;
-    }
-    next();
-});
-
-
-//routes
-app.use('/', routes);
-
-
-//archivos estaticos
-app.use(express.static('public'));
-
-
-
-
-// Empezar el servidor
-app.listen(app.get('port'), ()=>{
-    console.log('Server running')
-})
 
 module.exports = app;
