@@ -61,9 +61,13 @@
     color: white;
 }
 
+.header__email{
+    margin-left: 10px;
+}
+
 .contenedor{
     display: flex;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .sidebar{

@@ -9,7 +9,7 @@ preguntasController.crear_pregunta_vista = (req, res) => {
                 res.json(err);
             }
 
-            res.render('prueba-crear-pregunta.ejs', {
+            res.render('crearPregunta.ejs', {
                 etiquetas: etiquetas,
                 error: req.query.error
             });
