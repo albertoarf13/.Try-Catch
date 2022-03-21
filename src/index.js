@@ -9,8 +9,6 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 
-
-
 // session
 app.use(session({secret: '123',saveUninitialized: true,resave: true}));
 

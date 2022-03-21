@@ -1,11 +1,18 @@
 const request = require('supertest');
 const app = require('../src/app');
 const routes = require('../src/routes/routes');
-const { beforeAll, afterAll } = require('@jest/globals');
+var session = require('supertest-session');
+var testSession = null;
+const { beforeAll, afterAll , beforeEach} = require('@jest/globals');
 
 beforeAll(() => {
-    app.use('/', routes);    
+    app.use('/', routes);  
 });
+
+beforeEach(function () {
+    testSession = session(app);
+});
+
 test('[Registro] Usuarios correcto', async () => {// no se esta eliminando, deberia?
     const usuario = { nombre: 'prueba', email: 'prueba@prueba.es', password: '1234567Aa', password2: '1234567Aa' };
     
@@ -67,8 +74,9 @@ test('[Registro] Usuarios contraseña falta minuscula', async () => {
 test('[Inicio de sesion] correo/contraseña correcto', async () => {
     const usuario = { correo: 'prueba@prueba.es', contraseya: '1234567Aa'};
     
-    const response = await request(app).post("/login").send(usuario);
-    expect(response.status).toBe(201);
+    testSession.post('/login')
+    .send(usuario)
+    .expect(201);
 
 });
 
@@ -76,7 +84,8 @@ test('[Inicio de sesion] Usuarios correo/contraseña incorrecto', async () => {
     const usuario = { correo: 'prueba@prueba.es', contraseya: 'noexiste'};
     console.log(usuario.correo);
     
-    const response = await request(app).post("/login").send(usuario);
-    expect(response.status).toBe(500);
+    testSession.post('/login')
+    .send(usuario)
+    .expect(401);
 
 });
