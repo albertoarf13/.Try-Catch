@@ -108,8 +108,53 @@ preguntasController.prueba_mostrar_etiquetas = (req, res) => {
             })
 
         })
+    }); 
+}
+
+
+preguntasController.prueba_responder_vista = (req, res) => {
+
+    let id = req.params.id;
+
+    req.getConnection((err, conn)=>{
+        conn.query('SELECT * FROM pregunta WHERE id = ?', [id], (err, preguntas)=>{
+            
+            if(err){
+                res.json(err);
+            }
+            if(preguntas[0] == undefined){
+                res.redirect('/');
+            }
+            else{
+                res.render('prueba-responder-pregunta.ejs', {
+                    pregunta: preguntas[0]
+                })
+            }
+            
+        })
     });
     
+}
+
+preguntasController.responder_pregunta = (req, res) =>{
+
+    let respuesta = req.body.respuesta;
+    let idPregunta = req.params.id;
+    
+
+    req.getConnection((err, conn)=>{
+
+        conn.query('INSERT INTO respuesta(descripcion,imagen,idPregunta,correo) VALUES(?,?,?,?)', [respuesta,null,idPregunta,req.session.correo], (err, result)=>{
+            
+            if(err){
+                res.json(err);
+                return;
+            }
+            
+            res.redirect('/');
+        })
+    });
+
 }
 
 

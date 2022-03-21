@@ -1,0 +1,29 @@
+
+<%- include('partials/_header') %>
+
+<div class="contenedor">
+    <div class="sidebar">
+        
+    </div>
+
+    <div class="main">
+        <div class="content-container">
+
+            <h2><%= pregunta.titulo %></h2>
+            <hr>
+
+            <form method="POST" action="/preguntas/<%= pregunta.id %>/responder">
+
+                <div class="form-group mb-3">
+                    <label for="respuesta">Respuesta</label>
+                    <textarea class="form-control" name="respuesta" rows="3"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+     
+<%- include('partials/_footer') %>

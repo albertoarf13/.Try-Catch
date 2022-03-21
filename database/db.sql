@@ -16,7 +16,7 @@ CREATE TABLE pregunta(
 CREATE TABLE respuesta(
 	id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	descripcion VARCHAR(100),
-  imagen varbinary(8000),
+  imagen LONGTEXT,
 	idPregunta INT(6) NOT NULL REFERENCES pregunta(id),
   correo VARCHAR(100) NOT NULL REFERENCES usuario(correo) 
 );
