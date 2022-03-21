@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest --runInBand",
     "test:coverage": "jest --coverage",
-    "dev": "nodemon src/app.js"
+    "dev": "nodemon src/index.js"
   },
   "keywords": [],
   "author": "",

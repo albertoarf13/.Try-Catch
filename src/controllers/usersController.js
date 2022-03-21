@@ -6,8 +6,7 @@ usuarioController.sign_up = (req, res) => {
     errorList = "No se ha podido completar el registro: ";
     
     if(!all_data(req.body) || !checkUsername(nombre) || !checkEmail(email) || !checkPassword(password, password2)){
-        res.render('sign-up.ejs', { error: errorList});
-        res.status(401).json('Incorrect data');
+        res.status(401).render('sign-up.ejs', { error: errorList});
         return;
     }
     req.getConnection((err, conn)=>{
@@ -21,13 +20,11 @@ usuarioController.sign_up = (req, res) => {
                         res.json(err);
                     }else{
                         console.log(usuario);
-                        res.render('login.ejs', { mensaje: "Se ha registrado con exito" });
-                        res.status(201).json('Correct user');
+                        res.status(201).render('login.ejs', { mensaje: "Se ha registrado con exito" });
                     }
                 });
             }else{
-                res.render('sign-up.ejs', { error: "No se ha podido completar el registro: Ya existe una cuenta con dicho correo" });
-                res.status(402).json('Repeated user');
+                res.status(402).render('sign-up.ejs', { error: "No se ha podido completar el registro: Ya existe una cuenta con dicho correo" });
             }
 
         });
@@ -50,12 +47,10 @@ usuarioController.login = (req, res) => {
         conn.query("SELECT * FROM usuario WHERE correo = ? AND contraseya = ?", [correo, contraseya], (err, usuario)=>{
    
             if(err){
-                res.json(err);
-                res.status(402).json('Repeated user');
+                res.status(402).json(err);
             }
             else if(usuario.length == 0){
-                res.render('login.ejs', { error: "No existe el usuario/ contraseña incorrecta" });
-                res.status(402).json('Repeated user');
+                res.status(402).render('login.ejs', { error: "No existe el usuario/ contraseña incorrecta" });
             }
             else{
                 console.log(usuario);
@@ -63,8 +58,7 @@ usuarioController.login = (req, res) => {
                 req.session.correo = usuario[0].correo;
                 console.log(req.session);
 
-                res.redirect('/');
-                res.status(201).json('Repeated user');
+                res.status(201).redirect('/');
             }
 
         });
