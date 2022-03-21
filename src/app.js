@@ -5,11 +5,9 @@ const myConnection = require('express-myconnection');
 const app = express();
 
 
-// importar rutas
-const routes = require('./routes/routes');
-
 app.use(express.json());
 //routes
+
 
 //middlewares
 app.use(morgan('dev'));

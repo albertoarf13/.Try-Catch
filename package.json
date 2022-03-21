@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --runInBand",
     "test:coverage": "jest --coverage",
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/app.js"
   },
   "keywords": [],
   "author": "",
@@ -17,8 +17,8 @@
     "express-myconnection": "^1.0.4",
     "express-session": "^1.17.2",
     "jest-junit": "13.0.0",
-    "mocha": "^9.2.2",
     "morgan": "^1.10.0",
+    "multer": "^1.4.4",
     "mysql": "^2.18.1",
     "nodemon": "^2.0.15",
     "yarn": "^1.22.17"
@@ -26,13 +26,15 @@
   "devDependencies": {
     "jest": "^27.5.1",
     "nanoid": "^3.1.10",
-    "supertest": "^6.2.2"
+    "supertest": "^6.2.2",
+    "supertest-session": "^4.1.0"
   },
   "jest": {
     "reporters": [
       "default",
       "jest-junit"
-    ]
+    ],
+    "testEnvironment": "node"
   },
   "jest-junit": {
     "output": "./test-results/junit/results.xml"

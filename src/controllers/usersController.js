@@ -51,9 +51,11 @@ usuarioController.login = (req, res) => {
    
             if(err){
                 res.json(err);
+                res.status(402).json('Repeated user');
             }
             else if(usuario.length == 0){
                 res.render('login.ejs', { error: "No existe el usuario/ contraseña incorrecta" });
+                res.status(402).json('Repeated user');
             }
             else{
                 console.log(usuario);
@@ -62,6 +64,7 @@ usuarioController.login = (req, res) => {
                 console.log(req.session);
 
                 res.redirect('/');
+                res.status(201).json('Repeated user');
             }
 
         });
