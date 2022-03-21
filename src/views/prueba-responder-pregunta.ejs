@@ -12,11 +12,16 @@
             <h2><%= pregunta.titulo %></h2>
             <hr>
 
-            <form method="POST" action="/preguntas/<%= pregunta.id %>/responder">
+            <form method="POST" action="/preguntas/<%= pregunta.id %>/responder" enctype="multipart/form-data">
 
                 <div class="form-group mb-3">
                     <label for="respuesta">Respuesta</label>
                     <textarea class="form-control" name="respuesta" rows="3"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="imagen" class="form-label">Imagen</label>
+                    <input type="file" class="form-control" name="imagen">
                 </div>
 
                 <button type="submit" class="btn btn-primary">Submit</button>
@@ -32,6 +37,10 @@
                     </div>
                     <div class="card-body">
                       <p class="card-text"><%= respuesta.descripcion %></p>
+
+                      <% if(respuesta.imagen != null){ %>
+                        <img src="data:image/png;base64,<%= respuesta.imagen %>" style="width: 100%; max-width: 700px;" alt="">
+                      <% } %>
                     </div>
                 </div>
                 

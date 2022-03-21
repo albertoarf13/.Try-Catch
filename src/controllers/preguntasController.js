@@ -149,10 +149,16 @@ preguntasController.responder_pregunta = (req, res) =>{
     let respuesta = req.body.respuesta;
     let idPregunta = req.params.id;
 
+    let imagen = null;
+
+    if(req.file != undefined){
+        imagen = req.file.buffer.toString('base64');
+    }
+
 
     req.getConnection((err, conn)=>{
 
-        conn.query('INSERT INTO respuesta(descripcion,imagen,idPregunta,correo) VALUES(?,?,?,?)', [respuesta,null,idPregunta,req.session.correo], (err, result)=>{
+        conn.query('INSERT INTO respuesta(descripcion,imagen,idPregunta,correo) VALUES(?,?,?,?)', [respuesta,imagen,idPregunta,req.session.correo], (err, result)=>{
             
             if(err){
                 res.json(err);
