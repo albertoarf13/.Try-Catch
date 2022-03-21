@@ -1,0 +1,46 @@
+<%- include('partials/_header') %>
+        
+<link rel="stylesheet" href="/stylescrearPregunta.css">  
+<div class="contenedor">
+    <div class="main">
+        <div class="content-container">
+
+            <div class="crearPregunta-container">
+                <div class="crearPregunta">
+                    
+                  
+                    <form method="POST" action="/crearPregunta" autocomplete="off">
+                     
+                            <div class="inputs">
+                                <p>
+                                    <h2>Introduce un titulo</h2>
+                                    <input type="text" class="titulo">
+                                </p>
+                                <p>
+                                    <h2>Escribe tu Pregunta</h2>
+
+                                    <textarea  class="cuadro"></textarea>
+                                   
+                                </p>
+                                <p>
+                                    <label for="imageFile">Selecciona algunas imágenes:</label>
+                                    <input type="file" accept="image/*" value="">
+                                </p>
+                                <p>
+                                    <button type="button" class="btn btn-primary">Crear</button>
+                                </p>
+                            </div>
+                    
+
+                    </form>
+        
+                </div>
+            </div>
+                
+           
+    
+        </div>
+    </div>
+</div>
+    
+<%- include('partials/_footer') %>
