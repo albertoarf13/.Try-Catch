@@ -2,8 +2,11 @@ const express = require('express');
 const morgan = require('morgan');
 const mysql = require('mysql');
 const myConnection = require('express-myconnection');
+const session = require('express-session');
 const app = express();
 
+// session
+app.use(session({secret: '123',saveUninitialized: true,resave: true}));
 
 app.use(express.json());
 //routes
