@@ -8,8 +8,7 @@ const personasController = require('../controllers/personasController');
 const usersController = require('../controllers/usersController');
 const preguntasController = require('../controllers/preguntasController');
 
-
-router.get('/', personasController.list);
+router.get('/', preguntasController.prueba_mostrar_preguntas_recientes);
 
 router.post('/add', personasController.add);
 
@@ -27,7 +26,6 @@ router.get('/preguntas/crear', isLogged, preguntasController.crear_pregunta_vist
 router.post('/preguntas/crear', isLogged, upload.single("imagen"), preguntasController.crear_pregunta);
 router.get('/preguntas/mostrar-imagenes', preguntasController.prueba_mostrar_imagenes);
 router.get('/preguntas/mostrar-etiquetas', preguntasController.prueba_mostrar_etiquetas);
-
 
 function isLogged(req, res, next){
     if(req.session.correo){
