@@ -8,14 +8,14 @@ CREATE TABLE usuario (
 CREATE TABLE pregunta(
 	id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   titulo VARCHAR(100),
-  descripcion VARCHAR(100),
+  descripcion text,
   imagen LONGTEXT,
   correo VARCHAR(100) NOT NULL REFERENCES usuario(correo)  
 );
 
 CREATE TABLE respuesta(
 	id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-	descripcion VARCHAR(100),
+	descripcion text,
   imagen LONGTEXT,
 	idPregunta INT(6) NOT NULL REFERENCES pregunta(id),
   correo VARCHAR(100) NOT NULL REFERENCES usuario(correo) 
