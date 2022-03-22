@@ -211,7 +211,7 @@ preguntasController.responder_pregunta = (req, res) =>{
         conn.query('INSERT INTO respuesta(descripcion,imagen,idPregunta,correo) VALUES(?,?,?,?)', [respuesta,imagen,idPregunta,req.session.correo], (err, result)=>{
             
             if(err){
-                res.json(err);
+                res.status(500).json(err);
                 return;
             }
             
