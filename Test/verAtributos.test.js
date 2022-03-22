@@ -1,7 +1,7 @@
 const request = require('supertest');
 const app = require('../src/app');
 const routes = require('../src/routes/routes');
-var session = require('supertest-session');
+//var session = require('supertest-session');
 var testSession = null;
 const { beforeAll, afterAll , beforeEach} = require('@jest/globals');
 
@@ -9,14 +9,15 @@ beforeAll(() => {
     app.use('/', routes);  
 });
 
-beforeEach(function () {
+/*beforeEach(function () {
     testSession = session(app);
 });
+*/
 
 //Test de integracion usando la sesion actual
 test('[Ver atributos pregunta] Pregunta correcta', async () => {
     const id = 1;
-    const response = await request(app).get("/atributoPregunta/:id").set(id);
+    const response = await request(app).get("/atributoPregunta/1");
     expect(response.status).toBe(201);
   
 });

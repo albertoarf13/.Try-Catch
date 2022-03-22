@@ -1,3 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="0" failures="0" errors="0" time="0.626">
+<testsuites name="jest tests" tests="1" failures="1" errors="0" time="0.998">
+  <testsuite name="undefined" errors="0" failures="1" skipped="0" timestamp="2022-03-22T17:32:44" time="0.931" tests="1">
+    <testcase classname=" [Ver atributos pregunta] Pregunta correcta" name=" [Ver atributos pregunta] Pregunta correcta" time="0.299">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 201
+Received: 200
+    at Object.&lt;anonymous&gt; (C:\Users\gabri\OneDrive\Documentos\.Try-Catch\Test\verAtributos.test.js:21:29)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+    </testcase>
+  </testsuite>
 </testsuites>
