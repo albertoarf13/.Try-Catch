@@ -84,7 +84,7 @@
 
 .content-container{
     background-color: white;
-    width: 80%;
+    width: 95%;
     margin: auto;
     margin-bottom: 1em;
     padding: 2em;
@@ -99,6 +99,10 @@
     padding-left: 10px;
     display: flex;
     align-items: center;
+}
+
+.usernamelink{
+    
 }
 
 
