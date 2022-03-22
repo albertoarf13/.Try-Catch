@@ -1,37 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="12" failures="1" errors="0" time="1.706">
-  <testsuite name="undefined" errors="0" failures="1" skipped="0" timestamp="2022-03-21T20:42:44" time="1.452" tests="10">
-    <testcase classname=" [Registro] Usuarios correcto" name=" [Registro] Usuarios correcto" time="0.283">
-      <failure>Error: expect(received).toBe(expected) // Object.is equality
-
-Expected: 201
-Received: 402
-    at Object.&lt;anonymous&gt; (C:\Users\Pablo\Desktop\Carpeta Uni\GPS\.Try-Catch\Test\user.test.js:20:29)
-    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+<testsuites name="jest tests" tests="2" failures="0" errors="0" time="0.865">
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-03-22T17:11:15" time="0.238" tests="2">
+    <testcase classname=" adds 1 + 2 to equal 3" name=" adds 1 + 2 to equal 3" time="0.001">
     </testcase>
-    <testcase classname=" [Registro] Usuarios existente" name=" [Registro] Usuarios existente" time="0.058">
-    </testcase>
-    <testcase classname=" [Registro] Usuario datos vacios" name=" [Registro] Usuario datos vacios" time="0.009">
-    </testcase>
-    <testcase classname=" [Registro] Usuarios nombre incorrecto" name=" [Registro] Usuarios nombre incorrecto" time="0.006">
-    </testcase>
-    <testcase classname=" [Registro] Usuarios contraseña diferente" name=" [Registro] Usuarios contraseña diferente" time="0.007">
-    </testcase>
-    <testcase classname=" [Registro] Usuarios contraseña insuficiente numero caracteres" name=" [Registro] Usuarios contraseña insuficiente numero caracteres" time="0.006">
-    </testcase>
-    <testcase classname=" [Registro] Usuarios contraseña falta mayusucla" name=" [Registro] Usuarios contraseña falta mayusucla" time="0.006">
-    </testcase>
-    <testcase classname=" [Registro] Usuarios contraseña falta minuscula" name=" [Registro] Usuarios contraseña falta minuscula" time="0.006">
-    </testcase>
-    <testcase classname=" [Inicio de sesion] correo/contraseña correcto" name=" [Inicio de sesion] correo/contraseña correcto" time="0.003">
-    </testcase>
-    <testcase classname=" [Inicio de sesion] Usuarios correo/contraseña incorrecto" name=" [Inicio de sesion] Usuarios correo/contraseña incorrecto" time="0.011">
-    </testcase>
-  </testsuite>
-  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-03-21T20:42:46" time="0.111" tests="2">
-    <testcase classname=" adds 1 + 2 to equal 3" name=" adds 1 + 2 to equal 3" time="0.002">
-    </testcase>
-    <testcase classname=" subs 1 - 2 to equal -1" name=" subs 1 - 2 to equal -1" time="0.001">
+    <testcase classname=" subs 1 - 2 to equal -1" name=" subs 1 - 2 to equal -1" time="0">
     </testcase>
   </testsuite>
 </testsuites>
