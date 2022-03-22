@@ -53,7 +53,7 @@ preguntasController.crear_pregunta = (req, res) => {
                 etiquetas.forEach(etiqueta => {
                     conn.query('INSERT INTO etiqueta_pregunta(id_etiqueta, id_pregunta) VALUES(?,?)', [etiqueta, result.insertId], (err, result)=>{
                         if(err){
-                            res.json(err);
+                            //res.json(err);
                             return;
                         }
                     })
