@@ -35,7 +35,7 @@ function isLogged(req, res, next){
         next();
     }
     else{
-        res.redirect("/");
+        res.redirect("/login");
     }
 }
 
