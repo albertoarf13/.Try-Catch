@@ -117,7 +117,13 @@ preguntasController.prueba_responder_vista = (req, res) => {
     let id = req.params.id;
 
     req.getConnection((err, conn)=>{
-        conn.query('SELECT * FROM pregunta WHERE id = ?', [id], (err, preguntas)=>{
+        conn.query(`select pregunta.*, ifnull(GROUP_CONCAT(etiqueta.nombre), '') as etiquetas
+        from (SELECT * FROM pregunta where id = ?) as pregunta
+        left join etiqueta_pregunta
+        on pregunta.id =  etiqueta_pregunta.id_pregunta
+        left join etiqueta
+        on etiqueta_pregunta.id_etiqueta = etiqueta.id
+        group by pregunta.id;`, [id], (err, preguntas)=>{
             
             if(err){
                 res.json(err);
@@ -126,6 +132,11 @@ preguntasController.prueba_responder_vista = (req, res) => {
                 res.redirect('/');
             }
             else{
+
+                preguntas.map(pregunta=>{
+                    pregunta.etiquetas = pregunta.etiquetas.split(',');
+                    return pregunta.etiquetas;
+                })
 
                 conn.query('SELECT * FROM respuesta WHERE idPregunta = ?', [id], (err, respuestas)=>{
             
