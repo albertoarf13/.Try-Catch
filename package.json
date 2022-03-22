@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --runInBand",
+    "test": "jest /test/verAtributos.test.js",
     "test:coverage": "jest --coverage",
     "dev": "nodemon src/app.js"
   },
