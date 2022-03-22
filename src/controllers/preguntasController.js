@@ -31,7 +31,7 @@ preguntaController.atribs = (req, res) => {
                                 //res.render('atributosPregunta.ejs', { error: "No se ha podido encontrar la pregunta" });
                             }
                             else{
-                                res.send({infoPregunta, tags, resps})
+                                res.send('info', {info:{infoPregunta, tags, resps}})
                             }
                         })
                     }

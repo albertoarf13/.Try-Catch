@@ -1,1 +1,53 @@
 <%- include('partials/_header') %>
+
+<div class="contenedor">
+    <div class="sidebar">
+        
+    </div>
+
+    <div class="contenedor-pregunta">
+        <div class="correo">
+            <h1><%= info.infoPregunta.correo %></h1>
+        </div>
+        <div class="titulo-pregunta">
+           
+            <h1> <%= info.infoPregunta.titulo %></h1>
+        </div>
+        <div class="descripcion-pregunta" itemprop="text">
+            
+           <h2><%= info.infoPregunta.descripcion %></h2> 
+            
+            
+        </div>
+        <div class="tags">
+            <ul id="elemntList">            
+            </ul>
+            <script>
+               let ul1=  document.getElementById("elemntList");
+                info.tags.forEach(x => {
+                    let li =document.createElement("li");
+                    li.innerHTML=x;
+                    ul1.appendChild(li);
+                });
+            </script>
+       
+        </div>
+    </div>
+    <div class="contenedor-respuesta">
+        <div class="respuesta">
+            <div class="correo">
+                <h1><%= info.resps.correo %></h1>
+            </div>
+            <ul id="elemntListRespuesta">            
+            </ul>
+            <script>
+               let ul=  document.getElementById("elemntListRespuesta");
+                info.respuestas.forEach(x => {
+                    let li =document.createElement("li");
+                    li.innerHTML=x.descripcion;
+                    ul.appendChild(li);
+                });
+            </script>
+       
+        </div>
+    </div>
