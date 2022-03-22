@@ -97,13 +97,13 @@ function checkEmail(email){
 
 function checkPassword(password, password2){
     var StrObj = password;
-    
+
     if(password == password2){
         if(password.length > 7){ //Contraseña de más de 7 caracteres
             nums = (StrObj.match(/[0-9]/g)||[]).length;  //Cuento cuantos numeros tiene la contraseña
             mayus = (StrObj.match(/[A-Z]/g)||[]).length; //Cuento cuantas mayusculas tiene la contraseña
-            minus = (StrObj.match(/[a-a]/g)||[]).length; //Cuento cuantas minusculas tiene la contraseña
-    
+            minus = (StrObj.match(/[a-z]/g)||[]).length; //Cuento cuantas minusculas tiene la contraseña
+            
             if(nums >= 1 && mayus >= 1 && minus >= 1){
                 return true;
             }
@@ -121,10 +121,11 @@ function checkPassword(password, password2){
 
 
 function checkUsername(nombre){
-    errorList += "El nombre de usuario debe contener al menos 3 caracteres";
-    return nombre.length > 3;
+    if(nombre.length < 3 ){
+        errorList += "El nombre de usuario debe contener al menos 3 caracteres";
+    }
+
+    return nombre.length >= 3;
 }
-
-
 
 module.exports = usuarioController;
