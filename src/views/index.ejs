@@ -13,7 +13,7 @@
             <% preguntas.forEach(function(preg){ %>
                 <div class="card">
                     <div class="card-body">
-                      <a href="/" class="link-primary"><%= preg.titulo %></a>
+                      <a href="/preguntas/<%= preg.id %>/responder" class="link-primary"><%= preg.titulo %></a>
                       <p class="card-text"><%= preg.descripcion %></p>
                       <% preg.etiquetas.forEach(function(etiqueta){ %>
                         <span class="badge bg-secondary"><%= etiqueta %></span>
