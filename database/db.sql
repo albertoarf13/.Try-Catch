@@ -21,6 +21,13 @@ CREATE TABLE respuesta(
   correo VARCHAR(100) NOT NULL REFERENCES usuario(correo) 
 );
 
+CREATE TABLE respuesta_a_respuesta(
+	id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	descripcion text,
+	idRespuesta INT(6) NOT NULL REFERENCES respuesta(id),
+	correo VARCHAR(100) NOT NULL REFERENCES usuario(correo) 
+);
+
 CREATE TABLE etiqueta(
 	id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	nombre VARCHAR(100) UNIQUE

@@ -29,6 +29,7 @@ router.get('/preguntas/mostrar-etiquetas', preguntasController.prueba_mostrar_et
 
 router.get('/preguntas/:id/responder', isLogged, preguntasController.prueba_responder_vista);
 router.post('/preguntas/:id/responder', isLogged, upload.single("imagen"), preguntasController.responder_pregunta);
+router.post('/preguntas/:idPregunta/responder-respuesta/:idRespuesta', isLogged, preguntasController.responder_respuesta);
 
 function isLogged(req, res, next){
     if(req.session.correo){
