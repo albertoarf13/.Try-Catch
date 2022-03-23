@@ -8,8 +8,7 @@ const personasController = require('../controllers/personasController');
 const usersController = require('../controllers/usersController');
 const preguntasController = require('../controllers/preguntasController');
 
-
-router.get('/', personasController.list);
+router.get('/', preguntasController.prueba_mostrar_preguntas_recientes);
 
 router.post('/add', personasController.add);
 
@@ -36,7 +35,7 @@ function isLogged(req, res, next){
         next();
     }
     else{
-        res.redirect("/");
+        res.redirect("/login");
     }
 }
 

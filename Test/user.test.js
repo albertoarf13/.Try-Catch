@@ -1,17 +1,13 @@
 const request = require('supertest');
 const app = require('../src/app');
 const routes = require('../src/routes/routes');
-var session = require('supertest-session');
-var testSession = null;
+const session = require('supertest-session');
 const { beforeAll, afterAll , beforeEach} = require('@jest/globals');
 
 beforeAll(() => {
     app.use('/', routes);  
 });
 
-beforeEach(function () {
-    testSession = session(app);
-});
 
 test('[Registro] Usuarios correcto', async () => {// no se esta eliminando, deberia?
     const usuario = { nombre: 'prueba', email: 'prueba@prueba.es', password: '1234567Aa', password2: '1234567Aa' };
@@ -71,21 +67,32 @@ test('[Registro] Usuarios contraseña falta minuscula', async () => {
 
 });
 
+var cookies;
+
 test('[Inicio de sesion] correo/contraseña correcto', async () => {
-    const usuario = { correo: 'prueba@prueba.es', contraseya: '1234567Aa'};
-    
-    testSession.post('/login')
-    .send(usuario)
-    .expect(201);
+
+    const usuario = { correo: 'alberiva@ucm.es', contraseya: '123'};
+    const response = await request(app).post('/login').send(usuario);
+    expect(response.status).toBe(302);
 
 });
 
-test('[Inicio de sesion] Usuarios correo/contraseña incorrecto', async () => {
-    const usuario = { correo: 'prueba@prueba.es', contraseya: 'noexiste'};
-    console.log(usuario.correo);
+test('[Crear pregunta] con sesion iniciada', async () => {
+
+    const usuario = { correo: 'alberiva@ucm.es', contraseya: '123'};
+    const pregunta = {
+        titulo: "Pregunta de test",
+        descripcion: "test",
+        etiquetas: [1,2,3]
+    }
+
+    let testSession = session(app);
+
+
+    const response = await testSession.post('/login').send(usuario);
     
-    testSession.post('/login')
-    .send(usuario)
-    .expect(401);
+    const response2 = await testSession.post('/preguntas/crear').send(pregunta);
+    expect(response2.status).toBe(200);
 
 });
+

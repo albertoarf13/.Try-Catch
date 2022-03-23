@@ -103,9 +103,42 @@ preguntasController.prueba_mostrar_etiquetas = (req, res) => {
                 return pregunta.etiquetas;
             })
 
-            res.render('prueba-mostrar-etiquetas.ejs', {
-                preguntas: preguntas
+            res.render('prueba.ejs', {
+                preguntas: preguntas,
+                error: req.query.error
+            });
+
+        })
+    });
+    
+}
+
+
+preguntasController.prueba_mostrar_preguntas_recientes = (req, res) => {
+
+    req.getConnection((err, conn)=>{
+        conn.query(`select pregunta.*, ifnull(GROUP_CONCAT(etiqueta.nombre), '') as etiquetas
+        from pregunta
+        left join etiqueta_pregunta
+        on pregunta.id =  etiqueta_pregunta.id_pregunta
+        left join etiqueta
+        on etiqueta_pregunta.id_etiqueta = etiqueta.id
+        group by pregunta.id
+        limit 10;`, (err, preguntas)=>{
+            
+            if(err){
+                res.json(err);
+            }
+
+            preguntas.map(pregunta=>{
+                pregunta.etiquetas = pregunta.etiquetas.split(',');
+                return pregunta.etiquetas;
             })
+
+            res.render('index.ejs', {
+                preguntas: preguntas,
+                error: req.query.error
+            });
 
         })
     }); 
@@ -117,7 +150,13 @@ preguntasController.prueba_responder_vista = (req, res) => {
     let id = req.params.id;
 
     req.getConnection((err, conn)=>{
-        conn.query('SELECT * FROM pregunta WHERE id = ?', [id], (err, preguntas)=>{
+        conn.query(`select pregunta.*, ifnull(GROUP_CONCAT(etiqueta.nombre), '') as etiquetas
+        from (SELECT * FROM pregunta where id = ?) as pregunta
+        left join etiqueta_pregunta
+        on pregunta.id =  etiqueta_pregunta.id_pregunta
+        left join etiqueta
+        on etiqueta_pregunta.id_etiqueta = etiqueta.id
+        group by pregunta.id;`, [id], (err, preguntas)=>{
             
             if(err){
                 res.json(err);
@@ -126,6 +165,11 @@ preguntasController.prueba_responder_vista = (req, res) => {
                 res.redirect('/');
             }
             else{
+
+                preguntas.map(pregunta=>{
+                    pregunta.etiquetas = pregunta.etiquetas.split(',');
+                    return pregunta.etiquetas;
+                })
 
                 conn.query('SELECT * FROM respuesta WHERE idPregunta = ?', [id], (err, respuestas)=>{
             
@@ -167,7 +211,7 @@ preguntasController.responder_pregunta = (req, res) =>{
         conn.query('INSERT INTO respuesta(descripcion,imagen,idPregunta,correo) VALUES(?,?,?,?)', [respuesta,imagen,idPregunta,req.session.correo], (err, result)=>{
             
             if(err){
-                res.json(err);
+                res.status(500).json(err);
                 return;
             }
             
