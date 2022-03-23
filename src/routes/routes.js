@@ -9,6 +9,7 @@ const usersController = require('../controllers/usersController');
 const preguntasController = require('../controllers/preguntasController');
 
 router.get('/', preguntasController.prueba_mostrar_preguntas_recientes);
+router.get('/:pag', preguntasController.prueba_mostrar_preguntas_recientes);
 
 router.post('/add', personasController.add);
 

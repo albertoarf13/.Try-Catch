@@ -102,7 +102,17 @@
 }
 
 .usernamelink{
-    
+    margin-left: 500px;
+}
+
+.user_img {
+    height: 25px;
+    width: 35px;
+}
+
+.preg_box{
+    width: 75%;
+
 }
 
 
