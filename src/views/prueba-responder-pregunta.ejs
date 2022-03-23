@@ -48,7 +48,9 @@
                         <p class="card-text"><%= respuesta.descripcion %></p>
 
                         <% if(respuesta.imagen != null){ %>
-                        <img src="data:image/png;base64,<%= respuesta.imagen %>" style="width: 100%; max-width: 700px;" alt="">
+                            <img src="data:image/png;base64,<%= respuesta.imagen %>" style="width: 100%; max-width: 700px;" alt="">
+                            <br>
+                            <div class="mb-3"></div>
                         <% } %>
 
                         <button id="boton-responder-respuesta-<%= respuesta.id %>" onClick="hacerAlgo(<%= respuesta.id %>)" class="btn btn-outline-secondary">Responder</button>
