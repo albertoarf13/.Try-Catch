@@ -213,7 +213,7 @@ preguntasController.prueba_responder_vista = (req, res) => {
                         respuestasOficial.push(respuesta[1]);
                     })
             
-                    console.log(respuestasOficial)
+                    //console.log(respuestasOficial)
 
                     res.render('prueba-responder-pregunta.ejs', {
                         pregunta: preguntas[0],
