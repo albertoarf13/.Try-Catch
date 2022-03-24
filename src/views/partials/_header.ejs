@@ -15,7 +15,6 @@
         <a href="/"><img src="/logo.png"></a>
         <div>
             <% if(locals.correo) { %>
-              <a class="btn btn-secondary" href="/preguntas/crear">Crear pregunta</a>
               <span class="header__email"><%= locals.correo %></span>
               <a class="button header__login" href="/logout">Log out</a>
             <% } else { %>

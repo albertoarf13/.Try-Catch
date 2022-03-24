@@ -117,15 +117,17 @@ preguntasController.prueba_mostrar_etiquetas = (req, res) => {
 preguntasController.prueba_mostrar_preguntas_recientes = (req, res) => {
     let page = req.params.pag;
     let offset;
-    console.log(page);
+    console.log("pagina", page);
 
     if(page == undefined || page <= 1){
         offset = 0;
         page = 1;
     }else{
-        offset = (page*10) - 10;
         page = page*1;
+        offset = (page*10) - 10;
     }
+
+    console.log("offset", offset);
 
     req.getConnection((err, conn)=>{
         conn.query(`select pregunta.*, ifnull(GROUP_CONCAT(etiqueta.nombre), '') as etiquetas
@@ -135,6 +137,7 @@ preguntasController.prueba_mostrar_preguntas_recientes = (req, res) => {
         left join etiqueta
         on etiqueta_pregunta.id_etiqueta = etiqueta.id
         group by pregunta.id
+        order by id desc
         limit 10 offset ?;`, [offset] ,(err, preguntas)=>{
             
             if(err){
@@ -145,6 +148,12 @@ preguntasController.prueba_mostrar_preguntas_recientes = (req, res) => {
                 pregunta.etiquetas = pregunta.etiquetas.split(',');
                 return pregunta.etiquetas;
             })
+
+            conn.query(`select count(*) as numPregs from pregunta`, function (err, nPregs, numPregs){
+                if(err){
+                    res.json(err);
+                }
+            });
 
             res.render('index.ejs', {
                 preguntas: preguntas,

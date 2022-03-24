@@ -8,13 +8,16 @@
 
     <div class="main">
         <div class="content-container">
+          <div class="pregsheader">
             <h5>Preguntas mas recientes</h5>
+            <a class="btn btn-secondary" href="/preguntas/crear">Crear pregunta</a>
+          </div>
             <br>
             <% preguntas.forEach(function(preg){ %>
                 <div class="card preg_box">
                     <div class="card-body">
                       <a class="link-primary text-decoration-none" href="/preguntas/<%= preg.id %>/responder"><%= preg.titulo %></a>
-                      <p class="card-text"><%= preg.descripcion %></p>
+                      <p class="card-text preg_desc"><%= preg.descripcion %></p>
                       <div>
                         <% preg.etiquetas.forEach(function(etiqueta){ %>
                           <span class="badge bg-secondary"><%= etiqueta %></span>
