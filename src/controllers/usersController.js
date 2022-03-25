@@ -19,7 +19,6 @@ usuarioController.sign_up = (req, res) => {
                     if(err){
                         res.json(err);
                     }else{
-                        console.log(usuario);
                         res.status(201).render('login.ejs', { mensaje: "Se ha registrado con exito" });
                     }
                 });
