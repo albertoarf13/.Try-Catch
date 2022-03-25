@@ -1,6 +1,6 @@
+
 const preguntasController = {};
 //const dbUser = require(../integracion/dbUser)
-
 preguntasController.atribs = (req, res) => {
     const idPregunta = req.params.id;
 
@@ -15,32 +15,27 @@ preguntasController.atribs = (req, res) => {
                 res.render('atributosPregunta.ejs', { error: "No se ha podido encontrar la pregunta" });
             }else{
                 // res.send(infoPregunta);
-                infoPregunta.map(pregunta=>{
-                    pregunta.etiquetas = pregunta.etiquetas.split(',');
-                    return pregunta.etiquetas;
-                })
-                
                 conn.query("select tg.nombre from etiqueta tg inner join etiqueta_pregunta tp on tg.id = tp.id_etiqueta where tp.id_pregunta = ?", [idPregunta], (err, tags)=>{
+                    
                     if(err){
                         res.json(err);
+                        
                     }
                     else if (infoPregunta.length == 0){
                         //res.render('atributosPregunta.ejs', { error: "No se ha podido encontrar la pregunta" });
+                        console.log('hola');
                         res.send(err);
                     }
                     else{
+                        
                         conn.query("select * from respuesta where idPregunta = ?", [idPregunta], (err, resps)=>{
                             if(err){
                                 res.json(err);
-                            }
-                            else if (resps.length == 0){
-                                console.log(infoPregunta);
-                                res.render('atributosPregunta.ejs', {preguntas:infoPregunta,
-                                                                     etiquetas: tags,
-                                                                     respuestas: resps});
+                                
                             }
                             else{
-                                res.render('atributosPregunta.ejs', {preguntas:infoPregunta,
+                                var result = JSON.parse(JSON.stringify(infoPregunta));
+                                res.render('atributosPregunta.ejs', {preguntas:result[0],
                                                                      etiquetas: tags,
                                                                      respuestas: resps});
                             }
