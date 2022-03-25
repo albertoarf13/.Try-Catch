@@ -2,11 +2,11 @@ const preguntaController = {};
 //const dbUser = require(../integracion/dbUser)
 
 preguntaController.atribs = (req, res) => {
-    const idPregunta = req.body;
+    const idPregunta = req.params.id;
 
     req.getConnection((err, conn)=>{
         
-        conn.query("SELECT * FROM preguntas WHERE idpregunta = ?", [idPregunta], (err, infoPregunta)=>{
+        conn.query("SELECT * FROM pregunta WHERE id = ?", [idPregunta], (err, infoPregunta)=>{
 
             if(err){
                 res.json(err);
@@ -15,7 +15,7 @@ preguntaController.atribs = (req, res) => {
                 res.render('atributosPregunta.ejs', { error: "No se ha podido encontrar la pregunta" });
             }else{
                 // res.send(infoPregunta);
-                conn.query("select tg.texto from tags tg inner join tagpreg tp on tg.idtag = tp.idtag where tp.tagpreg = ?", [idPregunta], (err, tags)=>{
+                conn.query("select tg.texto from etiqueta tg inner join etiqueta_pregunta tp on tg.id = tp.id_etiqueta where tp.id_pregunta = ?", [idPregunta], (err, tags)=>{
                     if(err){
                         res.json(err);
                     }
@@ -23,7 +23,7 @@ preguntaController.atribs = (req, res) => {
                         //res.render('atributosPregunta.ejs', { error: "No se ha podido encontrar la pregunta" });
                     }
                     else{
-                        conn.query("select * from respuestas rp where rp.idpregunta = ?", [idPregunta], (err, resps)=>{
+                        conn.query("select * from respuestas where idPregunta = ?", [idPregunta], (err, resps)=>{
                             if(err){
                                 res.json(err);
                             }
