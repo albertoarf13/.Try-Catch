@@ -6,7 +6,13 @@ preguntasController.atribs = (req, res) => {
 
     req.getConnection((err, conn)=>{
         
-        conn.query("SELECT * FROM pregunta WHERE id = ?", [idPregunta], (err, infoPregunta)=>{
+        conn.query(`select pregunta.*, ifnull(GROUP_CONCAT(etiqueta.nombre), '') as etiquetas
+        from pregunta
+        left join etiqueta_pregunta
+        on pregunta.id =  etiqueta_pregunta.id_pregunta
+        left join etiqueta
+        on etiqueta_pregunta.id_etiqueta = etiqueta.id
+        where pregunta.id = ?;`, [idPregunta], (err, infoPregunta)=>{
 
             if(err){
                 res.json(err);
@@ -14,35 +20,21 @@ preguntasController.atribs = (req, res) => {
             else if(infoPregunta.length == 0){
                 res.render('atributosPregunta.ejs', { error: "No se ha podido encontrar la pregunta" });
             }else{
-                // res.send(infoPregunta);
-                conn.query("select tg.nombre from etiqueta tg inner join etiqueta_pregunta tp on tg.id = tp.id_etiqueta where tp.id_pregunta = ?", [idPregunta], (err, tags)=>{
-                    
+                infoPregunta.map(pregunta=>{
+                    pregunta.etiquetas = pregunta.etiquetas.split(',');
+                    return pregunta.etiquetas;
+                })
+
+                conn.query("select * from respuesta where idPregunta = ?", [idPregunta], (err, resps)=>{
                     if(err){
                         res.json(err);
-                        
-                    }
-                    else if (infoPregunta.length == 0){
-                        //res.render('atributosPregunta.ejs', { error: "No se ha podido encontrar la pregunta" });
-                        console.log('hola');
-                        res.send(err);
                     }
                     else{
-                        
-                        conn.query("select * from respuesta where idPregunta = ?", [idPregunta], (err, resps)=>{
-                            if(err){
-                                res.json(err);
-                                
-                            }
-                            else{
-                                var result = JSON.parse(JSON.stringify(infoPregunta));
-                                res.render('atributosPregunta.ejs', {preguntas:result[0],
-                                                                     etiquetas: tags,
-                                                                     respuestas: resps});
-                            }
-                        })
-                        
+                        var pregs = JSON.parse(JSON.stringify(infoPregunta));
+
+                        res.render('atributosPregunta.ejs', {preguntas:pregs[0],
+                                                             respuestas: resps});
                     }
-                    
                 })
             }
 

@@ -8,40 +8,39 @@
     
     <div class="main">
         <div class="content-container">
-            <% preguntas.forEach(function(preg){ %>
-                <div class="correo">
-                    <h1><%= preg.correo %></h1>
+            <div class="correo">
+                <h1><%= preguntas.correo %></h1>
+            </div>
+            <div class="titulo-pregunta">
+                <h1> <%= preguntas.titulo %></h1>
+            </div>
+            <div class="descripcion-pregunta" itemprop="text">
+               <h2><%= preguntas.descripcion %></h2> 
+            </div>
+            <div class="tags">
+                <% preguntas.etiquetas.forEach(function(etiqueta){ %>
+                    <span class="badge bg-secondary"><%= etiqueta %></span>
+                <% }); %>
+            </div>
+            <div class="contenedor-respuesta">
+                <div class="respuesta">
+                    <div class="correo">
+                       <!--  <h1><%= respuestas.correo %></h1> -->
+                    </div>
+                    <ul id="elemntListRespuesta">            
+                    </ul>
+                   <!--  <script>
+                       let ul=  document.getElementById("elemntListRespuesta");
+                        info.respuestas.forEach(x => {
+                            let li =document.createElement("li");
+                            li.innerHTML=x.descripcion;
+                            ul.appendChild(li);
+                        });
+                    </script> -->
+               
                 </div>
-                <div class="titulo-pregunta">
-                    <h1> <%= preg.titulo %></h1>
-                </div>
-                <div class="descripcion-pregunta" itemprop="text">
-                   <h2><%= preg.descripcion %></h2> 
-                </div>
-                <div class="tags">
-                    <% preg.etiquetas.forEach(function(etiqueta){ %>
-                        <span class="badge bg-secondary"><%= etiqueta %></span>
-                    <% }); %>
-                </div>
-            <% }); %>
+            </div>
         </div>
     </div>
     
-    <div class="contenedor-respuesta">
-        <div class="respuesta">
-            <div class="correo">
-               <!--  <h1><%= respuestas.correo %></h1> -->
-            </div>
-            <ul id="elemntListRespuesta">            
-            </ul>
-           <!--  <script>
-               let ul=  document.getElementById("elemntListRespuesta");
-                info.respuestas.forEach(x => {
-                    let li =document.createElement("li");
-                    li.innerHTML=x.descripcion;
-                    ul.appendChild(li);
-                });
-            </script> -->
-       
-        </div>
-    </div>
+    
