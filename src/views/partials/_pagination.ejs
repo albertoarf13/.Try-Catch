@@ -1,0 +1,33 @@
+
+<nav aria-label="...">
+    <ul class="pagination">
+
+      <% if(pag == 1) { %>
+        <li class="page-item disabled">
+          <a class="page-link">Previous</a>
+        </li>
+        <li class="page-item active" aria-current="page">
+          <a class="page-link" href="<%=pag %>"><%= pag %></a>
+        </li>
+        <li class="page-item"><a class="page-link" href="/preguntas/page=<%= pag+1 %>"><%= pag+1%></a></li>
+        <li class="page-item"><a class="page-link" href="/preguntas/page=<%= pag+2 %>"><%= pag+2 %></a></li>
+      <% } %>
+
+      <% if(pag > 1) { %>
+        <li class="page-item">
+          <a class="page-link" href="/preguntas/page=<%= pag-1 %>">Previous</a>
+        </li>
+        <% if(pag > 2) { %>
+          <li class="page-item"><a class="page-link" href="/preguntas/page=1">1</a></li>
+        <% } %>
+        <li class="page-item"><a class="page-link" href="/preguntas/page=<%= pag-1 %>"><%= pag-1%></a></li>
+        <li class="page-item active" aria-current="page">
+          <a class="page-link" href="<%=pag %>"><%= pag %></a>
+        </li>
+        <li class="page-item"><a class="page-link" href="/preguntas/page=<%= pag+1 %>"><%= pag+1 %></a></li>
+      <% } %>
+      <li class="page-item">
+        <a class="page-link" href="/preguntas/page=<%= pag+1 %>">Next</a>
+      </li>
+    </ul>
+  </nav>
