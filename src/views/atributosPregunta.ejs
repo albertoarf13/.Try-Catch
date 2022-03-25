@@ -5,29 +5,28 @@
         
     </div>
 
-    <div class="contenedor-pregunta">
-        <div class="correo">
-            <h1><%= preguntas.correo %></h1>
-        </div>
-        <div class="titulo-pregunta">
-           
-            <h1> <%= preguntas.titulo %></h1>
-        </div>
-        <div class="descripcion-pregunta" itemprop="text">
-            
-           <h2><%= preguntas.descripcion %></h2> 
-            
-            
-        </div>
-        <div class="tags">
-            <ul id="elemntList">            
-            </ul>
-            <% etiquetas.forEach(function(etiqueta){ %>
-                <span class="badge bg-secondary"><%= etiqueta %></span>
+    
+    <div class="main">
+        <div class="content-container">
+            <% preguntas.forEach(function(preg){ %>
+                <div class="correo">
+                    <h1><%= preg.correo %></h1>
+                </div>
+                <div class="titulo-pregunta">
+                    <h1> <%= preg.titulo %></h1>
+                </div>
+                <div class="descripcion-pregunta" itemprop="text">
+                   <h2><%= preg.descripcion %></h2> 
+                </div>
+                <div class="tags">
+                    <% preg.etiquetas.forEach(function(etiqueta){ %>
+                        <span class="badge bg-secondary"><%= etiqueta %></span>
+                    <% }); %>
+                </div>
             <% }); %>
-       
         </div>
     </div>
+    
     <div class="contenedor-respuesta">
         <div class="respuesta">
             <div class="correo">
