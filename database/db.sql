@@ -5,28 +5,29 @@ CREATE TABLE usuario (
   contraseya VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE preguntas (
-  idpregunta int(100) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  idusuario int(100) NOT NULL,
-  titulo varchar(200) NOT NULL,
-  cuerpo varchar(2000) NOT NULL,
-  fecha date NOT NULL
+CREATE TABLE pregunta(
+	id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  titulo VARCHAR(100),
+  descripcion VARCHAR(100),
+  imagen LONGTEXT,
+  correo VARCHAR(100) NOT NULL REFERENCES usuario(correo)  
 );
 
-CREATE TABLE respuestas (
-  idrespuesta int(100) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  respuesta varchar(1000) NOT NULL,
-  idusuario int(100) NOT NULL,
-  idpregunta int(100) NOT NULL,
-  fecha date NOT NULL
+CREATE TABLE respuesta(
+	id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	descripcion VARCHAR(100),
+  imagen LONGTEXT,
+	idPregunta INT(6) NOT NULL REFERENCES pregunta(id),
+  correo VARCHAR(100) NOT NULL REFERENCES usuario(correo) 
 );
 
-CREATE TABLE tags (
-  idtag int(100) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  texto varchar(20) NOT NULL
+CREATE TABLE etiqueta(
+	id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	nombre VARCHAR(100) UNIQUE
 );
 
-CREATE TABLE tagpreg (
-  idpregunta int(100) NOT NULL PRIMARY KEY,
-  idtag int(100) NOT NULL
-)
+CREATE TABLE etiqueta_pregunta(
+	id_etiqueta INT(6) UNSIGNED REFERENCES etiqueta(id),
+	id_pregunta INT(6) UNSIGNED REFERENCES pregunta(id),
+    PRIMARY KEY(id_etiqueta, id_pregunta)
+);

@@ -1,0 +1,62 @@
+
+<%- include('partials/_header') %>
+
+<div class="contenedor">
+    <div class="sidebar">
+        
+    </div>
+
+    <div class="main">
+        <div class="content-container">
+
+            <h2><%= pregunta.titulo %></h2>
+            <hr>
+
+            <form method="POST" action="/preguntas/<%= pregunta.id %>/responder" enctype="multipart/form-data">
+
+                <div class="form-group mb-3">
+                    <label for="respuesta">Respuesta</label>
+                    <textarea class="form-control" name="respuesta" rows="3"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="imagen" class="form-label">Imagen</label>
+                    <input type="file" class="form-control" name="imagen">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+
+                <% if(typeof error !== 'undefined' && error) { %>
+                    <div class="alert alert-danger mt-3" role="alert">
+                        <%= error %>
+                    </div>
+                <% } %>
+            </form>
+
+        </div>
+
+
+        <div class="content-container">
+
+            <% respuestas.forEach(function(respuesta){ %>
+
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <i class="fa-solid fa-user"></i> <%= respuesta.correo %>
+                    </div>
+                    <div class="card-body">
+                      <p class="card-text"><%= respuesta.descripcion %></p>
+
+                      <% if(respuesta.imagen != null){ %>
+                        <img src="data:image/png;base64,<%= respuesta.imagen %>" style="width: 100%; max-width: 700px;" alt="">
+                      <% } %>
+                    </div>
+                </div>
+                
+            <% }); %>
+
+        </div>
+    </div>
+</div>
+     
+<%- include('partials/_footer') %>

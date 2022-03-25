@@ -1,14 +1,14 @@
 const express = require('express');
 const { route } = require('express/lib/application');
 const router = express.Router();
+const multer = require('multer');
+const upload = multer({ storage: multer.memoryStorage() });
 
 const personasController = require('../controllers/personasController');
 const usersController = require('../controllers/usersController');
-const preguntaController = require('../controllers/preguntasController')
+const preguntasController = require('../controllers/preguntasController');
 
-
-
-router.get('/', personasController.list);
+router.get('/', preguntasController.prueba_mostrar_preguntas_recientes);
 
 router.post('/add', personasController.add);
 
@@ -22,13 +22,21 @@ router.get('/login', isNotLogged, usersController.login_page);
 router.get('/logout', isLogged, usersController.logout);
 router.get('/atributoPregunta/:id', preguntaController.atribs);
 
+//Preguntas
+router.get('/preguntas/crear', isLogged, preguntasController.crear_pregunta_vista);
+router.post('/preguntas/crear', isLogged, upload.single("imagen"), preguntasController.crear_pregunta);
+router.get('/preguntas/mostrar-imagenes', preguntasController.prueba_mostrar_imagenes);
+router.get('/preguntas/mostrar-etiquetas', preguntasController.prueba_mostrar_etiquetas);
+
+router.get('/preguntas/:id/responder', isLogged, preguntasController.prueba_responder_vista);
+router.post('/preguntas/:id/responder', isLogged, upload.single("imagen"), preguntasController.responder_pregunta);
 
 function isLogged(req, res, next){
     if(req.session.correo){
         next();
     }
     else{
-        res.redirect("/");
+        res.redirect("/login");
     }
 }
 
