@@ -1,7 +1,7 @@
-const preguntaController = {};
+const preguntasController = {};
 //const dbUser = require(../integracion/dbUser)
 
-preguntaController.atribs = (req, res) => {
+preguntasController.atribs = (req, res) => {
     const idPregunta = req.params.id;
 
     req.getConnection((err, conn)=>{
@@ -15,23 +15,34 @@ preguntaController.atribs = (req, res) => {
                 res.render('atributosPregunta.ejs', { error: "No se ha podido encontrar la pregunta" });
             }else{
                 // res.send(infoPregunta);
-                conn.query("select tg.texto from etiqueta tg inner join etiqueta_pregunta tp on tg.id = tp.id_etiqueta where tp.id_pregunta = ?", [idPregunta], (err, tags)=>{
+                infoPregunta.map(pregunta=>{
+                    pregunta.etiquetas = pregunta.etiquetas.split(',');
+                    return pregunta.etiquetas;
+                })
+                
+                conn.query("select tg.nombre from etiqueta tg inner join etiqueta_pregunta tp on tg.id = tp.id_etiqueta where tp.id_pregunta = ?", [idPregunta], (err, tags)=>{
                     if(err){
                         res.json(err);
                     }
                     else if (infoPregunta.length == 0){
                         //res.render('atributosPregunta.ejs', { error: "No se ha podido encontrar la pregunta" });
+                        res.send(err);
                     }
                     else{
-                        conn.query("select * from respuestas where idPregunta = ?", [idPregunta], (err, resps)=>{
+                        conn.query("select * from respuesta where idPregunta = ?", [idPregunta], (err, resps)=>{
                             if(err){
                                 res.json(err);
                             }
-                            else if (resp.length == 0){
-                                //res.render('atributosPregunta.ejs', { error: "No se ha podido encontrar la pregunta" });
+                            else if (resps.length == 0){
+                                console.log(infoPregunta);
+                                res.render('atributosPregunta.ejs', {preguntas:infoPregunta,
+                                                                     etiquetas: tags,
+                                                                     respuestas: resps});
                             }
                             else{
-                                res.status(201).send('info', {info:{infoPregunta, tags, resps}})
+                                res.render('atributosPregunta.ejs', {preguntas:infoPregunta,
+                                                                     etiquetas: tags,
+                                                                     respuestas: resps});
                             }
                         })
                         
@@ -45,11 +56,10 @@ preguntaController.atribs = (req, res) => {
     });
 }
 
-preguntaController.atribs_page = (req, res) => {
+preguntasController.atribs_page = (req, res) => {
     
     res.render('atributosPregunta.ejs');
 }
-const preguntasController = {};
 
 preguntasController.crear_pregunta_vista = (req, res) => {
 

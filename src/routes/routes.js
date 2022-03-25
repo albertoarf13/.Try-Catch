@@ -21,7 +21,7 @@ router.get('/sign-up_page', usersController.sign_up_page);
 router.post('/login', usersController.login);
 router.get('/login', isNotLogged, usersController.login_page);
 router.get('/logout', isLogged, usersController.logout);
-router.get('/atributoPregunta/:id', preguntaController.atribs);
+router.get('/atributoPregunta/:id', preguntasController.atribs);
 
 //Preguntas
 router.get('/preguntas/crear', isLogged, preguntasController.crear_pregunta_vista);

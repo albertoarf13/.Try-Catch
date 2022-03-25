@@ -7,47 +7,42 @@
 
     <div class="contenedor-pregunta">
         <div class="correo">
-            <h1><%= info.infoPregunta.correo %></h1>
+            <h1><%= preguntas.correo %></h1>
         </div>
         <div class="titulo-pregunta">
            
-            <h1> <%= info.infoPregunta.titulo %></h1>
+            <h1> <%= preguntas.titulo %></h1>
         </div>
         <div class="descripcion-pregunta" itemprop="text">
             
-           <h2><%= info.infoPregunta.descripcion %></h2> 
+           <h2><%= preguntas.descripcion %></h2> 
             
             
         </div>
         <div class="tags">
             <ul id="elemntList">            
             </ul>
-            <script>
-               let ul1=  document.getElementById("elemntList");
-                info.tags.forEach(x => {
-                    let li =document.createElement("li");
-                    li.innerHTML=x;
-                    ul1.appendChild(li);
-                });
-            </script>
+            <% etiquetas.forEach(function(etiqueta){ %>
+                <span class="badge bg-secondary"><%= etiqueta %></span>
+            <% }); %>
        
         </div>
     </div>
     <div class="contenedor-respuesta">
         <div class="respuesta">
             <div class="correo">
-                <h1><%= info.resps.correo %></h1>
+               <!--  <h1><%= respuestas.correo %></h1> -->
             </div>
             <ul id="elemntListRespuesta">            
             </ul>
-            <script>
+           <!--  <script>
                let ul=  document.getElementById("elemntListRespuesta");
                 info.respuestas.forEach(x => {
                     let li =document.createElement("li");
                     li.innerHTML=x.descripcion;
                     ul.appendChild(li);
                 });
-            </script>
+            </script> -->
        
         </div>
     </div>
