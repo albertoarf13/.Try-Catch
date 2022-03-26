@@ -359,7 +359,7 @@ preguntasController.responder_respuesta = (req, res) =>{
 }
 
 preguntasController.busqueda_basica = (req, res) => {
-    const info = req.body;
+    const info = req.params.bus;
     var dynamicInput = '%'.concat(info.concat('%'));
     req.getConnection((err, conn)=>{
         //conn.query("SELECT * FROM preguntas WHERE descripcion LIKE ?", [dynamicInput], (err, lista_preguntas)=>{
