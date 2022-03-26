@@ -369,7 +369,7 @@ preguntasController.busqueda_basica = (req, res) => {
         on pregunta.id =  etiqueta_pregunta.id_pregunta
         left join etiqueta
         on etiqueta_pregunta.id_etiqueta = etiqueta.id
-        where descripcion LIKE ?
+        where titulo LIKE ?
         group by pregunta.id
         order by id desc;`, [dynamicInput] ,(err, lista_preguntas)=>{
             if(err){

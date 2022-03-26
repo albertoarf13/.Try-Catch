@@ -16,17 +16,11 @@
                     <div class="card-body">
                       <a class="link-primary text-decoration-none" href="/preguntas/<%= preg.id %>/responder"><%= preg.titulo %></a>
                       <p class="card-text preg_desc"><%= preg.descripcion %></p>
-                      <div>
-                        <% preg.etiquetas.forEach(function(etiqueta){ %>
-                          <span class="badge bg-secondary"><%= etiqueta %></span>
-                        <% }); %>
-                        <span class="usernamelink"><img class="user_img" src="/user_icon.png"><%= preg.correo %></span>
-                      </div>
+
                     </div>
                   </div>
             <% }); %>
             <br>
-            <%- include('partials/_pagination') %>
         </div>
     </div>
 </div>
