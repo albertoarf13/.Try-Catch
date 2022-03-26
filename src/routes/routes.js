@@ -22,6 +22,7 @@ router.post('/login', usersController.login);
 router.get('/login', isNotLogged, usersController.login_page);
 router.get('/logout', isLogged, usersController.logout);
 router.get('/atributoPregunta/:id', preguntasController.atribs);
+router.get('/busqueda/:bus', preguntasController.busqueda_basica);
 
 //Preguntas
 router.get('/preguntas/crear', isLogged, preguntasController.crear_pregunta_vista);
