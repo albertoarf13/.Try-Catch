@@ -10,20 +10,15 @@ beforeAll(() => {
 
 
 test('[Ver Atributos] con id existente', async () => {
-
- 
     const response3 = await request(app).get('/atributoPregunta/1');
     expect(response3.status).toBe(450);
 
 });
 
 
-test('[Ver Atributos] con id que no exista', async () => {
-
- 
+test('[Ver Atributos] con id no existente', async () => {
     const response3 = await request(app).get('/atributoPregunta/-1');
     expect(response3.status).toBe(451);
-
 });
 
 
