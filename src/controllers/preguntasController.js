@@ -13,12 +13,13 @@ preguntasController.atribs = (req, res) => {
         left join etiqueta
         on etiqueta_pregunta.id_etiqueta = etiqueta.id
         where pregunta.id = ?;`, [idPregunta], (err, infoPregunta)=>{
-
             if(err){
                 res.json(err);
             }
-            else if(infoPregunta.length == 0){
-                res.render('atributosPregunta.ejs', { error: "No se ha podido encontrar la pregunta" });
+            else if(infoPregunta[0].id == null){
+               
+                res.status(451).render('atributosPregunta.ejs', { error: "No se ha podido encontrar la pregunta" });
+                return;
             }else{
                 infoPregunta.map(pregunta=>{
                     pregunta.etiquetas = pregunta.etiquetas.split(',');
@@ -31,9 +32,9 @@ preguntasController.atribs = (req, res) => {
                     }
                     else{
                         var pregs = JSON.parse(JSON.stringify(infoPregunta));
-
-                        res.render('atributosPregunta.ejs', {preguntas:pregs[0],
+                        res.status(450).render('atributosPregunta.ejs', {preguntas:pregs[0],
                                                              respuestas: resps});
+                                                           
                     }
                 })
             }

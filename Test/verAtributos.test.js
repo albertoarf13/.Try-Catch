@@ -1,26 +1,33 @@
 const request = require('supertest');
 const app = require('../src/app');
 const routes = require('../src/routes/routes');
-//var session = require('supertest-session');
-var testSession = null;
+const session = require('supertest-session');
 const { beforeAll, afterAll , beforeEach} = require('@jest/globals');
 
 beforeAll(() => {
     app.use('/', routes);  
 });
 
-/*beforeEach(function () {
-    testSession = session(app);
-});
-*/
 
-//Test de integracion usando la sesion actual
-test('[Ver atributos pregunta] Pregunta correcta', async () => {
-    const id = 1;
-    const response = await request(app).get("/atributoPregunta/1");
-    expect(response.status).toBe(201);
-  
+test('[Ver Atributos] con id existente', async () => {
+
+ 
+    const response3 = await request(app).get('/atributoPregunta/1');
+    expect(response3.status).toBe(450);
+
 });
+
+
+test('[Ver Atributos] con id que no exista', async () => {
+
+ 
+    const response3 = await request(app).get('/atributoPregunta/-1');
+    expect(response3.status).toBe(451);
+
+});
+
+
+
 /*
 test('[Registro] Usuarios existente', async () => {
     const usuario = { nombre: 'prueba', email: 'prueba@prueba.es', password: '1234567Aa', password2: '1234567Aa' };
