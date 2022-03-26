@@ -29,7 +29,7 @@ preguntasController.atribs = (req, res) => {
                 conn.query(`select respuesta.id, respuesta.descripcion, respuesta.imagen, respuesta.correo, respuesta_a_respuesta.descripcion as descripcionRespuestaARespuesta, respuesta_a_respuesta.correo as correoRespuestaARespuesta
                 from (select * from respuesta where idPregunta = ?) as respuesta
                 left join respuesta_a_respuesta
-                on respuesta.id = respuesta_a_respuesta.idRespuesta;`, [id], (err, respuestas)=>{
+                on respuesta.id = respuesta_a_respuesta.idRespuesta;`, [idPregunta], (err, respuestas)=>{
 
                     //console.log(respuestas)
 
@@ -70,7 +70,8 @@ preguntasController.atribs = (req, res) => {
             
                     //console.log(respuestasOficial)
                     var pregs = JSON.parse(JSON.stringify(infoPregunta));
-                    res.render('prueba-responder-pregunta.ejs', {
+
+                    res.render('atributosPregunta.ejs', {
                         preguntas:pregs[0],
                         respuestas: respuestasOficial,
                         error: req.query.error
@@ -346,7 +347,7 @@ preguntasController.responder_pregunta = (req, res) =>{
     let idPregunta = req.params.id;
 
     if(respuesta.length <= 0){
-        res.redirect('/preguntas/'+ idPregunta +'/responder?error=' + encodeURIComponent('La respuesta no puede estar vacía'));
+        res.redirect('/preguntas/mostrar/'+ idPregunta+ 'error='+ encodeURIComponent('La respuesta no puede estar vacía'));
         return;
     }
 
@@ -366,23 +367,21 @@ preguntasController.responder_pregunta = (req, res) =>{
                 return;
             }
             
-            res.redirect('/preguntas/'+ idPregunta +'/responder');
+            res.redirect('/preguntas/mostrar/'+ idPregunta);
         })
     });
 
 }
 
 preguntasController.responder_respuesta = (req, res) =>{
-
     let respuesta = req.body.respuesta;
     let idPregunta = req.params.idPregunta;
     let idRespuesta = req.params.idRespuesta;
 
     if(respuesta.length <= 0){
-        res.redirect('/preguntas/'+ idPregunta +'/responder?error=' + encodeURIComponent('La respuesta no puede estar vacía'));
+        res.redirect('/preguntas/mostrar/'+ idPregunta+ 'error='+ encodeURIComponent('La respuesta no puede estar vacía'));
         return;
     }
-
 
     req.getConnection((err, conn)=>{
 
@@ -393,7 +392,7 @@ preguntasController.responder_respuesta = (req, res) =>{
                 return;
             }
             
-            res.redirect('/preguntas/'+ idPregunta +'/responder');
+            res.redirect('/preguntas/mostrar/'+ idPregunta);
         })
     });
 

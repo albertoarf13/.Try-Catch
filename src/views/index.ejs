@@ -16,7 +16,7 @@
             <% preguntas.forEach(function(preg){ %>
                 <div class="card preg_box">
                     <div class="card-body">
-                      <a class="link-primary text-decoration-none" href="/preguntas/<%= preg.id %>/responder"><%= preg.titulo %></a>
+                      <a class="link-primary text-decoration-none" href="/preguntas/mostrar/<%= preg.id %>"><%= preg.titulo %></a>
                       <p class="card-text preg_desc"><%= preg.descripcion %></p>
                       <div>
                         <% preg.etiquetas.forEach(function(etiqueta){ %>

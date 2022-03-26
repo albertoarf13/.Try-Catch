@@ -10,23 +10,22 @@
         
         <div class="content-container">
             <h3 class="card-title card-titulo"><%= preguntas.titulo %></h3>
-            <div class="card">
+            <div class="card preg_box">
                 
                 <div class="card-body">
                   
                   <p class="card-text"><%= preguntas.descripcion %></p>
                   
                 </div>
-                <hr>
-                <div class="imagen_atb">
-                    <% if(preguntas.imagen != null){ %>
+                <% if(preguntas.imagen != null){ %>
+                    <hr>
+                    <div class="imagen_atb">
                         <img src="data:image/png;base64,<%= preguntas.imagen %>" style="width: 100%; max-width: 700px;" alt="">
-                        <br>
-                        <div class="mb-3"></div>
-                    <% } %>
-                    
-                </div>
-                <hr>
+                    <br>
+                    <div class="mb-3"></div>
+                    </div>
+                <% } %>
+                <hr>    
                 <div class="card-header">
                     <% preguntas.etiquetas.forEach(function(etiqueta){ %>
                         <span class="badge bg-secondary"><%= etiqueta %></span>
@@ -34,30 +33,56 @@
                     <br>
                     <h6 class="card-text card-correo"><%= preguntas.correo %></h6>
                 </div>
+                
               </div>
-            
-           
-              <div class="content-container">
+              <br> 
+              <div class="preg_box">
+                <form method="POST" action="/preguntas/<%= preguntas.id %>/responder" enctype="multipart/form-data">
 
+                    <div class="form-group mb-3">
+                        <label for="respuesta">Realiza tu respuesta</label>
+                        <textarea class="form-control" name="respuesta" rows="3" required minlength="3" maxlength="2000"></textarea>
+                    </div>
+    
+                    <div class="mb-3">
+                        <label for="imagen" class="form-label">Imagen</label>
+                        <input type="file" class="form-control" name="imagen">
+                    </div>
+    
+                    <button type="submit" class="btn btn-primary">Submit</button>
+    
+                    <% if(typeof error !== 'undefined' && error) { %>
+                        <div class="alert alert-danger mt-3" role="alert">
+                            <%= error %>
+                        </div>
+                    <% } %>
+                    <hr>
+                </form>
+              </div>
+            <div class="respuestas-container">
+                <h5>Respuestas de usuarios:</h5>
+                <br>
                 <% respuestas.forEach(function(respuesta){ %>
     
-                    <div class="card mb-3">
+                    <div class="card mb-3 preg_box">
                         <div class="card-header">
                             <i class="fa-solid fa-user"></i> <%= respuesta.correo %>
                         </div>
                         <div class="card-body">
                             <p class="card-text"><%= respuesta.descripcion %></p>
-    
-                            <% if(respuesta.imagen != null){ %>
-                                <img src="data:image/png;base64,<%= respuesta.imagen %>" style="width: 100%; max-width: 700px;" alt="">
-                                <br>
-                                <div class="mb-3"></div>
-                            <% } %>
+                            
+                            <div class="imagen_atb">
+                                <% if(respuesta.imagen != null){ %>
+                                    <img src="data:image/png;base64,<%= respuesta.imagen %>" style="width: 100%; max-width: 700px;" alt="">
+                                    <br>
+                                    <div class="mb-3"></div>
+                                <% } %>
+                            </div>
     
                             <button id="boton-responder-respuesta-<%= respuesta.id %>" onClick="hacerAlgo(<%= respuesta.id %>)" class="btn btn-outline-secondary">Responder</button>
     
                             <div class="d-none" id="form-responder-respuesta-<%= respuesta.id %>">
-                                <form method="POST" action="/preguntas/<%= pregunta.id %>/responder-respuesta/<%= respuesta.id %>">
+                                <form method="POST" action="/preguntas/<%= preguntas.id %>/responder-respuesta/<%= respuesta.id %>">
     
                                     <div class="form-group mb-3">
                                         <textarea class="form-control" name="respuesta" rows="3"></textarea>
@@ -90,11 +115,11 @@
                     
                 <% }); %>
     
-            </div>
-      
-   
-    
-    <script>
+            </div>   
+        </div>
+    </div>
+</div>
+<script>
     
     let formsResponder = document.querySelectorAll('[id^="form-responder-respuesta-"]');
     let botonesResponder = document.querySelectorAll('[id^="boton-responder-respuesta-"]');
@@ -120,9 +145,6 @@
     
     
     
-    </script>
-        </div>
-    </div>
-    
-</div>
+</script>
+  
 <%- include('partials/_footer') %>

@@ -92,6 +92,15 @@
     /* border: 1px solid rgb(233, 233, 233); */
 }
 
+.respuestas-container{
+    background-color: white;
+    width: 95%; 
+    margin-bottom: 1em;
+    margin-top: 2%;
+    border-radius: 10px;
+    /* border: 1px solid rgb(233, 233, 233); */
+}
+
 .footer{
     height: 80px;
     background-color: rgb(61, 61, 61);
