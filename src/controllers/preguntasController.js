@@ -25,16 +25,56 @@ preguntasController.atribs = (req, res) => {
                     return pregunta.etiquetas;
                 })
 
-                conn.query("select * from respuesta where idPregunta = ?", [idPregunta], (err, resps)=>{
-                    if(err){
-                        res.json(err);
-                    }
-                    else{
-                        var pregs = JSON.parse(JSON.stringify(infoPregunta));
+                conn.query(`select respuesta.id, respuesta.descripcion, respuesta.imagen, respuesta.correo, respuesta_a_respuesta.descripcion as descripcionRespuestaARespuesta, respuesta_a_respuesta.correo as correoRespuestaARespuesta
+                from (select * from respuesta where idPregunta = ?) as respuesta
+                left join respuesta_a_respuesta
+                on respuesta.id = respuesta_a_respuesta.idRespuesta;`, [id], (err, respuestas)=>{
 
-                        res.render('atributosPregunta.ejs', {preguntas:pregs[0],
-                                                             respuestas: resps});
-                    }
+                    //console.log(respuestas)
+
+                    let respuestasObjeto = {};
+
+                    respuestas.forEach(respuesta => {
+                        
+
+                        if(!respuestasObjeto.hasOwnProperty(`${respuesta.id}`)){
+
+                            respuestasObjeto[respuesta.id] = {}
+                            
+                            respuestasObjeto[respuesta.id].id = respuesta.id;
+                            respuestasObjeto[respuesta.id].descripcion = respuesta.descripcion;
+                            respuestasObjeto[respuesta.id].imagen = respuesta.imagen;
+                            respuestasObjeto[respuesta.id].correo = respuesta.correo;
+
+
+                            respuestasObjeto[respuesta.id].respuestasARespuesta = [];
+                        }
+
+                        if(respuesta.descripcionRespuestaARespuesta != null){
+
+                            respuestasObjeto[respuesta.id].respuestasARespuesta.push({
+                                descripcion: respuesta.descripcionRespuestaARespuesta,
+                                correo: respuesta.correoRespuestaARespuesta,
+                            })
+                        }
+                        
+                    })
+
+
+                    let respuestasOficial = []
+
+                    Object.entries(respuestasObjeto).forEach(respuesta=>{
+                        respuestasOficial.push(respuesta[1]);
+                    })
+            
+                    //console.log(respuestasOficial)
+                    var pregs = JSON.parse(JSON.stringify(infoPregunta));
+                    res.render('prueba-responder-pregunta.ejs', {
+                        preguntas:pregs[0],
+                        respuestas: respuestasOficial,
+                        error: req.query.error
+                    })
+ 
                 })
             }
 

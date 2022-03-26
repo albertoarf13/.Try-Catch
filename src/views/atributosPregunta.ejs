@@ -7,40 +7,122 @@
 
     
     <div class="main">
+        
         <div class="content-container">
-            <div class="correo">
-                <h1><%= preguntas.correo %></h1>
-            </div>
-            <div class="titulo-pregunta">
-                <h1> <%= preguntas.titulo %></h1>
-            </div>
-            <div class="descripcion-pregunta" itemprop="text">
-               <h2><%= preguntas.descripcion %></h2> 
-            </div>
-            <div class="tags">
-                <% preguntas.etiquetas.forEach(function(etiqueta){ %>
-                    <span class="badge bg-secondary"><%= etiqueta %></span>
-                <% }); %>
-            </div>
-            <div class="contenedor-respuesta">
-                <div class="respuesta">
-                    <div class="correo">
-                       <!--  <h1><%= respuestas.correo %></h1> -->
-                    </div>
-                    <ul id="elemntListRespuesta">            
-                    </ul>
-                   <!--  <script>
-                       let ul=  document.getElementById("elemntListRespuesta");
-                        info.respuestas.forEach(x => {
-                            let li =document.createElement("li");
-                            li.innerHTML=x.descripcion;
-                            ul.appendChild(li);
-                        });
-                    </script> -->
-               
+            <h3 class="card-title card-titulo"><%= preguntas.titulo %></h3>
+            <div class="card">
+                
+                <div class="card-body">
+                  
+                  <p class="card-text"><%= preguntas.descripcion %></p>
+                  
                 </div>
+                <hr>
+                <div class="imagen_atb">
+                    <% if(preguntas.imagen != null){ %>
+                        <img src="data:image/png;base64,<%= preguntas.imagen %>" style="width: 100%; max-width: 700px;" alt="">
+                        <br>
+                        <div class="mb-3"></div>
+                    <% } %>
+                    
+                </div>
+                <hr>
+                <div class="card-header">
+                    <% preguntas.etiquetas.forEach(function(etiqueta){ %>
+                        <span class="badge bg-secondary"><%= etiqueta %></span>
+                    <% }); %>
+                    <br>
+                    <h6 class="card-text card-correo"><%= preguntas.correo %></h6>
+                </div>
+              </div>
+            
+           
+              <div class="content-container">
+
+                <% respuestas.forEach(function(respuesta){ %>
+    
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <i class="fa-solid fa-user"></i> <%= respuesta.correo %>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text"><%= respuesta.descripcion %></p>
+    
+                            <% if(respuesta.imagen != null){ %>
+                                <img src="data:image/png;base64,<%= respuesta.imagen %>" style="width: 100%; max-width: 700px;" alt="">
+                                <br>
+                                <div class="mb-3"></div>
+                            <% } %>
+    
+                            <button id="boton-responder-respuesta-<%= respuesta.id %>" onClick="hacerAlgo(<%= respuesta.id %>)" class="btn btn-outline-secondary">Responder</button>
+    
+                            <div class="d-none" id="form-responder-respuesta-<%= respuesta.id %>">
+                                <form method="POST" action="/preguntas/<%= pregunta.id %>/responder-respuesta/<%= respuesta.id %>">
+    
+                                    <div class="form-group mb-3">
+                                        <textarea class="form-control" name="respuesta" rows="3"></textarea>
+                                    </div>
+                    
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+        
+                                </form>
+                            </div>
+    
+                            <% if(respuesta.respuestasARespuesta.length > 0){ %>
+                                <div class="mt-3">
+                                    <% respuesta.respuestasARespuesta.forEach(function(respuestaARespuesta){ %>
+        
+                                        <div class="card mb-3">
+                                            <div class="card-header">
+                                                <i class="fa-solid fa-user"></i> <%= respuestaARespuesta.correo %>
+                                            </div>
+                                            <div class="card-body">
+                                                <p class="card-text"><%= respuestaARespuesta.descripcion %></p>
+                                            </div>
+                                        </div>
+                                        
+                                    <% }); %>
+                                </div>
+                            <% } %>
+                          
+                        </div>
+                    </div>
+                    
+                <% }); %>
+    
             </div>
+      
+   
+    
+    <script>
+    
+    let formsResponder = document.querySelectorAll('[id^="form-responder-respuesta-"]');
+    let botonesResponder = document.querySelectorAll('[id^="boton-responder-respuesta-"]');
+    
+    
+    function hacerAlgo(idRespuesta){
+        console.log(idRespuesta)
+    
+        let botonResponder = document.getElementById('boton-responder-respuesta-'+idRespuesta)
+        let formContainer = document.getElementById('form-responder-respuesta-'+idRespuesta)
+    
+        formsResponder.forEach(form=>{
+            form.classList.add('d-none');
+        })
+    
+        botonesResponder.forEach(boton=>{
+            boton.classList.remove('d-none');
+        })
+    
+        botonResponder.classList.add('d-none');
+        formContainer.classList.remove('d-none');
+    }
+    
+    
+    
+    </script>
         </div>
     </div>
     
-    
+</div>
+<%- include('partials/_footer') %>
