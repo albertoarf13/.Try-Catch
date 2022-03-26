@@ -358,4 +358,35 @@ preguntasController.responder_respuesta = (req, res) =>{
 
 }
 
+preguntasController.busqueda_basica = (req, res) => {
+    const info = req.body;
+    var dynamicInput = '%'.concat(info.concat('%'));
+    req.getConnection((err, conn)=>{
+        //conn.query("SELECT * FROM preguntas WHERE descripcion LIKE ?", [dynamicInput], (err, lista_preguntas)=>{
+        conn.query(`select pregunta.*, ifnull(GROUP_CONCAT(etiqueta.nombre), '') as etiquetas
+        from pregunta
+        left join etiqueta_pregunta
+        on pregunta.id =  etiqueta_pregunta.id_pregunta
+        left join etiqueta
+        on etiqueta_pregunta.id_etiqueta = etiqueta.id
+        where descripcion LIKE ?
+        group by pregunta.id
+        order by id desc;`, [dynamicInput] ,(err, lista_preguntas)=>{
+            if(err){
+                res.json(err);
+            }
+            else {
+                var preguntas = JSON.parse(JSON.stringify(lista_preguntas));
+                res.render('busquedaBasica.ejs', {preguntas : preguntas});
+            }
+        });
+
+    });
+    
+}
+
+preguntasController.busqueda_basica_page = (req, res) => {
+    res.render('busquedaBasica.ejs');
+}
+
 module.exports = preguntasController;
