@@ -1,36 +1,23 @@
 const usuarioController = {};
 var errorList = "";
-
+var usuarios = []; 
 usuarioController.sign_up = (req, res) => {
     const {nombre, email, password, password2} = req.body;
     errorList = "No se ha podido completar el registro: ";
     
     if(!all_data(req.body) || !checkUsername(nombre) || !checkEmail(email) || !checkPassword(password, password2)){
-        res.status(401).render('sign-up.ejs', { error: errorList});
+        res.status(450).render('sign-up.ejs', { error: errorList});
         return;
     }
-    req.getConnection((err, conn)=>{
-        conn.query("SELECT * FROM usuario WHERE correo = ?", [email], (err, usuario)=>{
-            if(err){
-                res.json(err);
-            }
-            else if(usuario.length == 0){
-                conn.query("INSERT INTO usuario(nombre, correo, contraseya) VALUES (?,?,?)", [nombre, email, password], (err, usuario)=>{
-                    if(err){
-                        res.json(err);
-                    }else{
-                        res.status(201).render('login.ejs', { mensaje: "Se ha registrado con exito" });
-                    }
-                });
-            }else{
-                res.status(402).render('sign-up.ejs', { error: "No se ha podido completar el registro: Ya existe una cuenta con dicho correo" });
-            }
+ 
+    if(usuarios.find(usuario => usuario.correo == email && usuario.contraseya == password) == undefined){
+            res.status(451).render('login.ejs', { mensaje: "Se ha registrado con exito" });
+            usuarios.push({nombre: nombre, email:email, password:password });
+    }else{
+        res.status(452).render('sign-up.ejs', { error: "No se ha podido completar el registro: Ya existe una cuenta con dicho correo" });
+        
+    }
 
-        });
-    });
-
-    
-  
 }
 
 usuarioController.sign_up_page = (req, res) => {
@@ -41,27 +28,14 @@ usuarioController.sign_up_page = (req, res) => {
 
 usuarioController.login = (req, res) => {
     const {correo, contraseya} = req.body;
-    
-    req.getConnection((err, conn)=>{
-        conn.query("SELECT * FROM usuario WHERE correo = ? AND contraseya = ?", [correo, contraseya], (err, usuario)=>{
-   
-            if(err){
-                res.status(402).json(err);
-            }
-            else if(usuario.length == 0){
-                res.status(402).render('login.ejs', { error: "No existe el usuario/ contraseña incorrecta" });
-            }
-            else{
-                req.session.correo = usuario[0].correo;
 
-                //aqui esta el problema, devuelve 302 porque esta siendo redireccionada O_o
-                res.redirect('/');
-                //res.sendStatus(201).render('index.ejs');
-                // pero no se puede devolver 200 no se por que
-            }
-
-        });
-    });
+    if((usuarios.find(usuario => usuario.correo == correo && usuario.contraseya == contraseya) )=== undefined){
+        res.status(452).render('login.ejs', { error: "No existe el usuario/ contraseña incorrecta" });
+    }
+    else{
+        req.session.correo = usuario[0].correo;
+        res.redirect('/');
+    }
 }
 
 usuarioController.login_page = (req, res) => {

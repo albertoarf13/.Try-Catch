@@ -1,9 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="2" failures="0" errors="0" time="1.892">
-  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-03-26T11:28:09" time="1.827" tests="2">
-    <testcase classname=" [Ver Atributos] con id existente" name=" [Ver Atributos] con id existente" time="1.093">
+<testsuites name="jest tests" tests="20" failures="1" errors="0" time="3.481">
+  <testsuite name="undefined" errors="0" failures="1" skipped="0" timestamp="2022-03-26T10:01:31" time="1.554" tests="9">
+    <testcase classname=" [Registro] Usuarios correcto" name=" [Registro] Usuarios correcto" time="0.328">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 201
+Received: 402
+    at Object.&lt;anonymous&gt; (C:\Users\dunia\Documents\GitHub\.Try-Catch\Test\user.test.js:16:29)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
     </testcase>
-    <testcase classname=" [Ver Atributos] con id que no exista" name=" [Ver Atributos] con id que no exista" time="0.046">
+    <testcase classname=" [Registro] Usuarios existente" name=" [Registro] Usuarios existente" time="0.053">
+    </testcase>
+    <testcase classname=" [Registro] Usuario datos vacios" name=" [Registro] Usuario datos vacios" time="0.006">
+    </testcase>
+    <testcase classname=" [Registro] Usuarios nombre incorrecto" name=" [Registro] Usuarios nombre incorrecto" time="0.004">
+    </testcase>
+    <testcase classname=" [Registro] Usuarios contraseña diferente" name=" [Registro] Usuarios contraseña diferente" time="0.007">
+    </testcase>
+    <testcase classname=" [Registro] Usuarios contraseña insuficiente numero caracteres" name=" [Registro] Usuarios contraseña insuficiente numero caracteres" time="0.006">
+    </testcase>
+    <testcase classname=" [Registro] Usuarios contraseña falta mayusucla" name=" [Registro] Usuarios contraseña falta mayusucla" time="0.005">
+    </testcase>
+    <testcase classname=" [Registro] Usuarios contraseña falta minuscula" name=" [Registro] Usuarios contraseña falta minuscula" time="0.01">
+    </testcase>
+    <testcase classname=" [Inicio de sesion] correo/contraseña correcto" name=" [Inicio de sesion] correo/contraseña correcto" time="0.047">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-03-26T10:01:33" time="0.979" tests="6">
+    <testcase classname=" [Crear pregunta] con sesion iniciada" name=" [Crear pregunta] con sesion iniciada" time="0.288">
+    </testcase>
+    <testcase classname=" [Crear pregunta] sin sesion iniciada" name=" [Crear pregunta] sin sesion iniciada" time="0.006">
+    </testcase>
+    <testcase classname=" [Crear pregunta] descripcion vacia" name=" [Crear pregunta] descripcion vacia" time="0.21">
+    </testcase>
+    <testcase classname=" [Crear pregunta] titulo vacia" name=" [Crear pregunta] titulo vacia" time="0.05">
+    </testcase>
+    <testcase classname=" [Crear pregunta] etiquetas vacia" name=" [Crear pregunta] etiquetas vacia" time="0.053">
+    </testcase>
+    <testcase classname=" [Crear pregunta] todos vacia" name=" [Crear pregunta] todos vacia" time="0.047">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-03-26T10:01:34" time="0.602" tests="3">
+    <testcase classname=" [Responder pregunta] con sesion iniciada" name=" [Responder pregunta] con sesion iniciada" time="0.243">
+    </testcase>
+    <testcase classname=" [Responder pregunta] vacia" name=" [Responder pregunta] vacia" time="0.055">
+    </testcase>
+    <testcase classname=" [Responder pregunta] sin iniciar sesión" name=" [Responder pregunta] sin iniciar sesión" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-03-26T10:01:35" time="0.107" tests="2">
+    <testcase classname=" adds 1 + 2 to equal 3" name=" adds 1 + 2 to equal 3" time="0.002">
+    </testcase>
+    <testcase classname=" subs 1 - 2 to equal -1" name=" subs 1 - 2 to equal -1" time="0">
     </testcase>
   </testsuite>
 </testsuites>

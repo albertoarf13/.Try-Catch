@@ -372,6 +372,52 @@ preguntasController.responder_pregunta = (req, res) =>{
     });
 
 }
+// Eliminar
+preguntasController.borrar_pregunta_test = (req, res) => {
+
+    let {titulo, descripcion, etiquetas} = req.body;
+
+    if(titulo.length <= 0 || descripcion.length <= 0 || etiquetas == undefined){
+        return;
+    }
+
+
+    req.getConnection((err, conn)=>{
+        conn.query('SELECT DISTINCT ID FROM pregunta WHERE titulo = ? AND descripcion = ? AND correo = ?) VALUES(?,?,?,?)', [titulo, descripcion, req.session.correo], (err, result)=>{
+            if(err){
+                res.json(err);
+                return;
+            }
+            else{
+
+                if(!Array.isArray(usario.id)){
+                    ids = [usuario.id];
+                }
+
+                ids.forEach(id => {
+                    conn.query('DELETE FROM etiqueta_pregunta WHERE id_pregunta = ?', [id], (err, result)=>{
+                        if(err){
+                            res.json(err);
+                            return;
+                        }
+                        else 
+                        {
+                            conn.query('DELETE FROM pregunta WHERE id = ?', [id], (err, result)=>{
+                                if(err){
+                                    res.json(err);
+                                    return;
+                                }
+                            });
+
+                        }
+                    })
+                })
+
+            }
+        })
+    });
+    
+}
 
 preguntasController.responder_respuesta = (req, res) =>{
     let respuesta = req.body.respuesta;
