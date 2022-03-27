@@ -209,7 +209,7 @@ preguntasController.prueba_mostrar_preguntas_recientes = (req, res) => {
     let offset;
     console.log("pagina", page);
 
-    if(page == undefined || page <= 1){
+    if(page == undefined || page <= 1 || isNaN(parseInt(page))){
         offset = 0;
         page = 1;
     }else{
