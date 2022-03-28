@@ -10,7 +10,7 @@ beforeAll(() => {
 
 test('[Busqueda basica] Prueba', async () => {
     
-    const response = await request(app).get("/busqueda/test");
+    const response = await request(app).get("/busqueda?bus=test");
     expect(response.status).toBe(401);
   
 });
