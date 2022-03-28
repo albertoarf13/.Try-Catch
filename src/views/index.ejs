@@ -13,6 +13,9 @@
             <a class="btn btn-secondary" href="/preguntas/crear">Crear pregunta</a>
           </div>
             <br>
+            <% if(preguntas.length == 0) { %>
+              <h6>Lo siento, no se han encontrado preguntas...</h6>
+            <% } %>
             <% preguntas.forEach(function(preg){ %>
                 <div class="card preg_box mb-3">
                     <div class="card-body">

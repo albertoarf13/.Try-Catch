@@ -4,7 +4,7 @@ var errorList = "";
 usuarioController.sign_up = (req, res) => {
     const {nombre, email, password, password2} = req.body;
     errorList = "No se ha podido completar el registro: ";
-    
+
     if(!all_data(req.body) || !checkUsername(nombre) || !checkEmail(email) || !checkPassword(password, password2)){
         res.status(401).render('sign-up.ejs', { error: errorList});
         return;
