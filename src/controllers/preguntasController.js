@@ -377,7 +377,7 @@ preguntasController.busqueda_basica = (req, res) => {
             }
             else {
                 var preguntas = JSON.parse(JSON.stringify(lista_preguntas));
-                res.render('busquedaBasica.ejs', {preguntas : preguntas});
+                res.status(401).render('busquedaBasica.ejs', {preguntas : preguntas});
             }
         });
 
