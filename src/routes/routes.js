@@ -23,6 +23,7 @@ router.get('/login', isNotLogged, usersController.login_page);
 router.get('/logout', isLogged, usersController.logout);
 router.get('/atributoPregunta/:id', preguntasController.atribs);
 router.get('/busqueda/:bus', preguntasController.busqueda_basica);
+router.get('/preguntas/mostrar/:id', preguntasController.atribs);
 
 //Preguntas
 router.get('/preguntas/crear', isLogged, preguntasController.crear_pregunta_vista);
@@ -30,7 +31,7 @@ router.post('/preguntas/crear', isLogged, upload.single("imagen"), preguntasCont
 router.get('/preguntas/mostrar-imagenes', preguntasController.prueba_mostrar_imagenes);
 router.get('/preguntas/mostrar-etiquetas', preguntasController.prueba_mostrar_etiquetas);
 
-router.get('/preguntas/:id/responder', isLogged, preguntasController.prueba_responder_vista);
+//router.get('/preguntas/:id/responder', isLogged, preguntasController.prueba_responder_vista);
 router.post('/preguntas/:id/responder', isLogged, upload.single("imagen"), preguntasController.responder_pregunta);
 router.post('/preguntas/:idPregunta/responder-respuesta/:idRespuesta', isLogged, preguntasController.responder_respuesta);
 
