@@ -208,8 +208,9 @@ preguntasController.prueba_mostrar_preguntas_recientes = (req, res) => {
     let page = req.params.pag;
     let offset;
     console.log("pagina", page);
+    page = parseInt(page);
 
-    if(page == undefined || page <= 1 || isNaN(parseInt(page))){
+    if(page == undefined || isNaN(page) || page <= 1){
         offset = 0;
         page = 1;
     }else{
