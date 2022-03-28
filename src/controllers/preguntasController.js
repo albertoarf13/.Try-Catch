@@ -13,28 +13,70 @@ preguntasController.atribs = (req, res) => {
         left join etiqueta
         on etiqueta_pregunta.id_etiqueta = etiqueta.id
         where pregunta.id = ?;`, [idPregunta], (err, infoPregunta)=>{
-
             if(err){
                 res.json(err);
             }
-            else if(infoPregunta.length == 0){
-                res.render('atributosPregunta.ejs', { error: "No se ha podido encontrar la pregunta" });
+            else if(infoPregunta[0].id == null){
+               
+                res.status(451).render('atributosPregunta.ejs', { error: "No se ha podido encontrar la pregunta" });
+                return;
             }else{
                 infoPregunta.map(pregunta=>{
                     pregunta.etiquetas = pregunta.etiquetas.split(',');
                     return pregunta.etiquetas;
                 })
 
-                conn.query("select * from respuesta where idPregunta = ?", [idPregunta], (err, resps)=>{
-                    if(err){
-                        res.json(err);
-                    }
-                    else{
-                        var pregs = JSON.parse(JSON.stringify(infoPregunta));
+                conn.query(`select respuesta.id, respuesta.descripcion, respuesta.imagen, respuesta.correo, respuesta_a_respuesta.descripcion as descripcionRespuestaARespuesta, respuesta_a_respuesta.correo as correoRespuestaARespuesta
+                from (select * from respuesta where idPregunta = ?) as respuesta
+                left join respuesta_a_respuesta
+                on respuesta.id = respuesta_a_respuesta.idRespuesta;`, [idPregunta], (err, respuestas)=>{
 
-                        res.render('atributosPregunta.ejs', {preguntas:pregs[0],
-                                                             respuestas: resps});
-                    }
+                    //console.log(respuestas)
+
+                    let respuestasObjeto = {};
+
+                    respuestas.forEach(respuesta => {
+                        
+
+                        if(!respuestasObjeto.hasOwnProperty(`${respuesta.id}`)){
+
+                            respuestasObjeto[respuesta.id] = {}
+                            
+                            respuestasObjeto[respuesta.id].id = respuesta.id;
+                            respuestasObjeto[respuesta.id].descripcion = respuesta.descripcion;
+                            respuestasObjeto[respuesta.id].imagen = respuesta.imagen;
+                            respuestasObjeto[respuesta.id].correo = respuesta.correo;
+
+
+                            respuestasObjeto[respuesta.id].respuestasARespuesta = [];
+                        }
+
+                        if(respuesta.descripcionRespuestaARespuesta != null){
+
+                            respuestasObjeto[respuesta.id].respuestasARespuesta.push({
+                                descripcion: respuesta.descripcionRespuestaARespuesta,
+                                correo: respuesta.correoRespuestaARespuesta,
+                            })
+                        }
+                        
+                    })
+
+
+                    let respuestasOficial = []
+
+                    Object.entries(respuestasObjeto).forEach(respuesta=>{
+                        respuestasOficial.push(respuesta[1]);
+                    })
+            
+                    //console.log(respuestasOficial)
+                    var pregs = JSON.parse(JSON.stringify(infoPregunta));
+
+                    res.render('atributosPregunta.ejs', {
+                        preguntas:pregs[0],
+                        respuestas: respuestasOficial,
+                        error: req.query.error
+                    })
+ 
                 })
             }
 
@@ -166,8 +208,9 @@ preguntasController.prueba_mostrar_preguntas_recientes = (req, res) => {
     let page = req.params.pag;
     let offset;
     console.log("pagina", page);
+    page = parseInt(page);
 
-    if(page == undefined || page <= 1){
+    if(page == undefined || isNaN(page) || page <= 1){
         offset = 0;
         page = 1;
     }else{
@@ -305,7 +348,7 @@ preguntasController.responder_pregunta = (req, res) =>{
     let idPregunta = req.params.id;
 
     if(respuesta.length <= 0){
-        res.redirect('/preguntas/'+ idPregunta +'/responder?error=' + encodeURIComponent('La respuesta no puede estar vacía'));
+        res.redirect('/preguntas/mostrar/'+ idPregunta+ 'error='+ encodeURIComponent('La respuesta no puede estar vacía'));
         return;
     }
 
@@ -325,23 +368,21 @@ preguntasController.responder_pregunta = (req, res) =>{
                 return;
             }
             
-            res.redirect('/preguntas/'+ idPregunta +'/responder');
+            res.redirect('/preguntas/mostrar/'+ idPregunta);
         })
     });
 
 }
 
 preguntasController.responder_respuesta = (req, res) =>{
-
     let respuesta = req.body.respuesta;
     let idPregunta = req.params.idPregunta;
     let idRespuesta = req.params.idRespuesta;
 
     if(respuesta.length <= 0){
-        res.redirect('/preguntas/'+ idPregunta +'/responder?error=' + encodeURIComponent('La respuesta no puede estar vacía'));
+        res.redirect('/preguntas/mostrar/'+ idPregunta+ 'error='+ encodeURIComponent('La respuesta no puede estar vacía'));
         return;
     }
-
 
     req.getConnection((err, conn)=>{
 
@@ -352,7 +393,7 @@ preguntasController.responder_respuesta = (req, res) =>{
                 return;
             }
             
-            res.redirect('/preguntas/'+ idPregunta +'/responder');
+            res.redirect('/preguntas/mostrar/'+ idPregunta);
         })
     });
 
@@ -377,7 +418,7 @@ preguntasController.busqueda_basica = (req, res) => {
             }
             else {
                 var preguntas = JSON.parse(JSON.stringify(lista_preguntas));
-                res.render('busquedaBasica.ejs', {preguntas : preguntas});
+                res.status(401).render('busquedaBasica.ejs', {preguntas : preguntas});
             }
         });
 
