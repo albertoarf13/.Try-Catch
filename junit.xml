@@ -1,9 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="2" failures="0" errors="0" time="1.892">
-  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-03-26T11:28:09" time="1.827" tests="2">
-    <testcase classname=" [Ver Atributos] con id existente" name=" [Ver Atributos] con id existente" time="1.093">
+<testsuites name="jest tests" tests="19" failures="4" errors="0" time="2.984">
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-03-28T13:08:52" time="0.511" tests="2">
+    <testcase classname=" adds 1 + 2 to equal 3" name=" adds 1 + 2 to equal 3" time="0.002">
     </testcase>
-    <testcase classname=" [Ver Atributos] con id que no exista" name=" [Ver Atributos] con id que no exista" time="0.046">
+    <testcase classname=" subs 1 - 2 to equal -1" name=" subs 1 - 2 to equal -1" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-03-28T13:08:52" time="0.97" tests="2">
+    <testcase classname=" [Ver Atributos] con id existente" name=" [Ver Atributos] con id existente" time="0.053">
+    </testcase>
+    <testcase classname=" [Ver Atributos] con id no existente" name=" [Ver Atributos] con id no existente" time="0.005">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="2" skipped="0" timestamp="2022-03-28T13:08:52" time="1.223" tests="3">
+    <testcase classname=" [Responder pregunta] con sesion iniciada" name=" [Responder pregunta] con sesion iniciada" time="0.238">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: &quot;Found. Redirecting to /preguntas/1/responder&quot;
+Received: &quot;Found. Redirecting to /preguntas/mostrar/1&quot;
+    at Object.&lt;anonymous&gt; (C:\Users\gabri\OneDrive\Documentos\.Try-Catch\Test\responder.test.js:25:28)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+    </testcase>
+    <testcase classname=" [Responder pregunta] vacia" name=" [Responder pregunta] vacia" time="0.043">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: &quot;Found. Redirecting to /preguntas/1/responder?error=La%20respuesta%20no%20puede%20estar%20vac%C3%ADa&quot;
+Received: &quot;Found. Redirecting to /preguntas/mostrar/1error=La%20respuesta%20no%20puede%20estar%20vac%C3%ADa&quot;
+    at Object.&lt;anonymous&gt; (C:\Users\gabri\OneDrive\Documentos\.Try-Catch\Test\responder.test.js:40:28)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+    </testcase>
+    <testcase classname=" [Responder pregunta] sin iniciar sesión" name=" [Responder pregunta] sin iniciar sesión" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="2" skipped="0" timestamp="2022-03-28T13:08:52" time="1.378" tests="10">
+    <testcase classname=" [Registro] Usuarios correcto" name=" [Registro] Usuarios correcto" time="0.201">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 201
+Received: 402
+    at Object.&lt;anonymous&gt; (C:\Users\gabri\OneDrive\Documentos\.Try-Catch\Test\user.test.js:16:29)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+    </testcase>
+    <testcase classname=" [Registro] Usuarios existente" name=" [Registro] Usuarios existente" time="0.041">
+    </testcase>
+    <testcase classname=" [Registro] Usuario datos vacios" name=" [Registro] Usuario datos vacios" time="0.004">
+    </testcase>
+    <testcase classname=" [Registro] Usuarios nombre incorrecto" name=" [Registro] Usuarios nombre incorrecto" time="0.003">
+    </testcase>
+    <testcase classname=" [Registro] Usuarios contraseña diferente" name=" [Registro] Usuarios contraseña diferente" time="0.003">
+    </testcase>
+    <testcase classname=" [Registro] Usuarios contraseña insuficiente numero caracteres" name=" [Registro] Usuarios contraseña insuficiente numero caracteres" time="0.003">
+    </testcase>
+    <testcase classname=" [Registro] Usuarios contraseña falta mayusucla" name=" [Registro] Usuarios contraseña falta mayusucla" time="0.004">
+    </testcase>
+    <testcase classname=" [Registro] Usuarios contraseña falta minuscula" name=" [Registro] Usuarios contraseña falta minuscula" time="0.002">
+    </testcase>
+    <testcase classname=" [Inicio de sesion] correo/contraseña correcto" name=" [Inicio de sesion] correo/contraseña correcto" time="0.042">
+    </testcase>
+    <testcase classname=" [Crear pregunta] con sesion iniciada" name=" [Crear pregunta] con sesion iniciada" time="0.118">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 200
+Received: 302
+    at Object.&lt;anonymous&gt; (C:\Users\gabri\OneDrive\Documentos\.Try-Catch\Test\user.test.js:95:30)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-03-28T13:08:52" time="2.112" tests="2">
+    <testcase classname=" [Ver Atributos] con id existente" name=" [Ver Atributos] con id existente" time="1.134">
+    </testcase>
+    <testcase classname=" [Ver Atributos] con id no existente" name=" [Ver Atributos] con id no existente" time="0.043">
     </testcase>
   </testsuite>
 </testsuites>

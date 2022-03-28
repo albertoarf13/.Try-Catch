@@ -71,7 +71,7 @@ preguntasController.atribs = (req, res) => {
                     //console.log(respuestasOficial)
                     var pregs = JSON.parse(JSON.stringify(infoPregunta));
 
-                    res.render('atributosPregunta.ejs', {
+                    res.status(450).render('atributosPregunta.ejs', {
                         preguntas:pregs[0],
                         respuestas: respuestasOficial,
                         error: req.query.error
