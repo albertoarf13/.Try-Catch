@@ -2,6 +2,11 @@
         
 <link rel="stylesheet" href="/stylescrearPregunta.css">  
 <div class="contenedor">
+
+    <div class="sidebar">
+        
+    </div>
+
     <div class="main">
         <div class="content-container">
 
@@ -13,15 +18,18 @@
                      
                             <div class="inputs">
                                 <p>
-                                    <h2>Introduce un titulo</h2>
+                                    <!-- <h2>Introduce un titulo</h2> -->
+                                    <label for="respuesta">Introduce un titulo</label>
                                     <input class="titulo" name="titulo">
                                 </p>
                                 <p>
-                                    <h2>Escribe tu Pregunta</h2>
+                                    <!-- <h2>Escribe tu Pregunta</h2> -->
+                                    <label for="respuesta">Escribe tu Pregunta</label>
                                     <textarea  class="cuadro" name="descripcion"></textarea>
                                 </p>
                                 <p>
-                                    <h2>Etiquetas (se pueden seleccionar varias con Ctrl)</h2>
+                                    <!-- <h2>Etiquetas (se pueden seleccionar varias con Ctrl)</h2> -->
+                                    <label for="respuesta">Etiquetas (se pueden seleccionar varias con Ctrl)</label>
                                     <select class="form-select" multiple name="etiquetas">
                                         <% etiquetas.forEach(function(etiqueta){ %>
                                             <option value="<%= etiqueta.id %>"><%= etiqueta.nombre %></option>

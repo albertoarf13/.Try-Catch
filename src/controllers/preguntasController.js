@@ -249,7 +249,8 @@ preguntasController.prueba_mostrar_preguntas_recientes = (req, res) => {
             res.render('index.ejs', {
                 preguntas: preguntas,
                 pag: page,
-                error: req.query.error
+                error: req.query.error,
+                currentPage: "/preguntas/"
             });
 
         })
@@ -330,7 +331,7 @@ preguntasController.prueba_responder_vista = (req, res) => {
                     res.render('prueba-responder-pregunta.ejs', {
                         pregunta: preguntas[0],
                         respuestas: respuestasOficial,
-                        error: req.query.error
+                        error: req.query.error,
                     })
  
                 })
@@ -400,6 +401,20 @@ preguntasController.responder_respuesta = (req, res) =>{
 }
 
 preguntasController.busqueda_basica = (req, res) => {
+    let page = req.query.page;
+    let offset;
+    console.log("pagina", page);
+    page = parseInt(page);
+
+    if(page == undefined || isNaN(page) || page <= 1){
+        offset = 0;
+        page = 1;
+    }else{
+        page = page*1;
+        offset = (page*10) - 10;
+    }
+
+
     const info = req.query.bus;
     var dynamicInput = '%'.concat(info.concat('%'));
     req.getConnection((err, conn)=>{
@@ -412,7 +427,8 @@ preguntasController.busqueda_basica = (req, res) => {
         on etiqueta_pregunta.id_etiqueta = etiqueta.id
         where titulo LIKE ?
         group by pregunta.id
-        order by id desc;`, [dynamicInput] ,(err, lista_preguntas)=>{
+        order by id desc
+        limit 10 offset ?;`, [dynamicInput, offset] ,(err, lista_preguntas)=>{
             lista_preguntas.map(pregunta=>{
                 pregunta.etiquetas = pregunta.etiquetas.split(',');
                 return pregunta.etiquetas;
@@ -422,7 +438,7 @@ preguntasController.busqueda_basica = (req, res) => {
             }
             else {
                 var preguntas = JSON.parse(JSON.stringify(lista_preguntas));
-                res.status(401).render('busquedaBasica.ejs', {preguntas : preguntas});
+                res.status(401).render('busquedaBasica.ejs', {preguntas : preguntas, currentPage: "/busqueda?bus="+info+"&", pag: page});
             }
         });
 
