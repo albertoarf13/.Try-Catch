@@ -413,6 +413,10 @@ preguntasController.busqueda_basica = (req, res) => {
         where titulo LIKE ?
         group by pregunta.id
         order by id desc;`, [dynamicInput] ,(err, lista_preguntas)=>{
+            lista_preguntas.map(pregunta=>{
+                pregunta.etiquetas = pregunta.etiquetas.split(',');
+                return pregunta.etiquetas;
+            })
             if(err){
                 res.json(err);
             }
