@@ -143,15 +143,43 @@ preguntasController.responder_respuesta = (req, res) =>{
 
 }
 
+
 preguntasController.busqueda_basica = (req, res) => {
-    const info = req.params.bus;
+    let page = req.query.page;
+    let offset;
+    console.log("pagina", page);
+    page = parseInt(page);
+
+    if(page == undefined || isNaN(page) || page <= 1){
+        offset = 0;
+        page = 1;
+    }else{
+        page = page*1;
+        offset = (page*10) - 10;
+    }
+    
+    const info = req.query.bus;
     var dynamicInput = '%'.concat(info.concat('%'));
+    //nummies
+    var lista_preguntas = new Object([]);
+    if(dynamicInput == 'test')
+    {
+        var lista_preguntas = [{
+            id: 244,
+            titulo: 'Pregunta de test',
+            descripcion: 'test',
+            imagen: null,
+            correo: 'alberiva@ucm.es',
+            etiquetas: 'c++,java,GPS'} ]
+    }
     var preguntas = JSON.parse(JSON.stringify(lista_preguntas));
-    res.render('busquedaBasica.ejs', {preguntas : preguntas});
+    res.status(451).render('busquedaBasica.ejs', {preguntas : preguntas, currentPage: "/busqueda?bus="+info+"&", pag: page});
+
 }
 
 preguntasController.busqueda_basica_page = (req, res) => {
     res.render('busquedaBasica.ejs');
 }
+
 
 module.exports = preguntasController;
