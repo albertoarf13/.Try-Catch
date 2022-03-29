@@ -349,7 +349,7 @@ preguntasController.responder_pregunta = (req, res) =>{
     let idPregunta = req.params.id;
 
     if(respuesta.length <= 0){
-        res.redirect('/preguntas/mostrar/'+ idPregunta+ 'error='+ encodeURIComponent('La respuesta no puede estar vacía'));
+        res.redirect('/preguntas/mostrar/'+ idPregunta+ '?error='+ encodeURIComponent('La respuesta no puede estar vacía'));
         return;
     }
 

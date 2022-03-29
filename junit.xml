@@ -1,9 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="2" failures="0" errors="0" time="1.892">
-  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-03-26T11:28:09" time="1.827" tests="2">
-    <testcase classname=" [Ver Atributos] con id existente" name=" [Ver Atributos] con id existente" time="1.093">
+<testsuites name="jest tests" tests="34" failures="3" errors="0" time="5.531">
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-03-29T10:42:04" time="2.278" tests="7">
+    <testcase classname=" [Registro] Usuarios correcto" name=" [Registro] Usuarios correcto" time="0.086">
     </testcase>
-    <testcase classname=" [Ver Atributos] con id que no exista" name=" [Ver Atributos] con id que no exista" time="0.046">
+    <testcase classname=" [Registro] Usuario datos vacios" name=" [Registro] Usuario datos vacios" time="0.017">
+    </testcase>
+    <testcase classname=" [Registro] Usuarios nombre incorrecto" name=" [Registro] Usuarios nombre incorrecto" time="0.007">
+    </testcase>
+    <testcase classname=" [Registro] Usuarios contraseña diferente" name=" [Registro] Usuarios contraseña diferente" time="0.007">
+    </testcase>
+    <testcase classname=" [Registro] Usuarios contraseña insuficiente numero caracteres" name=" [Registro] Usuarios contraseña insuficiente numero caracteres" time="0.007">
+    </testcase>
+    <testcase classname=" [Registro] Usuarios contraseña falta mayusucla" name=" [Registro] Usuarios contraseña falta mayusucla" time="0.009">
+    </testcase>
+    <testcase classname=" [Registro] Usuarios contraseña falta minuscula" name=" [Registro] Usuarios contraseña falta minuscula" time="0.008">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-03-29T10:42:04" time="2.311" tests="4">
+    <testcase classname=" [Crear pregunta] con sesion iniciada sin etiquetas correcto" name=" [Crear pregunta] con sesion iniciada sin etiquetas correcto" time="0.125">
+    </testcase>
+    <testcase classname=" [Crear pregunta] con sesion iniciada con titulo incorrecto" name=" [Crear pregunta] con sesion iniciada con titulo incorrecto" time="0.019">
+    </testcase>
+    <testcase classname=" [Crear pregunta] con sesion iniciada con descripcion incorrecto" name=" [Crear pregunta] con sesion iniciada con descripcion incorrecto" time="0.023">
+    </testcase>
+    <testcase classname=" [Crear pregunta] con sesion iniciada con titulo incorrecto" name=" [Crear pregunta] con sesion iniciada con titulo incorrecto" time="0.019">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-03-29T10:42:03" time="2.366" tests="1">
+    <testcase classname=" [Busqueda basica] Prueba" name=" [Busqueda basica] Prueba" time="0.243">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="2" skipped="0" timestamp="2022-03-29T10:42:03" time="2.699" tests="10">
+    <testcase classname=" [Registro] Usuarios correcto" name=" [Registro] Usuarios correcto" time="0.217">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 201
+Received: 402
+    at Object.&lt;anonymous&gt; (C:\Users\Pabluno\Documents\Universidad\GPS\.Try-Catch\Test\user.test.js:16:29)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+    </testcase>
+    <testcase classname=" [Registro] Usuarios existente" name=" [Registro] Usuarios existente" time="0.048">
+    </testcase>
+    <testcase classname=" [Registro] Usuario datos vacios" name=" [Registro] Usuario datos vacios" time="0.01">
+    </testcase>
+    <testcase classname=" [Registro] Usuarios nombre incorrecto" name=" [Registro] Usuarios nombre incorrecto" time="0.007">
+    </testcase>
+    <testcase classname=" [Registro] Usuarios contraseña diferente" name=" [Registro] Usuarios contraseña diferente" time="0.009">
+    </testcase>
+    <testcase classname=" [Registro] Usuarios contraseña insuficiente numero caracteres" name=" [Registro] Usuarios contraseña insuficiente numero caracteres" time="0.007">
+    </testcase>
+    <testcase classname=" [Registro] Usuarios contraseña falta mayusucla" name=" [Registro] Usuarios contraseña falta mayusucla" time="0.008">
+    </testcase>
+    <testcase classname=" [Registro] Usuarios contraseña falta minuscula" name=" [Registro] Usuarios contraseña falta minuscula" time="0.008">
+    </testcase>
+    <testcase classname=" [Inicio de sesion] correo/contraseña correcto" name=" [Inicio de sesion] correo/contraseña correcto" time="0.053">
+    </testcase>
+    <testcase classname=" [Crear pregunta] con sesion iniciada" name=" [Crear pregunta] con sesion iniciada" time="0.141">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 200
+Received: 302
+    at Object.&lt;anonymous&gt; (C:\Users\Pabluno\Documents\Universidad\GPS\.Try-Catch\Test\user.test.js:95:30)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-03-29T10:42:03" time="2.771" tests="3">
+    <testcase classname=" [Responder pregunta] con sesion iniciada" name=" [Responder pregunta] con sesion iniciada" time="0.302">
+    </testcase>
+    <testcase classname=" [Responder pregunta] vacia" name=" [Responder pregunta] vacia" time="0.109">
+    </testcase>
+    <testcase classname=" [Responder pregunta] sin iniciar sesión" name=" [Responder pregunta] sin iniciar sesión" time="0.008">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-03-29T10:42:06" time="0.617" tests="1">
+    <testcase classname=" [Busquedad basica] correcto" name=" [Busquedad basica] correcto" time="0.069">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-03-29T10:42:03" time="3.358" tests="6">
+    <testcase classname=" [Crear pregunta] con sesion iniciada" name=" [Crear pregunta] con sesion iniciada" time="0.289">
+    </testcase>
+    <testcase classname=" [Crear pregunta] sin sesion iniciada" name=" [Crear pregunta] sin sesion iniciada" time="0.01">
+    </testcase>
+    <testcase classname=" [Crear pregunta] descripcion vacia" name=" [Crear pregunta] descripcion vacia" time="0.291">
+    </testcase>
+    <testcase classname=" [Crear pregunta] titulo vacia" name=" [Crear pregunta] titulo vacia" time="0.099">
+    </testcase>
+    <testcase classname=" [Crear pregunta] etiquetas vacia" name=" [Crear pregunta] etiquetas vacia" time="0.161">
+    </testcase>
+    <testcase classname=" [Crear pregunta] todos vacia" name=" [Crear pregunta] todos vacia" time="0.356">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="1" skipped="0" timestamp="2022-03-29T10:42:03" time="4.027" tests="2">
+    <testcase classname=" [Ver Atributos] con id existente" name=" [Ver Atributos] con id existente" time="1.704">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 450
+Received: 500
+    at Object.&lt;anonymous&gt; (C:\Users\Pabluno\Documents\Universidad\GPS\.Try-Catch\Test\verAtributos.test.js:14:30)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+    </testcase>
+    <testcase classname=" [Ver Atributos] con id no existente" name=" [Ver Atributos] con id no existente" time="0.067">
     </testcase>
   </testsuite>
 </testsuites>

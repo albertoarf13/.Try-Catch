@@ -22,7 +22,7 @@ test('[Responder pregunta] con sesion iniciada', async () => {
     const response = await testSession.post('/login').send(usuario);
     
     const response2 = await testSession.post('/preguntas/1/responder').send(respuesta);
-    expect(response2.text).toBe('Found. Redirecting to /preguntas/1/responder');
+    expect(response2.text).toBe('Found. Redirecting to /preguntas/mostrar/1');
 });
 
 test('[Responder pregunta] vacia', async () => {
@@ -37,7 +37,7 @@ test('[Responder pregunta] vacia', async () => {
     const response = await testSession.post('/login').send(usuario);
     
     const response2 = await testSession.post('/preguntas/1/responder').send(respuesta);
-    expect(response2.text).toBe('Found. Redirecting to /preguntas/1/responder?error=La%20respuesta%20no%20puede%20estar%20vac%C3%ADa');
+    expect(response2.text).toBe('Found. Redirecting to /preguntas/mostrar/1?error=La%20respuesta%20no%20puede%20estar%20vac%C3%ADa');
 });
 
 test('[Responder pregunta] sin iniciar sesión', async () => {
