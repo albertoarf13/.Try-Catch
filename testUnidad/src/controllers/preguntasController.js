@@ -111,7 +111,7 @@ preguntasController.responder_pregunta = (req, res) =>{
     let idPregunta = req.params.id;
 
     if(respuesta.length <= 0){
-        res.redirect('/preguntas/'+ idPregunta +'/responder?error=' + encodeURIComponent('La respuesta no puede estar vacía'));
+        res.redirect('/preguntas/mostrar/'+ idPregunta+ '?error='+ encodeURIComponent('La respuesta no puede estar vacía'));
         return;
     }
 
@@ -120,8 +120,7 @@ preguntasController.responder_pregunta = (req, res) =>{
     if(req.file != undefined){
         imagen = req.file.buffer.toString('base64');
     }
-    
-    res.redirect('/preguntas/'+ idPregunta +'/responder');
+    res.redirect('/preguntas/mostrar/'+ idPregunta);
 }
 
 

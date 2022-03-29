@@ -65,13 +65,18 @@ test('[Registro] Usuarios contraseña falta minuscula', async () => {
 
 });
 
-var cookies;
-
 test('[Inicio de sesion] correo/contraseña correcto', async () => {
 
-    const usuario = { correo: 'alberiva@ucm.es', contraseya: '123'};
+    const usuario = { correo: 'prueba@prueba.es', contraseya: '1234567Aa'};
     const response = await request(app).post('/login').send(usuario);
     expect(response.status).toBe(302);
+
+});
+test('[Inicio de sesion] correo/contraseña incorrecto', async () => {
+
+    const usuario = { correo: 'alberiva', contraseya: '123'};
+    const response = await request(app).post('/login').send(usuario);
+    expect(response.status).toBe(402);
 
 });
 

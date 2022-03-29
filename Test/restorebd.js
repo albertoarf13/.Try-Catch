@@ -2,7 +2,7 @@ const mysql = require('mysql');
 
 restoreBD = {}
 
-restoreBD.restore = () =>{
+restoreBD.restore = async () =>{
     var con = mysql.createConnection({
         host: 'trycatchserver.mysql.database.azure.com',
         user: 'admintrycatch',
