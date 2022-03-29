@@ -11,7 +11,7 @@ beforeAll(() => {
 
 test('[Crear pregunta] con sesion iniciada', async () => {
 
-    const usuario = { correo: 'alberiva@ucm.es', contraseya: '123'};
+    const usuario = { correo: 'prueba@prueba.es', contraseya: '1234567Aa'};
     const pregunta = {
         titulo: "Pregunta de test",
         descripcion: "test",
@@ -24,7 +24,7 @@ test('[Crear pregunta] con sesion iniciada', async () => {
     const response = await testSession.post('/login').send(usuario);
     
     const response2 = await testSession.post('/preguntas/crear').send(pregunta);
-    expect(response2.text).toBe('Found. Redirecting to /preguntas/crear');
+    expect(response2.status).toBe(302);
 
 });
 test('[Crear pregunta] sin sesion iniciada', async () => {
