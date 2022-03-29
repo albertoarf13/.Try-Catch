@@ -20,7 +20,6 @@ jobs:
           command: |
             mkdir -p ./test-results
             yarn test --ci --runInBand --reporters=default --reporters=jest-junit > ./test-results/results.txt 2>&1
-            node /test/restorebd.js
           environment:
             JEST_JUNIT_OUTPUT_DIR: ./reports/junit/
       - store_artifacts:

@@ -75,3 +75,8 @@ test('[Inicio de sesion] correo/contraseña correcto', async () => {
 
 });
 
+
+const restoreBD = require('./restorebd');
+afterAll(() => {
+    restoreBD.restore();  
+});
