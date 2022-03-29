@@ -3,7 +3,7 @@
 
 <div class="contenedor">
     <div class="sidebar">
-        
+        gato sexo
     </div>
 
     <div class="main">
@@ -18,9 +18,10 @@
             <% } %>
             <% preguntas.forEach(function(preg){ %>
                 <div class="card preg_box mb-3">
-                    <div class="card-body">
-                      <a class="link-primary text-decoration-none" href="/preguntas/mostrar/<%= preg.id %>"><%= preg.titulo %></a>
-                      <p class="card-text preg_desc"><%= preg.descripcion %></p>
+                    <div class="card">
+                      <a class="card-header text-decoration-none" href="/preguntas/mostrar/<%= preg.id %>"><%= preg.titulo %></a>
+                      <div class="card-body">
+                      <p class="card-text"><%= preg.descripcion %></p>
                       <div class="tagsynombrecontainer">
                         <div>
                           <% preg.etiquetas.forEach(function(etiqueta){ %>
@@ -30,6 +31,7 @@
                         <div>
                           <span class="usernamelink"><img class="user_img" src="/user_icon.png"><%= preg.correo %></span>
                         </div>
+                      </div>
                       </div>
                     </div>
                   </div>
