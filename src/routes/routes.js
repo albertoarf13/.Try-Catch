@@ -21,6 +21,8 @@ router.get('/sign-up_page', usersController.sign_up_page);
 router.post('/login', usersController.login);
 router.get('/login', isNotLogged, usersController.login_page);
 router.get('/logout', isLogged, usersController.logout);
+router.get('/atributoPregunta/:id', preguntasController.atribs);
+router.get('/busqueda', preguntasController.busqueda_basica);
 router.get('/preguntas/mostrar/:id', preguntasController.atribs);
 
 //Preguntas

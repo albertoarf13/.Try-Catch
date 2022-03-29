@@ -1,13 +1,11 @@
 const request = require('supertest');
-const app = require('../src/app');
-const routes = require('../src/routes/routes');
-const session = require('supertest-session');
-const { beforeAll, afterAll , beforeEach} = require('@jest/globals');
+const routes = require('./src/routes/routes');
+const app = require('./src/app.js');
+const { beforeAll } = require('@jest/globals');
 
 beforeAll(() => {
     app.use('/', routes);  
 });
-
 
 test('[Ver Atributos] con id existente', async () => {
     const response3 = await request(app).get('/preguntas/mostrar/1');
@@ -17,7 +15,6 @@ test('[Ver Atributos] con id existente', async () => {
 
 
 test('[Ver Atributos] con id no existente', async () => {
-    const response3 = await request(app).get('/preguntas/mostrar/-1');
+    const response3 = await request(app).get('/preguntas/mostrar/2');
     expect(response3.status).toBe(451);
 });
-

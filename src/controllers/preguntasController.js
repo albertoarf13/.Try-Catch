@@ -71,7 +71,7 @@ preguntasController.atribs = (req, res) => {
                     //console.log(respuestasOficial)
                     var pregs = JSON.parse(JSON.stringify(infoPregunta));
 
-                    res.render('atributosPregunta.ejs', {
+                    res.status(450).render('atributosPregunta.ejs', {
                         preguntas:pregs[0],
                         respuestas: respuestasOficial,
                         error: req.query.error
@@ -208,8 +208,9 @@ preguntasController.prueba_mostrar_preguntas_recientes = (req, res) => {
     let page = req.params.pag;
     let offset;
     console.log("pagina", page);
+    page = parseInt(page);
 
-    if(page == undefined || page <= 1){
+    if(page == undefined || isNaN(page) || page <= 1){
         offset = 0;
         page = 1;
     }else{
@@ -248,7 +249,8 @@ preguntasController.prueba_mostrar_preguntas_recientes = (req, res) => {
             res.render('index.ejs', {
                 preguntas: preguntas,
                 pag: page,
-                error: req.query.error
+                error: req.query.error,
+                currentPage: "/preguntas/"
             });
 
         })
@@ -329,7 +331,7 @@ preguntasController.prueba_responder_vista = (req, res) => {
                     res.render('prueba-responder-pregunta.ejs', {
                         pregunta: preguntas[0],
                         respuestas: respuestasOficial,
-                        error: req.query.error
+                        error: req.query.error,
                     })
  
                 })
@@ -347,7 +349,7 @@ preguntasController.responder_pregunta = (req, res) =>{
     let idPregunta = req.params.id;
 
     if(respuesta.length <= 0){
-        res.redirect('/preguntas/mostrar/'+ idPregunta+ 'error='+ encodeURIComponent('La respuesta no puede estar vacía'));
+        res.redirect('/preguntas/mostrar/'+ idPregunta+ '?error='+ encodeURIComponent('La respuesta no puede estar vacía'));
         return;
     }
 
@@ -371,52 +373,6 @@ preguntasController.responder_pregunta = (req, res) =>{
         })
     });
 
-}
-// Eliminar
-preguntasController.borrar_pregunta_test = (req, res) => {
-
-    let {titulo, descripcion, etiquetas} = req.body;
-
-    if(titulo.length <= 0 || descripcion.length <= 0 || etiquetas == undefined){
-        return;
-    }
-
-
-    req.getConnection((err, conn)=>{
-        conn.query('SELECT DISTINCT ID FROM pregunta WHERE titulo = ? AND descripcion = ? AND correo = ?) VALUES(?,?,?,?)', [titulo, descripcion, req.session.correo], (err, result)=>{
-            if(err){
-                res.json(err);
-                return;
-            }
-            else{
-
-                if(!Array.isArray(usario.id)){
-                    ids = [usuario.id];
-                }
-
-                ids.forEach(id => {
-                    conn.query('DELETE FROM etiqueta_pregunta WHERE id_pregunta = ?', [id], (err, result)=>{
-                        if(err){
-                            res.json(err);
-                            return;
-                        }
-                        else 
-                        {
-                            conn.query('DELETE FROM pregunta WHERE id = ?', [id], (err, result)=>{
-                                if(err){
-                                    res.json(err);
-                                    return;
-                                }
-                            });
-
-                        }
-                    })
-                })
-
-            }
-        })
-    });
-    
 }
 
 preguntasController.responder_respuesta = (req, res) =>{
@@ -442,6 +398,56 @@ preguntasController.responder_respuesta = (req, res) =>{
         })
     });
 
+}
+
+preguntasController.busqueda_basica = (req, res) => {
+    let page = req.query.page;
+    let offset;
+    console.log("pagina", page);
+    page = parseInt(page);
+
+    if(page == undefined || isNaN(page) || page <= 1){
+        offset = 0;
+        page = 1;
+    }else{
+        page = page*1;
+        offset = (page*10) - 10;
+    }
+
+
+    const info = req.query.bus;
+    var dynamicInput = '%'.concat(info.concat('%'));
+    req.getConnection((err, conn)=>{
+        //conn.query("SELECT * FROM preguntas WHERE descripcion LIKE ?", [dynamicInput], (err, lista_preguntas)=>{
+        conn.query(`select pregunta.*, ifnull(GROUP_CONCAT(etiqueta.nombre), '') as etiquetas
+        from pregunta
+        left join etiqueta_pregunta
+        on pregunta.id =  etiqueta_pregunta.id_pregunta
+        left join etiqueta
+        on etiqueta_pregunta.id_etiqueta = etiqueta.id
+        where titulo LIKE ?
+        group by pregunta.id
+        order by id desc
+        limit 10 offset ?;`, [dynamicInput, offset] ,(err, lista_preguntas)=>{
+            lista_preguntas.map(pregunta=>{
+                pregunta.etiquetas = pregunta.etiquetas.split(',');
+                return pregunta.etiquetas;
+            })
+            if(err){
+                res.json(err);
+            }
+            else {
+                var preguntas = JSON.parse(JSON.stringify(lista_preguntas));
+                res.status(401).render('busquedaBasica.ejs', {preguntas : preguntas, currentPage: "/busqueda?bus="+info+"&", pag: page});
+            }
+        });
+
+    });
+    
+}
+
+preguntasController.busqueda_basica_page = (req, res) => {
+    res.render('busquedaBasica.ejs');
 }
 
 module.exports = preguntasController;

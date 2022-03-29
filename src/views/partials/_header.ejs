@@ -14,6 +14,10 @@
 <body>
     <div class="header">
         <a href="/"><img src="/logo.png"></a>
+        <form class="d-flex searchBar" method="GET" action="/busqueda">
+          <input name="bus" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="button header__login" type="submit">Search</button>
+        </form>
         <div>
             <% if(locals.correo) { %>
               <span class="header__email"><%= locals.correo %></span>

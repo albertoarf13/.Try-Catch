@@ -8,8 +8,6 @@ beforeAll(() => {
     app.use('/', routes);  
 });
 
-/*
-
 test('[Crear pregunta] con sesion iniciada sin etiquetas correcto', async () => {
 
     const usuario_r = { nombre: 'crearPregunta1', email: 'testcrear@pregunta.es', password: '1234567Aa', password2: '1234567Aa' };
@@ -29,7 +27,7 @@ test('[Crear pregunta] con sesion iniciada sin etiquetas correcto', async () => 
     const response = await testSession.post('/preguntas/crear').send(pregunta);
     expect(response.status).toBe(302);
 
-});*/
+});
 
 test('[Crear pregunta] con sesion iniciada con titulo incorrecto', async () => {
 
@@ -88,3 +86,4 @@ test('[Crear pregunta] con sesion iniciada con titulo incorrecto', async () => {
     const response = await testSession.post('/preguntas/crear').send(pregunta);
     expect(response.status).toBe(302);
 });
+

@@ -13,14 +13,12 @@ test('[Registro] Usuarios correcto', async () => {// no se esta eliminando, debe
     const usuario = { nombre: 'prueba', email: 'prueba@prueba.es', password: '1234567Aa', password2: '1234567Aa' };
     
     const response = await request(app).post("/sign-up").send(usuario);
-    expect(response.status).toBe(201);
-
+    expect(response.status).toBe(451);
 });
 test('[Registro] Usuarios existente', async () => {
     const usuario = { nombre: 'prueba', email: 'prueba@prueba.es', password: '1234567Aa', password2: '1234567Aa' };
-    
-    const response = await request(app).post("/sign-up").send(usuario);
-    expect(response.status).toBe(402);
+    const response1 = await request(app).post("/sign-up").send(usuario);
+    expect(response1.status).toBe(402);
 
 });
 test('[Registro] Usuario datos vacios', async () => {
@@ -76,5 +74,4 @@ test('[Inicio de sesion] correo/contraseña correcto', async () => {
     expect(response.status).toBe(302);
 
 });
-
 

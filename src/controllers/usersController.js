@@ -4,7 +4,7 @@ var errorList = "";
 usuarioController.sign_up = (req, res) => {
     const {nombre, email, password, password2} = req.body;
     errorList = "No se ha podido completar el registro: ";
-    
+
     if(!all_data(req.body) || !checkUsername(nombre) || !checkEmail(email) || !checkPassword(password, password2)){
         res.status(401).render('sign-up.ejs', { error: errorList});
         return;
@@ -19,7 +19,8 @@ usuarioController.sign_up = (req, res) => {
                     if(err){
                         res.json(err);
                     }else{
-                        res.status(201).render('login.ejs', { mensaje: "Se ha registrado con exito" });
+                        console.log(usuario);
+                        res.status(451).render('login.ejs', { mensaje: "Se ha registrado con exito" });
                     }
                 });
             }else{
@@ -75,6 +76,7 @@ usuarioController.logout = (req, res) => {
     res.redirect('/');
 }
 
+
 function all_data(datos){//Comprueba que todas las entradas reciben datos
     for(var key in datos){
         if(!datos[key])
@@ -125,6 +127,24 @@ function checkUsername(nombre){
     }
 
     return nombre.length >= 3;
+}
+
+//Test
+
+
+usuarioController.deleteUsuarioTest = (req, res) =>{
+
+    req.getConnection((err, conn)=>{
+
+        conn.query('delete from usuario where correo = ?', [req.body.email], (err, usuario)=>{
+            
+            if(err){
+                res.json(err);
+            }
+            console.log(usuario);
+        })
+    });
+
 }
 
 module.exports = usuarioController;
