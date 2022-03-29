@@ -26,12 +26,17 @@
                     </div>
                 <% } %>
                 <hr>    
-                <div class="card-header">
-                    <% preguntas.etiquetas.forEach(function(etiqueta){ %>
-                        <span class="badge bg-secondary"><%= etiqueta %></span>
-                    <% }); %>
-                    <br>
-                    <h6 class="card-text card-correo"><%= preguntas.correo %></h6>
+                <div class="card-body">
+                    <div class="tagsynombrecontainer">
+                        <div>
+                          <% preguntas.etiquetas.forEach(function(etiqueta){ %>
+                            <span class="badge bg-secondary"><%= etiqueta %></span>
+                          <% }); %>
+                        </div>
+                        <div>
+                          <span class="usernamelink"><img class="user_img" src="/user_icon.png"><%= preguntas.correo %></span>
+                        </div>
+                      </div>
                 </div>
                 
               </div>
