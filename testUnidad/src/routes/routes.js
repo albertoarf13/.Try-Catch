@@ -1,19 +1,12 @@
 const express = require('express');
-const { route } = require('express/lib/application');
 const router = express.Router();
 const multer = require('multer');
 const upload = multer({ storage: multer.memoryStorage() });
-
-const personasController = require('../controllers/personasController');
 const usersController = require('../controllers/usersController');
 const preguntasController = require('../controllers/preguntasController');
 
 router.get('/', preguntasController.prueba_mostrar_preguntas_recientes);
 router.get('/preguntas/page=:pag', preguntasController.prueba_mostrar_preguntas_recientes);
-
-router.post('/add', personasController.add);
-
-router.post('/delete', personasController.delete);
 
 router.post('/sign-up', usersController.sign_up);
 router.get('/sign-up_page', usersController.sign_up_page);

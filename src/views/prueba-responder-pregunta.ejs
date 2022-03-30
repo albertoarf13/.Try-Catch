@@ -1,0 +1,124 @@
+
+<%- include('partials/_header') %>
+
+<div class="contenedor">
+    <div class="sidebar">
+        
+    </div>
+
+    <div class="main">
+        <div class="content-container">
+
+            <h2><%= pregunta.titulo %></h2>
+            <hr>
+
+            <form method="POST" action="/preguntas/<%= pregunta.id %>/responder" enctype="multipart/form-data">
+
+                <div class="form-group mb-3">
+                    <label for="respuesta">Respuesta</label>
+                    <textarea class="form-control" name="respuesta" rows="3"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="imagen" class="form-label">Imagen</label>
+                    <input type="file" class="form-control" name="imagen">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+
+                <% if(typeof error !== 'undefined' && error) { %>
+                    <div class="alert alert-danger mt-3" role="alert">
+                        <%= error %>
+                    </div>
+                <% } %>
+            </form>
+
+        </div>
+
+
+        <div class="content-container">
+
+            <% respuestas.forEach(function(respuesta){ %>
+
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <i class="fa-solid fa-user"></i> <%= respuesta.correo %>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text"><%= respuesta.descripcion %></p>
+
+                        <% if(respuesta.imagen != null){ %>
+                            <img src="data:image/png;base64,<%= respuesta.imagen %>" style="width: 100%; max-width: 700px;" alt="">
+                            <br>
+                            <div class="mb-3"></div>
+                        <% } %>
+
+                        <button id="boton-responder-respuesta-<%= respuesta.id %>" onClick="hacerAlgo(<%= respuesta.id %>)" class="btn btn-outline-secondary">Responder</button>
+
+                        <div class="d-none" id="form-responder-respuesta-<%= respuesta.id %>">
+                            <form method="POST" action="/preguntas/<%= pregunta.id %>/responder-respuesta/<%= respuesta.id %>">
+
+                                <div class="form-group mb-3">
+                                    <textarea class="form-control" name="respuesta" rows="3"></textarea>
+                                </div>
+                
+                                <button type="submit" class="btn btn-primary">Submit</button>
+    
+                            </form>
+                        </div>
+
+                        <% if(respuesta.respuestasARespuesta.length > 0){ %>
+                            <div class="mt-3">
+                                <% respuesta.respuestasARespuesta.forEach(function(respuestaARespuesta){ %>
+    
+                                    <div class="card mb-3">
+                                        <div class="card-header">
+                                            <i class="fa-solid fa-user"></i> <%= respuestaARespuesta.correo %>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-text"><%= respuestaARespuesta.descripcion %></p>
+                                        </div>
+                                    </div>
+                                    
+                                <% }); %>
+                            </div>
+                        <% } %>
+                      
+                    </div>
+                </div>
+                
+            <% }); %>
+
+        </div>
+    </div>
+</div>
+
+<script>
+
+let formsResponder = document.querySelectorAll('[id^="form-responder-respuesta-"]');
+let botonesResponder = document.querySelectorAll('[id^="boton-responder-respuesta-"]');
+
+
+function hacerAlgo(idRespuesta){
+    console.log(idRespuesta)
+
+    let botonResponder = document.getElementById('boton-responder-respuesta-'+idRespuesta)
+    let formContainer = document.getElementById('form-responder-respuesta-'+idRespuesta)
+
+    formsResponder.forEach(form=>{
+        form.classList.add('d-none');
+    })
+
+    botonesResponder.forEach(boton=>{
+        boton.classList.remove('d-none');
+    })
+
+    botonResponder.classList.add('d-none');
+    formContainer.classList.remove('d-none');
+}
+
+
+
+</script>
+     
+<%- include('partials/_footer') %>
