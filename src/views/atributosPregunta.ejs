@@ -53,10 +53,14 @@
                             <label for="respuesta">Realiza tu respuesta</label>
                             <textarea class="form-control" name="respuesta" rows="3" required minlength="3" maxlength="2000"></textarea>
                         </div>
-        
+                        
                         <div class="mb-3">
                             <label for="imagen" class="form-label">Imagen</label>
-                            <input type="file" class="form-control" name="imagen">
+                            <% if(locals.correo) { %>
+                                <input type="file" class="form-control" name="imagen">
+                            <% } else { %>
+                                <input type="file" class="form-control" name="imagen" disabled>    
+                            <% } %>
                         </div>
         
                         <button type="submit" class="btn btn-primary">Submit</button>
