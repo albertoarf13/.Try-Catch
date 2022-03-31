@@ -13,6 +13,8 @@ preguntasController.atribs = (req, res) => {
         left join etiqueta
         on etiqueta_pregunta.id_etiqueta = etiqueta.id
         where pregunta.id = ?;`, [idPregunta], (err, infoPregunta)=>{
+            console.log(infoPregunta);
+
             if(err){
                 res.json(err);
             }
@@ -74,7 +76,7 @@ preguntasController.atribs = (req, res) => {
                     res.status(450).render('atributosPregunta.ejs', {
                         preguntas:pregs[0],
                         respuestas: respuestasOficial,
-                        error: req.query.error
+                        errorQuery: req.query.error
                     })
  
                 })
@@ -143,7 +145,7 @@ preguntasController.crear_pregunta = (req, res) => {
                     })
                 })
 
-                res.redirect('/preguntas/crear');
+                res.redirect('/preguntas/mostrar/'+result.insertId);
             }
         })
     });
@@ -202,7 +204,7 @@ preguntasController.prueba_mostrar_preguntas_recientes = (req, res) => {
     let page = req.params.pag;
     let offset;
     console.log("pagina", page);
-    page = parseInt(page);
+    page = parseInt(eval(page));
 
     if(page == undefined || isNaN(page) || page <= 1){
         offset = 0;

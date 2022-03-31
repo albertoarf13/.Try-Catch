@@ -20,17 +20,17 @@
                                 <p>
                                     <!-- <h2>Introduce un titulo</h2> -->
                                     <label for="respuesta">Introduce un titulo</label>
-                                    <input class="titulo" name="titulo">
+                                    <input class="titulo" name="titulo" required maxlength="100">
                                 </p>
                                 <p>
                                     <!-- <h2>Escribe tu Pregunta</h2> -->
                                     <label for="respuesta">Escribe tu Pregunta</label>
-                                    <textarea  class="cuadro" name="descripcion"></textarea>
+                                    <textarea  class="cuadro" name="descripcion" required maxlength="20000"></textarea>
                                 </p>
                                 <p>
                                     <!-- <h2>Etiquetas (se pueden seleccionar varias con Ctrl)</h2> -->
                                     <label for="respuesta">Etiquetas (se pueden seleccionar varias con Ctrl)</label>
-                                    <select class="form-select" multiple name="etiquetas">
+                                    <select class="form-select" multiple name="etiquetas" required>
                                         <% etiquetas.forEach(function(etiqueta){ %>
                                             <option value="<%= etiqueta.id %>"><%= etiqueta.nombre %></option>
                                         <% }); %>
