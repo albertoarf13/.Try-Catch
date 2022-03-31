@@ -38,7 +38,7 @@ test('[Registro] Usuarios nombre incorrecto', async () => {
 });
 
 test('[Registro] Usuarios contraseña diferente', async () => {
-    const usuario = { nombre: 'prueba', email: 'prueba@prueb.es', password: '12345Aa', password2: '12345Aa' };    
+    const usuario = { nombre: 'prueba', email: 'prueba@prueb.es', password: '12345Aa', password2: '12345a' };    
     const response = await request(app).post("/sign-up").send(usuario);
     expect(response.status).toBe(401);
 
