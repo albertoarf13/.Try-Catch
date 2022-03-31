@@ -7,83 +7,106 @@ const { beforeAll, afterAll , beforeEach} = require('@jest/globals');
 beforeAll(() => {
     app.use('/', routes);  
 });
+test('[Crear pregunta] con sesion iniciada', async () => {
 
-test('[Crear pregunta] con sesion iniciada sin etiquetas correcto', async () => {
-
-    const usuario_r = { nombre: 'crearPregunta1', email: 'testcrear@pregunta.es', password: '1234567Aa', password2: '1234567Aa' };
-    
-
-    const usuario_l = { correo: 'testcrear@pregunta.es', contraseya: '1234567Aa'};
+    const usuario = { correo: 'prueba@prueba.es', contraseya: '1234567Aa'};
     const pregunta = {
-        titulo: "Pregunta test",
-        descripcion: "Pregunta con etiqueta ",
-        etiquetas: []
+        titulo: "Pregunta de test",
+        descripcion: "test",
+        etiquetas: [1,2,3]
     }
 
     let testSession = session(app);
 
-    const response1 = await request(app).post("/sign-up").send(usuario_r);
-    const response2 = await testSession.post('/login').send(usuario_l);
-    const response = await testSession.post('/preguntas/crear').send(pregunta);
-    expect(response.status).toBe(302);
+
+    const response = await testSession.post('/login').send(usuario);
+    
+    const response2 = await testSession.post('/preguntas/crear').send(pregunta);
+    expect(response2.text).toBe('Found. Redirecting to /preguntas/crear');
+
+});
+test('[Crear pregunta] sin sesion iniciada', async () => {
+
+    const pregunta = {
+        titulo: "Pregunta de test",
+        descripcion: "test",
+        etiquetas: [1,2,3]
+    }
+
+    let testSession = session(app); 
+    const response2 = await testSession.post('/preguntas/crear').send(pregunta);
+    expect(response2.text).toBe('Found. Redirecting to /login');
 
 });
 
-test('[Crear pregunta] con sesion iniciada con titulo incorrecto', async () => {
+test('[Crear pregunta] descripcion vacia', async () => {
 
-    const usuario_r = { nombre: 'crearPregunta2', email: 'testcrear@pregunta.es', password: '1234567Aa', password2: '1234567Aa' };
+    const usuario = { correo: 'prueba@prueba.es', contraseya: '1234567Aa'};
+    const pregunta = {
+        titulo: "Pregunta de test",
+        descripcion: "",
+        etiquetas: [1,2,3]
+    }
+
+    let testSession = session(app);
+
+
+    const response = await testSession.post('/login').send(usuario);
     
-    const usuario_l = { correo: 'testcrear@pregunta.es', contraseya: '1234567Aa'};
+    const response2 = await testSession.post('/preguntas/crear').send(pregunta);
+    expect(response2.text).toBe('Found. Redirecting to /preguntas/crear?error=El%20t%C3%ADtulo%2C%20descripci%C3%B3n%20y%20etiquetas%20no%20pueden%20estar%20vac%C3%ADos');
+});
+
+
+test('[Crear pregunta] titulo vacia', async () => {
+
+    const usuario = { correo: 'prueba@prueba.es', contraseya: '1234567Aa'};
     const pregunta = {
         titulo: "",
-        descripcion: "Pregunta con etiqueta ",
-        etiquetas: [1]
+        descripcion: "hola",
+        etiquetas: [1,2,3]
     }
-    
+
     let testSession = session(app);
 
-    const response1 = await request(app).post("/sign-up").send(usuario_r);
-    const response2 = await testSession.post('/login').send(usuario_l);
-    const response = await testSession.post('/preguntas/crear').send(pregunta);
-    expect(response.status).toBe(302);
 
+    const response = await testSession.post('/login').send(usuario);    
+    const response2 = await testSession.post('/preguntas/crear').send(pregunta);
+    expect(response2.text).toBe('Found. Redirecting to /preguntas/crear?error=El%20t%C3%ADtulo%2C%20descripci%C3%B3n%20y%20etiquetas%20no%20pueden%20estar%20vac%C3%ADos');
 });
-test('[Crear pregunta] con sesion iniciada con descripcion incorrecto', async () => {
 
-    const usuario_r = { nombre: 'crearPregunta2', email: 'testcrear@pregunta.es', password: '1234567Aa', password2: '1234567Aa' };
-    
-    const usuario_l = { correo: 'testcrear@pregunta.es', contraseya: '1234567Aa'};
+test('[Crear pregunta] etiquetas vacia', async () => {
+
+    const usuario = { correo: 'prueba@prueba.es', contraseya: '1234567Aa'};
     const pregunta = {
-        titulo: "Pregunta",
+        titulo: "Pregunta test",
+        descripcion: "hola",
+        etiquetas: undefined 
+    }
+
+    let testSession = session(app);
+
+
+    const response = await testSession.post('/login').send(usuario);
+    
+    const response2 = await testSession.post('/preguntas/crear').send(pregunta);
+    expect(response2.text).toBe('Found. Redirecting to /preguntas/crear?error=El%20t%C3%ADtulo%2C%20descripci%C3%B3n%20y%20etiquetas%20no%20pueden%20estar%20vac%C3%ADos');
+});
+
+test('[Crear pregunta] todos vacia', async () => {
+
+    const usuario = { correo: 'prueba@prueba.es', contraseya: '1234567Aa'};
+    const pregunta = {
+        titulo: "",
         descripcion: "",
-        etiquetas: [1]
+        etiquetas: undefined 
     }
-    
+
     let testSession = session(app);
 
-    const response1 = await request(app).post("/sign-up").send(usuario_r);
-    const response2 = await testSession.post('/login').send(usuario_l);
-    const response = await testSession.post('/preguntas/crear').send(pregunta);
-    expect(response.status).toBe(302);
 
-});
-
-test('[Crear pregunta] con sesion iniciada con titulo incorrecto', async () => {
-
-    const usuario_r = { nombre: 'crearPregunta2', email: 'testcrear@pregunta.es', password: '1234567Aa', password2: '1234567Aa' };
+    const response = await testSession.post('/login').send(usuario);
     
-    const usuario_l = { correo: 'testcrear@pregunta.es', contraseya: '1234567Aa'};
-    const pregunta = {
-        titulo: "Pregunta",
-        descripcion: "Pregunta",
-        etiquetas: undefined
-    }
-    
-    let testSession = session(app);
-
-    const response1 = await request(app).post("/sign-up").send(usuario_r);
-    const response2 = await testSession.post('/login').send(usuario_l);
-    const response = await testSession.post('/preguntas/crear').send(pregunta);
-    expect(response.status).toBe(302);
+    const response2 = await testSession.post('/preguntas/crear').send(pregunta);
+    expect(response2.text).toBe('Found. Redirecting to /preguntas/crear?error=El%20t%C3%ADtulo%2C%20descripci%C3%B3n%20y%20etiquetas%20no%20pueden%20estar%20vac%C3%ADos');
 });
-

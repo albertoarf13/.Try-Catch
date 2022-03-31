@@ -1,18 +1,16 @@
 const usuarioController = {};
 var errorList = "";
-var usuarios = []; 
+
 usuarioController.sign_up = (req, res) => {
     const {nombre, email, password, password2} = req.body;
     errorList = "No se ha podido completar el registro: ";
-    
     if(!all_data(req.body) || !checkUsername(nombre) || !checkEmail(email) || !checkPassword(password, password2)){
         res.status(450).render('sign-up.ejs', { error: errorList});
         return;
     }
  
-    if(usuarios.find(usuario => usuario.correo == email && usuario.contraseya == password) == undefined){
+    if(email != "prueba@prueba.es"){
             res.status(451).render('login.ejs', { mensaje: "Se ha registrado con exito" });
-            usuarios.push({nombre: nombre, email:email, password:password });
     }else{
         res.status(452).render('sign-up.ejs', { error: "No se ha podido completar el registro: Ya existe una cuenta con dicho correo" });
         
@@ -22,7 +20,7 @@ usuarioController.sign_up = (req, res) => {
 
 usuarioController.sign_up_page = (req, res) => {
     
-    res.render('sign-up.ejs');
+    res.status(450).render('sign-up.ejs');
 
 }
 
@@ -39,7 +37,7 @@ usuarioController.login = (req, res) => {
 
 usuarioController.login_page = (req, res) => {
     
-    res.render('login.ejs');
+    res.status(450).render('login.ejs');
 }
 
 usuarioController.logout = (req, res) => {

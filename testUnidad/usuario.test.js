@@ -10,10 +10,17 @@ beforeAll(() => {
 
 
 test('[Registro] Usuarios correcto', async () => {// no se esta eliminando, deberia?
-    const usuario = { nombre: 'prueba', email: 'prueba@prueba.es', password: '1234567Aa', password2: '1234567Aa' };
+    const usuario = { nombre: 'prueba', email: 'prueba2@prueba.es', password: '1234567Aa', password2: '1234567Aa' };
     
     const response = await request(app).post("/sign-up").send(usuario);
     expect(response.status).toBe(451);
+
+});
+test('[Registro] Usuarios repetido', async () => {// no se esta eliminando, deberia?
+    const usuario = { nombre: 'prueba', email: 'prueba@prueba.es', password: '1234567Aa', password2: '1234567Aa' };
+    
+    const response = await request(app).post("/sign-up").send(usuario);
+    expect(response.status).toBe(452);
 
 });
 test('[Registro] Usuario datos vacios', async () => {
@@ -33,7 +40,7 @@ test('[Registro] Usuarios nombre incorrecto', async () => {
 });
 
 test('[Registro] Usuarios contraseña diferente', async () => {
-    const usuario = { nombre: 'prueba', email: 'prueba@prueb.es', password: '12345Aa', password2: '12345Aa' };    
+    const usuario = { nombre: 'prueba', email: 'prueba@prueb.es', password: '12345Aa', password2: '12345a' };    
     const response = await request(app).post("/sign-up").send(usuario);
     expect(response.status).toBe(450);
 

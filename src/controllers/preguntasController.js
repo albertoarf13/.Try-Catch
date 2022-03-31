@@ -86,12 +86,6 @@ preguntasController.atribs = (req, res) => {
         });
     });
 }
-
-preguntasController.atribs_page = (req, res) => {
-    
-    res.render('atributosPregunta.ejs');
-}
-
 preguntasController.crear_pregunta_vista = (req, res) => {
 
     req.getConnection((err, conn)=>{
@@ -259,92 +253,6 @@ preguntasController.prueba_mostrar_preguntas_recientes = (req, res) => {
     }); 
 }
 
-
-preguntasController.prueba_responder_vista = (req, res) => {
-
-    let id = req.params.id;
-
-    req.getConnection((err, conn)=>{
-        conn.query(`select pregunta.*, ifnull(GROUP_CONCAT(etiqueta.nombre), '') as etiquetas
-        from (SELECT * FROM pregunta where id = ?) as pregunta
-        left join etiqueta_pregunta
-        on pregunta.id =  etiqueta_pregunta.id_pregunta
-        left join etiqueta
-        on etiqueta_pregunta.id_etiqueta = etiqueta.id
-        group by pregunta.id;`, [id], (err, preguntas)=>{
-            
-            if(err){
-                res.json(err);
-            }
-            if(preguntas[0] == undefined){
-                res.redirect('/');
-            }
-            else{
-
-                preguntas.map(pregunta=>{
-                    pregunta.etiquetas = pregunta.etiquetas.split(',');
-                    return pregunta.etiquetas;
-                })
-
-                conn.query(`select respuesta.id, respuesta.descripcion, respuesta.imagen, respuesta.correo, respuesta_a_respuesta.descripcion as descripcionRespuestaARespuesta, respuesta_a_respuesta.correo as correoRespuestaARespuesta
-                from (select * from respuesta where idPregunta = ?) as respuesta
-                left join respuesta_a_respuesta
-                on respuesta.id = respuesta_a_respuesta.idRespuesta;`, [id], (err, respuestas)=>{
-
-                    //console.log(respuestas)
-
-                    let respuestasObjeto = {};
-
-                    respuestas.forEach(respuesta => {
-                        
-
-                        if(!respuestasObjeto.hasOwnProperty(`${respuesta.id}`)){
-
-                            respuestasObjeto[respuesta.id] = {}
-                            
-                            respuestasObjeto[respuesta.id].id = respuesta.id;
-                            respuestasObjeto[respuesta.id].descripcion = respuesta.descripcion;
-                            respuestasObjeto[respuesta.id].imagen = respuesta.imagen;
-                            respuestasObjeto[respuesta.id].correo = respuesta.correo;
-
-
-                            respuestasObjeto[respuesta.id].respuestasARespuesta = [];
-                        }
-
-                        if(respuesta.descripcionRespuestaARespuesta != null){
-
-                            respuestasObjeto[respuesta.id].respuestasARespuesta.push({
-                                descripcion: respuesta.descripcionRespuestaARespuesta,
-                                correo: respuesta.correoRespuestaARespuesta,
-                            })
-                        }
-                        
-                    })
-
-
-                    let respuestasOficial = []
-
-                    Object.entries(respuestasObjeto).forEach(respuesta=>{
-                        respuestasOficial.push(respuesta[1]);
-                    })
-            
-                    //console.log(respuestasOficial)
-
-                    res.render('prueba-responder-pregunta.ejs', {
-                        pregunta: preguntas[0],
-                        respuestas: respuestasOficial,
-                        error: req.query.error,
-                    })
- 
-                })
-
-            }
-            
-        })
-    });
-    
-}
-
 preguntasController.responder_pregunta = (req, res) =>{
 
     let respuesta = req.body.respuesta;
@@ -448,8 +356,5 @@ preguntasController.busqueda_basica = (req, res) => {
     
 }
 
-preguntasController.busqueda_basica_page = (req, res) => {
-    res.render('busquedaBasica.ejs');
-}
 
 module.exports = preguntasController;

@@ -21,11 +21,6 @@ preguntasController.atribs = (req, res) => {
     }
 }
 
-preguntasController.atribs_page = (req, res) => {
-    
-    res.render('atributosPregunta.ejs');
-}
-
 preguntasController.crear_pregunta_vista = (req, res) => { // Desaparece
     res.render('crearPregunta.ejs', {
         etiquetas: etiquetas,
@@ -38,7 +33,7 @@ preguntasController.crear_pregunta = (req, res) => {
     const {titulo, descripcion, etiquetas} = req.body;
     console.log(req.body);
     if(titulo.length <= 0 || descripcion.length <= 0 || etiquetas == undefined){
-        res.render('/preguntas/crear?error=' + encodeURIComponent('El título, descripción y etiquetas no pueden estar vacíos'));
+        res.redirect('/preguntas/crear?error=' + encodeURIComponent('El título, descripción y etiquetas no pueden estar vacíos'));
         return;
     }
 
@@ -55,7 +50,7 @@ preguntasController.crear_pregunta = (req, res) => {
 
 preguntasController.prueba_mostrar_imagenes = (req, res) => {
         
-    res.render('prueba-mostrar-imagenes.ejs', {
+    res.status(450).render('prueba-mostrar-imagenes.ejs', {
         preguntas: preguntas
     })
     
@@ -63,7 +58,7 @@ preguntasController.prueba_mostrar_imagenes = (req, res) => {
 
 preguntasController.prueba_mostrar_etiquetas = (req, res) => {
 
-    res.render('prueba.ejs', {
+    res.status(450).render('prueba.ejs', {
         preguntas: preguntas,
         error: req.query.error
     });
@@ -73,38 +68,11 @@ preguntasController.prueba_mostrar_etiquetas = (req, res) => {
 
 preguntasController.prueba_mostrar_preguntas_recientes = (req, res) => {
 
-    res.render('index.ejs', {
+    res.status(450).render('index.ejs', {
         preguntas: preguntas,
         error: req.query.error
     });
 }
-
-
-preguntasController.prueba_responder_vista = (req, res) => {
-
-    let id = req.params.id;
-    
-    if(preguntas[0] == undefined){
-        res.redirect('/');
-    }
-    else{
-
-        preguntas.map(pregunta=>{
-            pregunta.etiquetas = pregunta.etiquetas.split(',');
-            return pregunta.etiquetas;
-        })
-
-        
-
-            res.render('prueba-responder-pregunta.ejs', {
-                pregunta: preguntas[0],
-                respuestas, respuestas,
-                error: req.query.error
-            })
-
-    }
-}
-
 preguntasController.responder_pregunta = (req, res) =>{
 
     let respuesta = req.body.respuesta;
@@ -131,10 +99,10 @@ preguntasController.responder_respuesta = (req, res) =>{
     let idRespuesta = req.params.idRespuesta;
 
     if(respuesta.length <= 0){
-        res.redirect('/preguntas/'+ idPregunta +'/responder?error=' + encodeURIComponent('La respuesta no puede estar vacía'));
+        res.redirect('/preguntas/mostrar/'+ idPregunta+ 'error='+ encodeURIComponent('La respuesta no puede estar vacía'));
         return;
     }
-    res.redirect('/preguntas/'+ idPregunta +'/responder');
+    res.redirect('/preguntas/mostrar/'+ idPregunta);
 
 
 }
@@ -169,13 +137,10 @@ preguntasController.busqueda_basica = (req, res) => {
             etiquetas: 'c++,java,GPS'} ]
     }
     var preguntas = JSON.parse(JSON.stringify(lista_preguntas));
-    res.status(451).render('busquedaBasica.ejs', {preguntas : preguntas, currentPage: "/busqueda?bus="+info+"&", pag: page});
+    res.status(401).render('busquedaBasica.ejs', {preguntas : preguntas, currentPage: "/busqueda?bus="+info+"&", pag: page});
 
 }
 
-preguntasController.busqueda_basica_page = (req, res) => {
-    res.render('busquedaBasica.ejs');
-}
 
 
 module.exports = preguntasController;
