@@ -4,6 +4,22 @@ const mysql = require('mysql');
 const myConnection = require('express-myconnection');
 const session = require('express-session');
 const app = express();
+const io = require('socket.io')(app);
+
+//Socket
+io.on('connection', socket => {
+    console.log('a user connected');
+
+    socket.on('disconnect', () => {
+        console.log('a user disconnected');
+        clients.splice(clients.indexOf(socket), 1); // lo sacamos del array
+    });
+
+    socket.on('buscarTags', mensaje => {
+        console.log("Me llega Gato sexo");
+        socket.emit('respTag', lista);
+    });
+});
 
 // session
 app.use(session({secret: '123',saveUninitialized: true,resave: true}));

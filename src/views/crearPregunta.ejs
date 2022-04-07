@@ -1,5 +1,5 @@
 <%- include('partials/_header') %>
-        
+<script src="/socket.io/socket.io.js"></script>
 <link rel="stylesheet" href="/stylescrearPregunta.css">  
 <div class="contenedor">
 
@@ -29,7 +29,10 @@
                                 </p>
                                 <p>
                                     <!-- <h2>Etiquetas (se pueden seleccionar varias con Ctrl)</h2> -->
-                                    <label for="respuesta">Etiquetas (se pueden seleccionar varias con Ctrl)</label>
+                                    <label for="respuesta">Etiquetas </label>
+                                    <br>
+                                    <input class="tagsearch" maxlength="10">
+                                    <br>
                                     <select class="form-select" multiple name="etiquetas" required>
                                         <% etiquetas.forEach(function(etiqueta){ %>
                                             <option value="<%= etiqueta.id %>"><%= etiqueta.nombre %></option>
