@@ -38,3 +38,13 @@ CREATE TABLE etiqueta_pregunta(
 	id_pregunta INT(6) UNSIGNED REFERENCES pregunta(id),
     PRIMARY KEY(id_etiqueta, id_pregunta)
 );
+CREATE TABLE `valorar` (
+  `correo` varchar(100) NOT NULL,
+  `idRespuesta` int(6) unsigned NOT NULL,
+  `dislikes` int(6) DEFAULT NULL,
+  `likes` int(6) DEFAULT NULL,
+  PRIMARY KEY (`correo`,`idRespuesta`),
+  KEY `idRespuesta` (`idRespuesta`),
+  CONSTRAINT `correo` FOREIGN KEY (`correo`) REFERENCES `usuario` (`correo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `idRespuesta` FOREIGN KEY (`idRespuesta`) REFERENCES `respuesta` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
