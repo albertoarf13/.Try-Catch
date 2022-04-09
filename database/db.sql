@@ -41,10 +41,20 @@ CREATE TABLE etiqueta_pregunta(
 CREATE TABLE `valorar` (
   `correo` varchar(100) NOT NULL,
   `idRespuesta` int(6) unsigned NOT NULL,
-  `dislikes` int(6) DEFAULT NULL,
-  `likes` int(6) DEFAULT NULL,
+  `dislikes` int(6) NOT NULL DEFAULT '0',
+  `likes` int(6) NOT NULL DEFAULT '0',
   PRIMARY KEY (`correo`,`idRespuesta`),
   KEY `idRespuesta` (`idRespuesta`),
-  CONSTRAINT `correo` FOREIGN KEY (`correo`) REFERENCES `usuario` (`correo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `idRespuesta` FOREIGN KEY (`idRespuesta`) REFERENCES `respuesta` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `valorar_ibfk_1` FOREIGN KEY (`correo`) REFERENCES `usuario` (`correo`),
+  CONSTRAINT `valorar_ibfk_2` FOREIGN KEY (`idRespuesta`) REFERENCES `respuesta` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
+CREATE TABLE `valorar_aclaracion` (
+  `correo` varchar(100) NOT NULL,
+  `idAclaracion` int(6) unsigned NOT NULL,
+  `dislikes` int(6) NOT NULL DEFAULT '0',
+  `likes` int(6) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`correo`,`idAclaracion`),
+  KEY `idAclaracion` (`idAclaracion`),
+  CONSTRAINT `valorar_aclaracion_ibfk_1` FOREIGN KEY (`correo`) REFERENCES `usuario` (`correo`),
+  CONSTRAINT `valorar_aclaracion_ibfk_2` FOREIGN KEY (`idAclaracion`) REFERENCES `respuesta_a_respuesta` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1
