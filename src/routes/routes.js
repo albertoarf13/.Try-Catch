@@ -33,7 +33,7 @@ router.post('/preguntas/:idPregunta/responder-respuesta/:idRespuesta', isLogged,
 
 //Busqueda por etiquetas
 router.get('/preguntas/busqueda-por-etiquetas-vista', preguntasController.busqueda_por_etiquetas_vista);
-router.get('/preguntas/busqueda-por-etiquetas', preguntasController.busqueda_por_etiquetas);
+router.get('/preguntas/busqueda-por-etiquetas', preguntasController.busqueda_basica);
 
 //Busqueda preguntas no respondidas
 //router.get('/preguntas/busqueda-no-respondidas-vista', preguntasController.busqueda_no_respondidas_vista);

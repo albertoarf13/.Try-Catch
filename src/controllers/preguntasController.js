@@ -372,6 +372,46 @@ let query_busqueda_por_etiquetas = `select pregunta.*, ifnull(GROUP_CONCAT(etiqu
     order by pregunta.id desc
     limit 10 offset ?;`;
 
+let query_busqueda_por_etiquetas_no_respondidas = `select *
+    from(
+        select pregunta.*, COUNT(respuesta.id) as num_respuestas
+        from(
+            select distinct pregunta.*, ifnull(GROUP_CONCAT(etiqueta.nombre), '') as etiquetas
+            from pregunta
+            inner join etiqueta_pregunta
+            on etiqueta_pregunta.id_pregunta = pregunta.id
+            inner join etiqueta
+            on etiqueta_pregunta.id_etiqueta = etiqueta.id
+            where titulo LIKE ? and id_etiqueta in (?)
+            group by pregunta.id
+        ) as pregunta
+        left join respuesta
+        on pregunta.id = respuesta.idPregunta
+        group by pregunta.id
+    ) as pregunta
+    where pregunta.num_respuestas = 0
+    limit 10 offset ?;`;
+
+let query_busqueda_por_etiquetas_respondidas = `select *
+    from(
+        select pregunta.*, COUNT(respuesta.id) as num_respuestas
+        from(
+            select distinct pregunta.*, ifnull(GROUP_CONCAT(etiqueta.nombre), '') as etiquetas
+            from pregunta
+            inner join etiqueta_pregunta
+            on etiqueta_pregunta.id_pregunta = pregunta.id
+            inner join etiqueta
+            on etiqueta_pregunta.id_etiqueta = etiqueta.id
+            where titulo LIKE ? and id_etiqueta in (?)
+            group by pregunta.id
+        ) as pregunta
+        left join respuesta
+        on pregunta.id = respuesta.idPregunta
+        group by pregunta.id
+    ) as pregunta
+    where pregunta.num_respuestas > 0
+    limit 10 offset ?;`;
+
 
 preguntasController.busqueda_basica = (req, res) => {
     let page = req.query.page;
@@ -391,11 +431,8 @@ preguntasController.busqueda_basica = (req, res) => {
     const info = req.query.bus;
     var dynamicInput = '%'.concat(info.concat('%'));
 
-    // Comprobar si hay que hacer una búsqueda por etiquetas
-    let etiquetas = req.query;
-    if(!Array.isArray(etiquetas)){
-        etiquetas = [etiquetas];
-    }
+    let etiquetas = req.query.etiquetas;
+    let la_busqueda_es_por_etiquetas = false;
 
     // Por defecto es búsqueda básica
     let query = query_busqueda_basica;
@@ -407,39 +444,93 @@ preguntasController.busqueda_basica = (req, res) => {
         query = query_busqueda_respondidas;
     }
 
+    if(etiquetas != undefined){
+        query = query_busqueda_por_etiquetas;
+        la_busqueda_es_por_etiquetas = true;
 
-    req.getConnection((err, conn)=>{
+        if(!Array.isArray(etiquetas)){
+            etiquetas = [etiquetas];
+        }
 
-        conn.query(query, [dynamicInput, offset] ,(err, lista_preguntas)=>{
-            lista_preguntas.map(pregunta=>{
-                pregunta.etiquetas = pregunta.etiquetas.split(',');
-                return pregunta.etiquetas;
-            })
 
-            if(err){
-                res.json(err);
-            }
-            else {
-                let currentPage = req.url;
+        if(req.query.respondidas == "false"){
+            query = query_busqueda_por_etiquetas_no_respondidas;
+        }
+        else if(req.query.respondidas == "true"){
+            query = query_busqueda_por_etiquetas_respondidas;
+        }
+    }
 
-                if(currentPage.indexOf('page=') == -1){
-                    currentPage = currentPage + '&';
+
+    if(!la_busqueda_es_por_etiquetas){
+        req.getConnection((err, conn)=>{
+
+            conn.query(query, [dynamicInput, offset] ,(err, lista_preguntas)=>{
+                lista_preguntas.map(pregunta=>{
+                    pregunta.etiquetas = pregunta.etiquetas.split(',');
+                    return pregunta.etiquetas;
+                })
+    
+                if(err){
+                    res.json(err);
                 }
-                else{
-                    currentPage = currentPage.substring(0, currentPage.indexOf('page='));
+                else {
+                    let currentPage = req.url;
+    
+                    if(currentPage.indexOf('page=') == -1){
+                        currentPage = currentPage + '&';
+                    }
+                    else{
+                        currentPage = currentPage.substring(0, currentPage.indexOf('page='));
+                    }
+    
+                    var preguntas = JSON.parse(JSON.stringify(lista_preguntas));
+                    res.status(401).render('busquedaBasica.ejs', {
+                        preguntas : preguntas, 
+                        currentPage: currentPage, 
+                        pag: page,
+                        query : req.query
+                    });
                 }
-
-                var preguntas = JSON.parse(JSON.stringify(lista_preguntas));
-                res.status(401).render('busquedaBasica.ejs', {
-                    preguntas : preguntas, 
-                    currentPage: currentPage, 
-                    pag: page,
-                    query : req.query
-                });
-            }
+            });
+    
         });
+    }
+    else{
+        req.getConnection((err, conn)=>{
 
-    });
+            conn.query(query, [dynamicInput, etiquetas, offset] ,(err, lista_preguntas)=>{
+                lista_preguntas.map(pregunta=>{
+                    pregunta.etiquetas = pregunta.etiquetas.split(',');
+                    return pregunta.etiquetas;
+                })
+    
+                if(err){
+                    res.json(err);
+                }
+                else {
+                    let currentPage = req.url;
+    
+                    if(currentPage.indexOf('page=') == -1){
+                        currentPage = currentPage + '&';
+                    }
+                    else{
+                        currentPage = currentPage.substring(0, currentPage.indexOf('page='));
+                    }
+    
+                    var preguntas = JSON.parse(JSON.stringify(lista_preguntas));
+                    res.status(401).render('busquedaBasica.ejs', {
+                        preguntas : preguntas, 
+                        currentPage: currentPage, 
+                        pag: page,
+                        query : req.query
+                    });
+                }
+            });
+    
+        });
+    }
+    
     
 }
 
