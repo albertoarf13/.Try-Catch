@@ -8,16 +8,23 @@
     <div class="main">
         <div class="content-container">
             <script src="/socket.io/socket.io.js"></script>
-            <label for="tag">Introduce una etiqueta</label>
-            <input id="tagId"class="tag" name="tag" maxlength="6">
-            <button id="boton">add tag</button>
-            <h5>Tags:</h5>
-            <div id="tagsContainer" class="resultadosTags">
-    
+            <div class="tagsynombrecontainer">
+                <div id="tagsContainer">
+                  
+                </div>
+              </div>
+            <div class="dropdown">
+                <label for="tag">Introduce una etiqueta</label>
+                <input id="tagId"class="tag" name="tag" maxlength="6" data-bs-toggle="dropdown" aria-expanded="false">
+                <ul class="dropdown-menu" aria-labelledby="tagId" id="dropList">
+                  
+                </ul>
             </div>
             <script>
                 const tag = document.getElementById("tagId");
                 const listaTags = document.getElementById("listaTags");
+                const clickedtags = document.getElementById("tagsContainer");
+                var addedTags = [];
             </script>
             <script>
                 const direccion = 'localhost';
@@ -25,16 +32,39 @@
                 const socket = io('http://' + direccion + ':' + puerto);
             </script>
             <script>
-                boton.onclick = () => socket.emit('buscarTags', tag.value);
+                tag.oninput = () => {
+                    if(tag.value.length > 0){
+                        socket.emit('buscarTags', tag.value);
+                    }
+                }
             </script>
             <script>
-                var tagsContainer = document.getElementById("tagsContainer");
+                var tagsContainer = document.getElementById("dropList");
                 socket.on('respTags', lista => {
-                    var newTag = document.createElement("span");
-                    newTag.setAttribute("class","badge bg-secondary");
-                    newTag.textContent = JSON.stringify(lista);
-                    console.log(JSON.stringify(lista));
-                    tagsContainer.appendChild(newTag);
+                    tagsContainer.innerHTML = '';
+
+                    lista.forEach(element => {
+                        var newTag = document.createElement("button");
+                        newTag.onclick = () =>{
+                            if(!addedTags.includes(newTag.textContent) && addedTags.length < 5){
+                                var newClicked = document.createElement("span");
+                                newClicked.setAttribute("class","badge bg-secondary");
+                                newClicked.textContent = newTag.textContent;
+                                clickedtags.appendChild(newClicked);
+                                addedTags.push(newTag.textContent);
+                            }
+                        }
+                        var li = document.createElement("li");
+
+                        newTag.setAttribute("class","badge bg-secondary");
+                        newTag.textContent = element;
+                        console.log(element);
+                        tagsContainer.appendChild(newTag);
+
+                        li.appendChild(newTag);
+                        tagsContainer.appendChild(li);
+                        
+                    });
                 });
             </script>    
         </div>

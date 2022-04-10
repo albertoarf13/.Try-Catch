@@ -9,8 +9,6 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 
-
-
 // Esto es para poder acceder al valor en todas las vistas edsde ejs
 app.use(function(request, response, next) {
     if (request.session.correo) {
@@ -37,17 +35,22 @@ const server = app.listen(app.get('port'), ()=>{
 
 //Socket
 const io = require('socket.io')(server);
+console.log(app.connection);
 
 //Socket
 io.on('connection', socket => {
     console.log('a user connected');
+    const etiquetasController = require('./controllers/etiquetasController');
 
     socket.on('disconnect', () => {
         console.log('a user disconnected');
     });
 
     socket.on('buscarTags', mensaje => {
-        console.log('buscando tags');
-        socket.emit('respTags', 'GPS');
+        console.log('buscando tags', mensaje);
+        etiquetasController.buscarEtiquetas(mensaje, function(result){
+            console.log('Resultado:', result);
+            socket.emit('respTags', result);
+        });
     });
 });
