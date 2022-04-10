@@ -407,9 +407,15 @@ preguntasController.busqueda_por_etiquetas = (req, res) => {
         on pregunta.id =  etiqueta_pregunta.id_pregunta
         left join etiqueta
         on etiqueta_pregunta.id_etiqueta = etiqueta.id
-        where titulo LIKE ? and id_etiqueta in (?)
+        where pregunta.id IN (
+            select distinct pregunta.id
+            from etiqueta_pregunta
+            inner join pregunta
+            on etiqueta_pregunta.id_pregunta = pregunta.id
+            where titulo LIKE ? and id_etiqueta in (?)
+        )
         group by pregunta.id
-        order by id desc
+        order by pregunta.id desc
         limit 10 offset ?;`, [dynamicInput, etiquetas, offset] ,(err, lista_preguntas)=>{
             
             lista_preguntas.map(pregunta=>{
