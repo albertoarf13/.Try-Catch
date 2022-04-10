@@ -372,44 +372,58 @@ let query_busqueda_por_etiquetas = `select pregunta.*, ifnull(GROUP_CONCAT(etiqu
     limit 10 offset ?;`;
 
 let query_busqueda_por_etiquetas_no_respondidas = `select *
-    from(
-        select pregunta.*, COUNT(respuesta.id) as num_respuestas
-        from(
-            select distinct pregunta.*, ifnull(GROUP_CONCAT(etiqueta.nombre), '') as etiquetas
-            from pregunta
-            inner join etiqueta_pregunta
-            on etiqueta_pregunta.id_pregunta = pregunta.id
-            inner join etiqueta
-            on etiqueta_pregunta.id_etiqueta = etiqueta.id
-            where titulo LIKE ? and id_etiqueta in (?)
-            group by pregunta.id
-        ) as pregunta
-        left join respuesta
-        on pregunta.id = respuesta.idPregunta
-        group by pregunta.id
-    ) as pregunta
-    where pregunta.num_respuestas = 0
-    limit 10 offset ?;`;
+from (
+	select pregunta.*, COUNT(respuesta.id) as num_respuestas
+	from(
+		select pregunta.*, ifnull(GROUP_CONCAT(etiqueta.nombre), '') as etiquetas
+		from pregunta
+		left join etiqueta_pregunta
+		on pregunta.id =  etiqueta_pregunta.id_pregunta
+		left join etiqueta
+		on etiqueta_pregunta.id_etiqueta = etiqueta.id
+		where pregunta.id IN (
+			select distinct pregunta.id
+			from etiqueta_pregunta
+			inner join pregunta
+			on etiqueta_pregunta.id_pregunta = pregunta.id
+			where titulo LIKE ? and id_etiqueta in (?)
+		)
+		group by pregunta.id
+	) as pregunta
+	left join respuesta
+	on pregunta.id = respuesta.idPregunta
+	group by pregunta.id
+) as pregunta
+where pregunta.num_respuestas = 0
+order by pregunta.id desc
+limit 10 offset ?;`;
 
 let query_busqueda_por_etiquetas_respondidas = `select *
-    from(
-        select pregunta.*, COUNT(respuesta.id) as num_respuestas
-        from(
-            select distinct pregunta.*, ifnull(GROUP_CONCAT(etiqueta.nombre), '') as etiquetas
-            from pregunta
-            inner join etiqueta_pregunta
-            on etiqueta_pregunta.id_pregunta = pregunta.id
-            inner join etiqueta
-            on etiqueta_pregunta.id_etiqueta = etiqueta.id
-            where titulo LIKE ? and id_etiqueta in (?)
-            group by pregunta.id
-        ) as pregunta
-        left join respuesta
-        on pregunta.id = respuesta.idPregunta
-        group by pregunta.id
-    ) as pregunta
-    where pregunta.num_respuestas > 0
-    limit 10 offset ?;`;
+from (
+	select pregunta.*, COUNT(respuesta.id) as num_respuestas
+	from(
+		select pregunta.*, ifnull(GROUP_CONCAT(etiqueta.nombre), '') as etiquetas
+		from pregunta
+		left join etiqueta_pregunta
+		on pregunta.id =  etiqueta_pregunta.id_pregunta
+		left join etiqueta
+		on etiqueta_pregunta.id_etiqueta = etiqueta.id
+		where pregunta.id IN (
+			select distinct pregunta.id
+			from etiqueta_pregunta
+			inner join pregunta
+			on etiqueta_pregunta.id_pregunta = pregunta.id
+			where titulo LIKE ? and id_etiqueta in (?)
+		)
+		group by pregunta.id
+	) as pregunta
+	left join respuesta
+	on pregunta.id = respuesta.idPregunta
+	group by pregunta.id
+) as pregunta
+where pregunta.num_respuestas > 0
+order by pregunta.id desc
+limit 10 offset ?;`;
 
 
 preguntasController.busqueda_basica = (req, res) => {
