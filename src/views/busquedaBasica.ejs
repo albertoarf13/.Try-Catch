@@ -17,13 +17,13 @@
                 <% if(query.respondidas == "false") { %>
                   <a class="btn btn-primary">No respondidas</a>
                 <% } else { %>
-                  <a class="btn btn-outline-primary">No respondidas</a>
+                  <a onClick="setFiltroRespondidasFalse()" class="btn btn-outline-primary">No respondidas</a>
                 <% } %>
 
                 <% if(query.respondidas == "true") { %>
                   <a class="btn btn-primary">Respondidas</a>
                 <% } else { %>
-                  <a class="btn btn-outline-primary">Respondidas</a>
+                  <a onClick="setFiltroRespondidasTrue()" class="btn btn-outline-primary">Respondidas</a>
                 <% } %>
 
                 <a onClick="eliminarFiltroDeRespondidas()" class="btn btn-outline-primary"><button type="button" class="btn-close" aria-label="Close"></button></a>
@@ -76,6 +76,14 @@
 
 function eliminarFiltroDeRespondidas(){
   window.location.href = removeUrlParameter(window.location.href, "respondidas");
+}
+
+function setFiltroRespondidasTrue(){
+  window.location.href = window.location.href.replace('respondidas=false', 'respondidas=true');
+}
+
+function setFiltroRespondidasFalse(){
+  window.location.href = window.location.href.replace('respondidas=true', 'respondidas=false');
 }
 
 
