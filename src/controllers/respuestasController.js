@@ -2,8 +2,8 @@ const respuestasController = {};
 
 
 respuestasController.likeRespuesta = (req,res) => {
-    const idRespuesta = req.query.id;
-    const correo = req.query.correo;
+    const idRespuesta = req.body.id;
+    const correo = req.body.correo;
 
     req.getConnection((err, conn)=>{
         conn.query('select count(*) as likes, likes, dislikes from valora where correo = ? and idRespuesta = ?;', [correo, idRespuesta], (err,result)=>{
