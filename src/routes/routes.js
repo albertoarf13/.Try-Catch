@@ -31,8 +31,9 @@ router.get('/preguntas/mostrar-etiquetas', preguntasController.prueba_mostrar_et
 router.post('/preguntas/:id/responder', isLogged, upload.single("imagen"), preguntasController.responder_pregunta);
 router.post('/preguntas/:idPregunta/responder-respuesta/:idRespuesta', isLogged, preguntasController.responder_respuesta);
 
-router.get('/preguntas/busqueda-por-etiquetas', preguntasController.busqueda_por_etiquetas_vista);
-router.post('/preguntas/busqueda-por-etiquetas', preguntasController.busqueda_por_etiquetas);
+//Busqueda por etiquetas
+router.get('/preguntas/busqueda-por-etiquetas-vista', preguntasController.busqueda_por_etiquetas_vista);
+router.get('/preguntas/busqueda-por-etiquetas', preguntasController.busqueda_por_etiquetas);
 
 function isLogged(req, res, next){
     if(req.session.correo){

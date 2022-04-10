@@ -391,7 +391,8 @@ preguntasController.busqueda_por_etiquetas = (req, res) => {
     }
 
 
-    let {busqueda, etiquetas} = req.body;
+    let {busqueda, etiquetas} = req.query;
+
 
     if(!Array.isArray(etiquetas)){
         etiquetas = [etiquetas];
@@ -427,8 +428,22 @@ preguntasController.busqueda_por_etiquetas = (req, res) => {
                 res.json(err);
             }
             else {
+
+                let currentPage = req.url;
+
+                if(currentPage.indexOf('page=') == -1){
+                    currentPage = currentPage + '&';
+                }
+                else{
+                    currentPage = currentPage.substring(0, currentPage.indexOf('page='));
+                }
+
                 var preguntas = JSON.parse(JSON.stringify(lista_preguntas));
-                res.status(401).render('busquedaBasica.ejs', {preguntas : preguntas, currentPage: "/busqueda?bus="+busqueda+"&", pag: page});
+                res.status(401).render('busquedaBasica.ejs', {
+                    preguntas : preguntas, 
+                    currentPage: currentPage, 
+                    pag: page
+                });
             }
         });
 
