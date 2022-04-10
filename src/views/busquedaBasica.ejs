@@ -8,6 +8,20 @@
 
     <div class="main">
         <div class="content-container">
+
+          <div class="botones-filtros-container">
+            <div class="btn-group" role="group" aria-label="Basic outlined example">
+                
+                <% if(query.no_respondidas == "true") { %>
+                  <a href="<%= currentPage%>" class="btn btn-primary">No respondidas</a>
+                <% } else { %>
+                  <a href="<%= currentPage%>no_respondidas=true" class="btn btn-outline-primary">No respondidas</a>
+                <% } %>
+              
+                <a class="btn btn-outline-primary">Respondidas</a>
+            </div>
+          </div>
+
           <div class="pregsheader">
             <h5>Resultados:</h5>
           </div>
@@ -41,5 +55,20 @@
         </div>
     </div>
 </div>
+
+
+<script>
+
+/*function mostrarNoRespondidas(){
+
+  console.log("no respondidas")
+  console.log("Current URL", window.location.search)
+
+
+
+}*/
+
+
+</script>
      
 <%- include('partials/_footer') %>

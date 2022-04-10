@@ -173,3 +173,7 @@
 }
 
 
+.botones-filtros-container{
+    display: flex;
+    justify-content: right;
+}
