@@ -11,3 +11,9 @@
 
       width: 75%;
 }
+
+.resultadosTags{
+      height: 50px;
+      background-color: grey;
+      width: 50%;
+}

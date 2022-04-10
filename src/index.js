@@ -23,8 +23,31 @@ app.use(function(request, response, next) {
 //archivos estaticos
 app.use(express.static('public'));
 
+//Importar en vista el socket
+app.get('/socket.io/:socketelem', function(req, res) {
+    console.log(path.join(__dirname + "/../node_modules/socket.io/client-dist/socket.io.js"));
+    res.sendFile(path.join(__dirname + "/../node_modules/socket.io/client-dist/" + req.params.socketelem));
+});
+
 app.use('/', routes);
 // Empezar el servidor
-app.listen(app.get('port'), ()=>{
+const server = app.listen(app.get('port'), ()=>{
     console.log('Server running')
+});
+
+//Socket
+const io = require('socket.io')(server);
+
+//Socket
+io.on('connection', socket => {
+    console.log('a user connected');
+
+    socket.on('disconnect', () => {
+        console.log('a user disconnected');
+    });
+
+    socket.on('buscarTags', mensaje => {
+        console.log('buscando tags');
+        socket.emit('respTags', 'GPS');
+    });
 });

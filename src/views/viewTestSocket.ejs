@@ -1,0 +1,42 @@
+<%- include('partials/_header') %>
+<link rel="stylesheet" href="/stylescrearPregunta.css">  
+<div class="contenedor">
+    <div class="sidebar">
+        
+    </div>
+
+    <div class="main">
+        <div class="content-container">
+            <script src="/socket.io/socket.io.js"></script>
+            <label for="tag">Introduce una etiqueta</label>
+            <input id="tagId"class="tag" name="tag" maxlength="6">
+            <button id="boton">add tag</button>
+            <h5>Tags:</h5>
+            <div id="tagsContainer" class="resultadosTags">
+    
+            </div>
+            <script>
+                const tag = document.getElementById("tagId");
+                const listaTags = document.getElementById("listaTags");
+            </script>
+            <script>
+                const direccion = 'localhost';
+                const puerto = 3000;
+                const socket = io('http://' + direccion + ':' + puerto);
+            </script>
+            <script>
+                boton.onclick = () => socket.emit('buscarTags', tag.value);
+            </script>
+            <script>
+                var tagsContainer = document.getElementById("tagsContainer");
+                socket.on('respTags', lista => {
+                    var newTag = document.createElement("span");
+                    newTag.setAttribute("class","badge bg-secondary");
+                    newTag.textContent = JSON.stringify(lista);
+                    console.log(JSON.stringify(lista));
+                    tagsContainer.appendChild(newTag);
+                });
+            </script>    
+        </div>
+    </div>
+</div>
