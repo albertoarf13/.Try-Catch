@@ -13,7 +13,7 @@ preguntasController.atribs = (req, res) => {
         left join etiqueta
         on etiqueta_pregunta.id_etiqueta = etiqueta.id
         where pregunta.id = ?;`, [idPregunta], (err, infoPregunta)=>{
-            console.log(infoPregunta);
+            //console.log(infoPregunta);
 
             if(err){
                 res.json(err);
@@ -134,7 +134,6 @@ preguntasController.crear_pregunta = (req, res) => {
                     etiquetas = [etiquetas];
                 }
 
-                console.log(etiquetas);
 
                 etiquetas.forEach(etiqueta => {
                     conn.query('INSERT INTO etiqueta_pregunta(id_etiqueta, id_pregunta) VALUES(?,?)', [etiqueta, result.insertId], (err, result)=>{
@@ -448,11 +447,6 @@ preguntasController.busqueda_basica = (req, res) => {
         query = query_busqueda_por_etiquetas;
         la_busqueda_es_por_etiquetas = true;
 
-        if(!Array.isArray(etiquetas)){
-            etiquetas = [etiquetas];
-        }
-
-
         if(req.query.respondidas == "false"){
             query = query_busqueda_por_etiquetas_no_respondidas;
         }
@@ -498,6 +492,10 @@ preguntasController.busqueda_basica = (req, res) => {
     }
     else{
         req.getConnection((err, conn)=>{
+
+            if(!Array.isArray(etiquetas)){
+                etiquetas = [etiquetas];
+            }
 
             conn.query(query, [dynamicInput, etiquetas, offset] ,(err, lista_preguntas)=>{
                 lista_preguntas.map(pregunta=>{
