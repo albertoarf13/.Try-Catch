@@ -365,6 +365,9 @@ preguntasController.busqueda_basica = (req, res) => {
     else if(req.query.respondidas == "false"){
         buscar_no_respondidas(req, dynamicInput, offset, callback);
     }
+    else if(req.query.respondidas == "true"){
+        buscar_respondidas(req, dynamicInput, offset, callback);
+    }
     else{
         buscar_basico(req, dynamicInput, offset, callback);
     }
@@ -396,7 +399,7 @@ function buscar_basico(req, dynamicInput, offset, callback){
 function buscar_no_respondidas(req, dynamicInput, offset, callback){
 
     req.getConnection((err, conn)=>{
-        //conn.query("SELECT * FROM preguntas WHERE descripcion LIKE ?", [dynamicInput], (err, lista_preguntas)=>{
+
         conn.query(`select pregunta.*, ifnull(GROUP_CONCAT(etiqueta.nombre), '') as etiquetas
         from (
             select pregunta.*, COUNT(respuesta.id) as num_respuestas
@@ -410,6 +413,34 @@ function buscar_no_respondidas(req, dynamicInput, offset, callback){
         left join etiqueta
         on etiqueta_pregunta.id_etiqueta = etiqueta.id
         where titulo LIKE ? and pregunta.num_respuestas = 0
+        group by pregunta.id
+        order by id desc
+        limit 10 offset ?;`, [dynamicInput, offset] ,(err, lista_preguntas)=>{
+
+            callback(err, lista_preguntas)
+
+        });
+
+    });
+}
+
+function buscar_respondidas(req, dynamicInput, offset, callback){
+
+    req.getConnection((err, conn)=>{
+        
+        conn.query(`select pregunta.*, ifnull(GROUP_CONCAT(etiqueta.nombre), '') as etiquetas
+        from (
+            select pregunta.*, COUNT(respuesta.id) as num_respuestas
+            from pregunta
+            left join respuesta
+            on pregunta.id = respuesta.idPregunta
+            group by pregunta.id
+        ) as pregunta
+        left join etiqueta_pregunta
+        on pregunta.id =  etiqueta_pregunta.id_pregunta
+        left join etiqueta
+        on etiqueta_pregunta.id_etiqueta = etiqueta.id
+        where titulo LIKE ? and pregunta.num_respuestas > 0
         group by pregunta.id
         order by id desc
         limit 10 offset ?;`, [dynamicInput, offset] ,(err, lista_preguntas)=>{
