@@ -12,13 +12,27 @@
           <div class="botones-filtros-container">
             <div class="btn-group" role="group" aria-label="Basic outlined example">
                 
-                <% if(query.no_respondidas == "true") { %>
-                  <a href="<%= currentPage%>" class="btn btn-primary">No respondidas</a>
+              <% if(query.respondidas) { %>
+
+                <% if(query.respondidas == "false") { %>
+                  <a class="btn btn-primary">No respondidas</a>
                 <% } else { %>
-                  <a href="<%= currentPage%>no_respondidas=true" class="btn btn-outline-primary">No respondidas</a>
+                  <a class="btn btn-outline-primary">No respondidas</a>
                 <% } %>
+
+                <% if(query.respondidas == "true") { %>
+                  <a class="btn btn-primary">Respondidas</a>
+                <% } else { %>
+                  <a class="btn btn-outline-primary">Respondidas</a>
+                <% } %>
+
+                <a onClick="eliminarFiltroDeRespondidas()" class="btn btn-outline-primary"><button type="button" class="btn-close" aria-label="Close"></button></a>
               
-                <a class="btn btn-outline-primary">Respondidas</a>
+              <% } else { %>
+                <a href="<%= currentPage%>respondidas=false" class="btn btn-outline-primary">No respondidas</a>
+                <a href="<%= currentPage%>respondidas=true" class="btn btn-outline-primary">Respondidas</a>
+              <% } %>
+                
             </div>
           </div>
 
@@ -59,14 +73,40 @@
 
 <script>
 
-/*function mostrarNoRespondidas(){
 
-  console.log("no respondidas")
-  console.log("Current URL", window.location.search)
+function eliminarFiltroDeRespondidas(){
+  window.location.href = removeUrlParameter(window.location.href, "respondidas");
+}
 
 
+// esta funcion me la copie de Stack Overflow jeje
+// es para borrar un parametro del url
+function removeUrlParameter(url, parameter) {
+  var urlParts = url.split('?');
 
-}*/
+  if (urlParts.length >= 2) {
+    // Get first part, and remove from array
+    var urlBase = urlParts.shift();
+
+    // Join it back up
+    var queryString = urlParts.join('?');
+
+    var prefix = encodeURIComponent(parameter) + '=';
+    var parts = queryString.split(/[&;]/g);
+
+    // Reverse iteration as may be destructive
+    for (var i = parts.length; i-- > 0; ) {
+      // Idiom for string.startsWith
+      if (parts[i].lastIndexOf(prefix, 0) !== -1) {
+          parts.splice(i, 1);
+      }
+    }
+
+    url = urlBase + '?' + parts.join('&');
+  }
+
+  return url;
+}
 
 
 </script>

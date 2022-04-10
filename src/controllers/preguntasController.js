@@ -357,10 +357,12 @@ preguntasController.busqueda_basica = (req, res) => {
         }
     }
 
-    if(req.query.no_respondidas == undefined){
+
+
+    if(req.query.respondidas == undefined){
         buscar_basico(req, dynamicInput, offset, callback);
     }
-    else if(req.query.no_respondidas == "true"){
+    else if(req.query.respondidas == "false"){
         buscar_no_respondidas(req, dynamicInput, offset, callback);
     }
     else{
