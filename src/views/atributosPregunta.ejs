@@ -93,24 +93,33 @@
                                     <% } %>
                                 </div>
                               
-        
-                                <button id="boton-responder-respuesta-<%= respuesta.id %>" onClick="hacerAlgo(<%= respuesta.id %>)" class="btn btn-outline-secondary">Responder</button>
+                                <div class="container-boton-responder-y-likes-y-dislikes">
+                                    <button id="boton-responder-respuesta-<%= respuesta.id %>" onClick="hacerAlgo(<%= respuesta.id %>)" class="btn btn-outline-secondary">Responder</button>
                                 
-                                <form method="POST" action="/preguntas/respuesta/like">
-                                    <button class="like">   
-                                        <i class="fas fa-thumbs-up"></i>
-                                    </button>
+                                    <div class="container-like-y-dislike">
+                                        <form method="POST" action="/preguntas/respuesta/like">
+                                            <button class="like <% if(respuesta.has_dado_like){ %>like--activo<% } %>">   
+                                                <i class="fas fa-thumbs-up"></i>
+                                            </button>
+        
+                                            <span><%= respuesta.likes %></span>
+                                            
+                                            <input type="hidden" name="correo" value="<%= locals.correo %>" />
+                                            <input type="hidden" name="idRespuesta" value="<%= respuesta.id %>" />
+                                        </form>
 
-                                    <span><%= respuesta.likes %></span>
-
-                                    <input type="hidden" name="correo" value="<%= locals.correo %>" />
-                                    <input type="hidden" name="idRespuesta" value="<%= respuesta.id %>" />
-                                </form>
-
-                                <button class="dislike">   
-                                    <i class="fas fa-thumbs-down"></i>
-                                </button>
-                                <span><%= respuesta.dislikes %></span>
+                                        <form method="POST" action="/preguntas/respuesta/dislike">
+                                            <button class="dislike <% if(respuesta.has_dado_dislike){ %>dislike--activo<% } %>">   
+                                                <i class="fas fa-thumbs-down"></i>
+                                            </button>
+                                            <span><%= respuesta.dislikes %></span>
+                                            
+                                            <input type="hidden" name="correo" value="<%= locals.correo %>" />
+                                            <input type="hidden" name="idRespuesta" value="<%= respuesta.id %>" />
+                                        </form>
+                                    </div>
+                                    
+                                </div>
                                
                                 <div class="d-none" id="form-responder-respuesta-<%= respuesta.id %>">
                                     <form method="POST" action="/preguntas/<%= preguntas.id %>/responder-respuesta/<%= respuesta.id %>">

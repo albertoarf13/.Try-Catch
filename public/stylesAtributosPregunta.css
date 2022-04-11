@@ -20,20 +20,43 @@ button.dislike{
 	height: 30px;
 	margin: 0 auto;
 	border-radius: 50%;
+	color: rgb(58, 58, 58);
+    background-color:rgba(187, 187, 187, 0.3);
+    border-color: rgb(58, 58, 58);
+	border-width: 1px;
+	font-size: 15px;
+}
+button.dislike.dislike--activo{
 	color: rgba(255,82,82 ,1);
 	background-color: rgba(255,138,128 ,0.3);
 	border-color: rgba(255,82,82 ,1);
-	border-width: 1px;
-	font-size: 15px;
 }
 button.like{
     width: 30px;
     height: 30px;
     margin: 0 auto;
     border-radius: 50%;
+    color: rgb(58, 58, 58);
+    background-color:rgba(187, 187, 187, 0.3);
+    border-color: rgb(58, 58, 58);
+    border-width: 1px;
+    font-size: 15px;
+}
+button.like.like--activo{
     color: rgba(0,150,136 ,1);
     background-color:rgba(38,166,154 ,0.3);
     border-color: rgba(0,150,136 ,1);
-    border-width: 1px;
-    font-size: 15px;
+}
+
+.container-boton-responder-y-likes-y-dislikes{
+    display: flex;
+    justify-content: space-between;
+}
+
+.container-like-y-dislike{
+    display: flex;
+}
+
+.container-like-y-dislike form{
+    margin-left: 1em;
 }

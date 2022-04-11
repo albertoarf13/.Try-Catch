@@ -28,9 +28,18 @@ preguntasController.atribs = (req, res) => {
                     return pregunta.etiquetas;
                 })
 
+                // Esto es para saber si ya le dimos like o dislike y eso
+                let correoUsuarioActual = null;
+                if(req.session.correo){
+                    correoUsuarioActual = req.session.correo;
+                }
+
                 conn.query(`select respuesta.*, respuesta_a_respuesta.descripcion as descripcionRespuestaARespuesta, respuesta_a_respuesta.correo as correoRespuestaARespuesta
                 from (
-                    select respuesta.*, SUM(valorar.likes) as likes, SUM(valorar.dislikes) as dislikes
+                    select respuesta.*, 
+                    SUM(valorar.likes) as likes, SUM(valorar.dislikes) as dislikes, 
+                    SUM(case when valorar.correo = ? and valorar.likes = 1 then 1 else 0 end) as has_dado_like,
+                    SUM(case when valorar.correo = ? and valorar.dislikes = 1 then 1 else 0 end) as has_dado_dislike
                     from respuesta
                     left join valorar
                     on respuesta.id = valorar.idRespuesta
@@ -38,7 +47,7 @@ preguntasController.atribs = (req, res) => {
                     group by respuesta.id
                 ) as respuesta
                 left join respuesta_a_respuesta
-                on respuesta.id = respuesta_a_respuesta.idRespuesta;`, [idPregunta], (err, respuestas)=>{
+                on respuesta.id = respuesta_a_respuesta.idRespuesta;`, [correoUsuarioActual,correoUsuarioActual,idPregunta], (err, respuestas)=>{
 
                     //console.log(respuestas)
 
@@ -57,6 +66,8 @@ preguntasController.atribs = (req, res) => {
                             respuestasObjeto[respuesta.id].correo = respuesta.correo;
                             respuestasObjeto[respuesta.id].likes = respuesta.likes;
                             respuestasObjeto[respuesta.id].dislikes = respuesta.dislikes;
+                            respuestasObjeto[respuesta.id].has_dado_like = respuesta.has_dado_like;
+                            respuestasObjeto[respuesta.id].has_dado_dislike = respuesta.has_dado_dislike;
 
 
                             respuestasObjeto[respuesta.id].respuestasARespuesta = [];
