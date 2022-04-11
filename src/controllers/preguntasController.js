@@ -47,13 +47,13 @@ preguntasController.atribs = (req, res) => {
                     group by respuesta.id
                 ) as respuesta
                 left join (select respuesta_a_respuesta.*, SUM(valorar_aclaracion.likes) as a_likes, SUM(valorar_aclaracion.dislikes) as a_dislikes, 
-                SUM(case when valorar_aclaracion.correo = 'johan@ucm.es' and valorar_aclaracion.likes = 1 then 1 else 0 end) as a_has_dado_like,
-                SUM(case when valorar_aclaracion.correo = 'johan@ucm.es' and valorar_aclaracion.dislikes = 1 then 1 else 0 end) as a_has_dado_dislike
+                SUM(case when valorar_aclaracion.correo = ? and valorar_aclaracion.likes = 1 then 1 else 0 end) as a_has_dado_like,
+                SUM(case when valorar_aclaracion.correo = ? and valorar_aclaracion.dislikes = 1 then 1 else 0 end) as a_has_dado_dislike
                 from respuesta_a_respuesta
                 left join valorar_aclaracion
                 on respuesta_a_respuesta.id = valorar_aclaracion.idAclaracion
                 group by respuesta_a_respuesta.id) as aclaracion
-                on respuesta.id = aclaracion.idRespuesta;`, [correoUsuarioActual,correoUsuarioActual,idPregunta], (err, respuestas)=>{
+                on respuesta.id = aclaracion.idRespuesta;`, [correoUsuarioActual,correoUsuarioActual,idPregunta,correoUsuarioActual,correoUsuarioActual], (err, respuestas)=>{
 
                     console.log('Adios', respuestas)
 
