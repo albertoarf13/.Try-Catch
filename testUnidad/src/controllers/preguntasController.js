@@ -124,6 +124,29 @@ preguntasController.busqueda_basica = (req, res) => {
     
     const info = req.query.bus;
     var dynamicInput = '%'.concat(info.concat('%'));
+
+    let etiquetas = req.query.etiquetas;
+    let la_busqueda_es_por_etiquetas = false;
+
+    if(req.query.respondidas == "false"){
+        // nada
+    }
+    else if(req.query.respondidas == "true"){
+        // nada
+    }
+
+    if(etiquetas != undefined){
+        
+        la_busqueda_es_por_etiquetas = true;
+
+        if(req.query.respondidas == "false"){
+            // nada
+        }
+        else if(req.query.respondidas == "true"){
+            // nada
+        }
+    }
+
     //nummies
     var lista_preguntas = new Object([]);
     if(dynamicInput == 'test')
