@@ -107,13 +107,17 @@ preguntasController.crear_pregunta_vista = (req, res) => {
 preguntasController.crear_pregunta = (req, res) => {
 
     let {titulo, descripcion, etiquetas} = req.body;
+  
+    console.log("tags:" ,etiquetas);
 
-    if(titulo.length <= 0 || descripcion.length <= 0 || etiquetas == undefined){
+    if(titulo.length <= 0 || descripcion.length <= 0 || etiquetas == undefined || etiquetas == ""){
         //res.render('prueba-crear-pregunta.ejs', { error: "El título, descripción y etiquetas no pueden estar vacíos" });
         res.redirect('/preguntas/crear?error=' + encodeURIComponent('El título, descripción y etiquetas no pueden estar vacíos'));
         //res.redirect('/preguntas/crear');
         return;
     }
+
+    etiquetas = JSON.parse(etiquetas); 
 
     let imagen = null;
 
@@ -140,6 +144,7 @@ preguntasController.crear_pregunta = (req, res) => {
                     conn.query('INSERT INTO etiqueta_pregunta(id_etiqueta, id_pregunta) VALUES(?,?)', [etiqueta, result.insertId], (err, result)=>{
                         if(err){
                             //res.json(err);
+                            console.log(err);
                             return;
                         }
                     })

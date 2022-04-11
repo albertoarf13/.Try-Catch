@@ -49,6 +49,7 @@
                                     <input type="file" accept="image/*" name="imagen">
                                 </p>
                                 <p>
+                                    <input id="array" type="hidden" class = "hiddenField" name = "etiquetas"/>
                                     <button type="submit" class="btn btn-primary">Crear</button>
                                 </p>
                             </div>
@@ -72,7 +73,7 @@
     const tag = document.getElementById("tagId");
     const listaTags = document.getElementById("listaTags");
     const clickedtags = document.getElementById("tagsContainer");
-    var addedTags = [];
+    var etiquetas = [];
 </script>
 <script>
     const direccion = 'localhost';
@@ -92,13 +93,13 @@
 </script>
 <script>
     var tagsContainer = document.getElementById("dropList");
+    var hiddenInput = document.getElementById("array");
     socket.on('respTags', lista => {
         tagsContainer.innerHTML = '';
-
-        lista.forEach(element => {
+        Object.entries(lista).forEach(([element, value]) => {
             var newTag = document.createElement("span");
             newTag.onclick = () =>{
-                if(!addedTags.includes(newTag.textContent) && addedTags.length < 5){
+                if(!etiquetas.includes(newTag.textContent) && etiquetas.length < 5){
                     var newClicked = document.createElement("span");
                     newClicked.setAttribute("class","badge bg-secondary tag");
                     newClicked.textContent = newTag.textContent;
@@ -113,14 +114,16 @@
                     }
 
                     newClicked.onclick = () =>{
-                        const index = addedTags.indexOf(newClicked.textContent);
+                        const index = etiquetas.indexOf(lista[newClicked.textContent]);
 
                         if (index > -1) {
-                            addedTags.splice(index, 1); // 2nd parameter means remove one item only
+                            etiquetas.splice(index, 1); // 2nd parameter means remove one item only
+                            hiddenInput.value = JSON.stringify(etiquetas);
                         }
                         clickedtags.removeChild(newClicked);
                     }
-                    addedTags.push(newTag.textContent);
+                    etiquetas.push(lista[newTag.textContent]);
+                    hiddenInput.value = JSON.stringify(etiquetas);
                 }
             }
             var li = document.createElement("li");

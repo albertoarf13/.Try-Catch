@@ -22,13 +22,13 @@ etiquetasController.buscarEtiquetas = function(tag, callback) {
             console.log(err);
             return -1;
         }else{
-            let listaTags=[];
+            let dictTags={};
 
             result.forEach(function (elem) { 
-                listaTags.push(elem.nombre);
+                dictTags[elem.nombre] = elem.id;
             });
         
-            return callback(listaTags);
+            return callback(dictTags);
         }
     });
 }
