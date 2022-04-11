@@ -36,8 +36,15 @@ router.post('/preguntas/:idPregunta/responder-respuesta/:idRespuesta', isLogged,
 //Respuestas
 router.post('/preguntas/respuesta/like', isLogged, respuestasController.likeRespuesta);
 
+<<<<<<< HEAD
 //Aclaracion
 router.post('/preguntas/aclaracion/like', isLogged, aclaracionesController.likeRespuesta);
+=======
+//Busqueda por etiquetas
+router.get('/preguntas/busqueda-por-etiquetas-vista', preguntasController.busqueda_por_etiquetas_vista);
+router.get('/preguntas/busqueda-por-etiquetas', preguntasController.busqueda_basica);
+
+>>>>>>> e010092d81d2a91a2828b7978905434f639d10e5
 
 function isLogged(req, res, next){
     if(req.session.correo){

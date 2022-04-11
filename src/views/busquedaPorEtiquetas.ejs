@@ -1,0 +1,53 @@
+<%- include('partials/_header') %>
+        
+<link rel="stylesheet" href="/stylescrearPregunta.css">  
+<div class="contenedor">
+
+    <%- include('partials/_sidebar') %>
+
+    <div class="main">
+        <div class="content-container">
+
+            <div class="crearPregunta-container">
+                <div class="crearPregunta">
+                    
+                  
+                    <form method="GET" action="/preguntas/busqueda-por-etiquetas">
+                     
+                            <div class="inputs">
+                                <p>
+                                    <label for="bus">Término de búsqueda</label>
+                                    <input class="titulo" name="bus" required maxlength="100">
+                                </p>
+
+                                <p>
+                                    <label for="respuesta">Etiquetas (se pueden seleccionar varias con Ctrl)</label>
+                                    <select class="form-select" multiple name="etiquetas" required>
+                                        <% etiquetas.forEach(function(etiqueta){ %>
+                                            <option value="<%= etiqueta.id %>"><%= etiqueta.nombre %></option>
+                                        <% }); %>
+                                    </select>
+                                </p>
+
+                                <p>
+                                    <button type="submit" class="btn btn-primary">Buscar</button>
+                                </p>
+                            </div>
+
+                            <% if(typeof error !== 'undefined' && error) { %>
+                                <div class="alert alert-danger mb-3" role="alert">
+                                    <%= error %>
+                                </div>
+                            <% } %>
+                    </form>
+        
+                </div>
+            </div>
+                
+           
+    
+        </div>
+    </div>
+</div>
+    
+<%- include('partials/_footer') %>

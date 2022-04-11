@@ -48,13 +48,10 @@ button.like.like--activo{
     border-color: rgba(0,150,136 ,1);
 }
 
-.container-boton-responder-y-likes-y-dislikes{
-    display: flex;
-    justify-content: space-between;
-}
-
 .container-like-y-dislike{
     display: flex;
+    justify-content: right;
+    margin-bottom: 1em;
 }
 
 .container-like-y-dislike form{
