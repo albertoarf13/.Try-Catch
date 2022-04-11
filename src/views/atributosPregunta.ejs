@@ -95,10 +95,13 @@
                               
         
                                 <button id="boton-responder-respuesta-<%= respuesta.id %>" onClick="hacerAlgo(<%= respuesta.id %>)" class="btn btn-outline-secondary">Responder</button>
-                                <button class="like">   
-                                    <i class="fas fa-thumbs-up"></i>
-                                </button>
-
+                                <form method="POST" action="/preguntas/respuesta/like">
+                                    <button class="like">   
+                                        <i class="fas fa-thumbs-up"></i>
+                                    </button>
+                                    <input type="hidden" name="correo" value="<%= locals.correo %>" />
+                                    <input type="hidden" name="idRespuesta" value="<%= respuesta.id %>" />
+                                </form>
                                 <button class="dislike">   
                                     <i class="fas fa-thumbs-down"></i>
                                 </button>
