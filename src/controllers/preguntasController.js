@@ -28,8 +28,15 @@ preguntasController.atribs = (req, res) => {
                     return pregunta.etiquetas;
                 })
 
-                conn.query(`select respuesta.id, respuesta.descripcion, respuesta.imagen, respuesta.correo, respuesta_a_respuesta.descripcion as descripcionRespuestaARespuesta, respuesta_a_respuesta.correo as correoRespuestaARespuesta
-                from (select * from respuesta where idPregunta = ?) as respuesta
+                conn.query(`select respuesta.*, respuesta_a_respuesta.descripcion as descripcionRespuestaARespuesta, respuesta_a_respuesta.correo as correoRespuestaARespuesta
+                from (
+                    select respuesta.*, SUM(valorar.likes) as likes, SUM(valorar.dislikes) as dislikes
+                    from respuesta
+                    left join valorar
+                    on respuesta.id = valorar.idRespuesta
+                    where respuesta.idPregunta = ?
+                    group by respuesta.id
+                ) as respuesta
                 left join respuesta_a_respuesta
                 on respuesta.id = respuesta_a_respuesta.idRespuesta;`, [idPregunta], (err, respuestas)=>{
 
@@ -48,6 +55,8 @@ preguntasController.atribs = (req, res) => {
                             respuestasObjeto[respuesta.id].descripcion = respuesta.descripcion;
                             respuestasObjeto[respuesta.id].imagen = respuesta.imagen;
                             respuestasObjeto[respuesta.id].correo = respuesta.correo;
+                            respuestasObjeto[respuesta.id].likes = respuesta.likes;
+                            respuestasObjeto[respuesta.id].dislikes = respuesta.dislikes;
 
 
                             respuestasObjeto[respuesta.id].respuestasARespuesta = [];
