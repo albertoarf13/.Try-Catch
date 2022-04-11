@@ -39,4 +39,4 @@ respuestasController.likeRespuesta = (req,res) => {
 
 }
 
-module.exports = preguntasController;
+module.exports = respuestasController;

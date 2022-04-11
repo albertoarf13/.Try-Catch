@@ -92,9 +92,17 @@
                                         <div class="mb-3"></div>
                                     <% } %>
                                 </div>
+                              
         
                                 <button id="boton-responder-respuesta-<%= respuesta.id %>" onClick="hacerAlgo(<%= respuesta.id %>)" class="btn btn-outline-secondary">Responder</button>
-        
+                                <button class="like">   
+                                    <i class="fas fa-thumbs-up"></i>
+                                </button>
+
+                                <button class="dislike">   
+                                    <i class="fas fa-thumbs-down"></i>
+                                </button>
+                               
                                 <div class="d-none" id="form-responder-respuesta-<%= respuesta.id %>">
                                     <form method="POST" action="/preguntas/<%= preguntas.id %>/responder-respuesta/<%= respuesta.id %>">
         
