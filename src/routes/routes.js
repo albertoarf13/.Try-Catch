@@ -36,6 +36,9 @@ router.get('/preguntas/busqueda-por-etiquetas-vista', preguntasController.busque
 router.get('/preguntas/busqueda-por-etiquetas', preguntasController.busqueda_basica);
 
 
+router.get('/usuarios/:correo/edit', usersController.editar_vista);
+
+
 function isLogged(req, res, next){
     if(req.session.correo){
         next();

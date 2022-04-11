@@ -129,6 +129,13 @@ function checkUsername(nombre){
     return nombre.length >= 3;
 }
 
+usuarioController.editar_vista = (req, res) =>{
+
+    res.render('editarPerfilUsuario.ejs');
+
+}
+
+
 //Test
 
 
