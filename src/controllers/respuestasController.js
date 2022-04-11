@@ -19,7 +19,7 @@ respuestasController.likeRespuesta = (req,res) => {
                     if(err){
                         res.status(500).json(err);
                     }else{
-                        res.status(200);
+                        res.redirect('back');
                     }
                 });
             }else if(result[0].likes == 1){
@@ -29,7 +29,7 @@ respuestasController.likeRespuesta = (req,res) => {
                     if(err){
                         res.status(500).json(err);
                     }else{
-                        res.status(200);
+                        res.redirect('back');
                     }
                 });
             }else if(result[0].dislikes == 1){
@@ -39,7 +39,7 @@ respuestasController.likeRespuesta = (req,res) => {
                     if(err){
                         res.status(500).json(err);
                     }else{
-                        res.status(200);
+                        res.redirect('back');
                     }
                 });
             }
