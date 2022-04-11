@@ -145,12 +145,12 @@ usuarioController.vista_editar_usuario = (req, res) =>{
             }
             else if(usuarios[0] == null){
 
-                res.status(451).render('editarPerfilUsuario.ejs', { error: "El usuario no existe" });
+                res.status(451).render('editarUsuario.ejs', { error: "El usuario no existe" });
                 return;
             } 
             else{
                 
-                res.status(450).render('editarPerfilUsuario.ejs', {
+                res.status(450).render('editarUsuario.ejs', {
                     usuario: usuarios[0]
                 });
             }
