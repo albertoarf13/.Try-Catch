@@ -144,8 +144,34 @@
                                                 <div class="card-body">
                                                     <p class="card-text"><%= respuestaARespuesta.descripcion %></p>
                                                 </div>
+                                                <div class="container-boton-responder-y-likes-y-dislikes">                                                
+                                                    <div class="container-like-y-dislike">
+                                                        <form method="POST" action="/preguntas/aclaracion/like">
+                                                            <button class="like <% if(respuestaARespuesta.has_dado_like){ %>like--activo<% } %>">   
+                                                                <i class="fas fa-thumbs-up"></i>
+                                                            </button>
+                        
+                                                            <span><%= respuestaARespuesta.likes %></span>
+                                                            
+                                                            <input type="hidden" name="correo" value="<%= locals.correo %>" />
+                                                            <input type="hidden" name="idAclaracion" value="<%= respuestaARespuesta.id %>" />
+                                                        </form>
+                
+                                                        <form method="POST" action="/preguntas/aclaracion/dislike">
+                                                            <button class="dislike <% if(respuestaARespuesta.has_dado_dislike){ %>dislike--activo<% } %>">   
+                                                                <i class="fas fa-thumbs-down"></i>
+                                                            </button>
+                                                            <span><%= respuestaARespuesta.dislikes %></span>
+                                                            
+                                                            <input type="hidden" name="correo" value="<%= locals.correo %>" />
+                                                            <input type="hidden" name="idAclaracion" value="<%= respuestaARespuesta.id %>" />
+                                                        </form>
+                                                    </div>
+                                                    
+                                                </div>
+                                           
                                             </div>
-                                            
+                                        
                                         <% }); %>
                                     </div>
                                 <% } %>

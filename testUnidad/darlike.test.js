@@ -13,19 +13,19 @@ test('[Dar like] sin like y sin dislike', async () =>{
 
     const response = await testSession.post('/login').send(usuario);
     const response1 = await request(app).post("/preguntas/respuesta/like").send({id:1 , correo:"prueba@prueba.es"});
-    expect(response1.text).toBe(200);
+    expect(response1.status).toBe(302);
 });
 test('[Dar like] sin like y con dislike', async () =>{
     let testSession = session(app);
 
     const response = await testSession.post('/login').send(usuario);
     const response1 = await request(app).post("/preguntas/respuesta/like").send({id:2 , correo:"prueba@prueba.es"});;
-    expect(response1.text).toBe(200);
+    expect(response1.status).toBe(302);
 });
 test('[Dar like] con like', async () =>{
     let testSession = session(app);
 
     const response = await testSession.post('/login').send(usuario);
     const response1 = await request(app).post("/preguntas/respuesta/like").send({id:3 , correo:"prueba@prueba.es"});;
-    expect(response1.text).toBe();
+    expect(response1.status).toBe(302);
 });

@@ -7,6 +7,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 const usersController = require('../controllers/usersController');
 const preguntasController = require('../controllers/preguntasController');
 const respuestasController = require('../controllers/respuestasController');
+const aclaracionesController = require('../controllers/aclaracionesController');
 
 router.get('/', preguntasController.prueba_mostrar_preguntas_recientes);
 router.get('/preguntas/page=:pag', preguntasController.prueba_mostrar_preguntas_recientes);
@@ -34,6 +35,9 @@ router.post('/preguntas/:idPregunta/responder-respuesta/:idRespuesta', isLogged,
 
 //Respuestas
 router.post('/preguntas/respuesta/like', isLogged, respuestasController.likeRespuesta);
+
+//Aclaracion
+router.post('/preguntas/aclaracion/like', isLogged, aclaracionesController.likeRespuesta);
 
 function isLogged(req, res, next){
     if(req.session.correo){
