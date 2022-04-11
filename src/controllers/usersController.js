@@ -127,6 +127,95 @@ function checkUsername(nombre){
     return nombre.length >= 3;
 }
 
+usuarioController.vista_editar_usuario = (req, res) =>{
+
+    const correo = req.session.correo;
+    
+    req.getConnection((err, conn)=>{
+        
+        conn.query(`select *
+            from usuario
+            where correo = ?;`, [correo], (err, usuarios)=>{
+
+            if(err){
+                res.json(err);
+            }
+            else if(usuarios[0] == null){
+
+                res.status(451).render('editarUsuario.ejs', { error: "El usuario no existe" });
+                return;
+            } 
+            else{
+                
+                res.status(450).render('editarUsuario.ejs', {
+                    usuario: usuarios[0]
+                });
+            }
+
+        });
+    });
+}
+
+
+usuarioController.mostrar = (req, res) => {
+
+    const correo = req.params.correo;
+
+    req.getConnection((err, conn)=>{
+        
+        conn.query(`select *
+            from usuario
+            where correo = ?;`, [correo], (err, usuarios)=>{
+
+            if(err){
+                res.json(err);
+            }
+            else if(usuarios[0] == null){
+
+                res.status(451).render('prueba-mostrar-atributos-usuario.ejs', { error: "El usuario no existe" });
+                return;
+            } 
+            else{
+                
+                res.status(450).render('prueba-mostrar-atributos-usuario.ejs', {
+                    usuario: usuarios[0]
+                });
+            }
+
+
+        });
+    });
+}
+
+
+usuarioController.actualizar_usuario = (req, res) =>{
+
+    const correo = req.params.correo;
+    const {nombre, bio} = req.body;
+
+
+    req.getConnection((err, conn)=>{
+        
+        conn.query(`update usuario
+            set nombre = ?,
+            bio = ?
+            where correo = ?;`, [nombre, bio, correo], (err, result)=>{
+
+            if(err){
+                res.json(err);
+            }
+            else{
+                res.redirect('/usuarios/editar-mi-perfil');
+            }
+
+
+        });
+    });
+
+}
+
+
+
 //Test
 
 
