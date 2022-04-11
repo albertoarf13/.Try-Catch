@@ -17,3 +17,12 @@
       background-color: grey;
       width: 50%;
 }
+
+.tagInput{
+      width: 50%;
+}
+
+.tag{
+      margin-right: 5px;
+}
+

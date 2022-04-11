@@ -1,6 +1,7 @@
 <%- include('partials/_header') %>
         
-<link rel="stylesheet" href="/stylescrearPregunta.css">  
+<link rel="stylesheet" href="/stylescrearPregunta.css">
+<script src="/socket.io/socket.io.js"></script> 
 <div class="contenedor">
 
     <div class="sidebar">
@@ -14,7 +15,7 @@
                 <div class="crearPregunta">
                     
                   
-                    <form method="POST" action="/preguntas/crear" enctype="multipart/form-data">
+                    <form method="POST" action="/preguntas/crear" enctype="multipart/form-data" autocomplete="off">
                      
                             <div class="inputs">
                                 <p>
@@ -30,11 +31,18 @@
                                 <p>
                                     <!-- <h2>Etiquetas (se pueden seleccionar varias con Ctrl)</h2> -->
                                     <label for="respuesta">Etiquetas (se pueden seleccionar varias con Ctrl)</label>
-                                    <select class="form-select" multiple name="etiquetas" required>
-                                        <% etiquetas.forEach(function(etiqueta){ %>
-                                            <option value="<%= etiqueta.id %>"><%= etiqueta.nombre %></option>
-                                        <% }); %>
-                                    </select>
+                                    <div class="dropdown">
+                                        <input id="tagId"class="tagInput" name="tag" maxlength="6" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <ul class="dropdown-menu" aria-labelledby="tagId" id="dropList">
+                                          
+                                        </ul>
+                                    </div>
+                                    <br>
+                                    <div class="tagsynombrecontainer">
+                                        <div id="tagsContainer">
+                                          
+                                        </div>
+                                    </div>
                                 </p>
                                 <p>
                                     <label for="imageFile">Selecciona una imagen:</label>
@@ -60,5 +68,73 @@
         </div>
     </div>
 </div>
+<script>
+    const tag = document.getElementById("tagId");
+    const listaTags = document.getElementById("listaTags");
+    const clickedtags = document.getElementById("tagsContainer");
+    var addedTags = [];
+</script>
+<script>
+    const direccion = 'localhost';
+    const puerto = 3000;
+    const socket = io('http://' + direccion + ':' + puerto);
+</script>
+<script>
+    tag.oninput = () => {
+        if(tag.value.length > 0){
+            socket.emit('buscarTags', tag.value);
+        }
+    }
+
+    tag.onchange = () => {
+        tag.value = "";
+    }
+</script>
+<script>
+    var tagsContainer = document.getElementById("dropList");
+    socket.on('respTags', lista => {
+        tagsContainer.innerHTML = '';
+
+        lista.forEach(element => {
+            var newTag = document.createElement("span");
+            newTag.onclick = () =>{
+                if(!addedTags.includes(newTag.textContent) && addedTags.length < 5){
+                    var newClicked = document.createElement("span");
+                    newClicked.setAttribute("class","badge bg-secondary tag");
+                    newClicked.textContent = newTag.textContent;
+                    clickedtags.appendChild(newClicked);
+
+                    newClicked.onmouseover = () =>{
+                        newClicked.setAttribute("class","badge bg-danger tag");
+                    }
+
+                    newClicked.onmouseleave = () =>{
+                        newClicked.setAttribute("class","badge bg-secondary tag");
+                    }
+
+                    newClicked.onclick = () =>{
+                        const index = addedTags.indexOf(newClicked.textContent);
+
+                        if (index > -1) {
+                            addedTags.splice(index, 1); // 2nd parameter means remove one item only
+                        }
+                        clickedtags.removeChild(newClicked);
+                    }
+                    addedTags.push(newTag.textContent);
+                }
+            }
+            var li = document.createElement("li");
+
+            newTag.setAttribute("class","badge bg-secondary");
+            newTag.textContent = element;
+            console.log(element);
+            tagsContainer.appendChild(newTag);
+
+            li.appendChild(newTag);
+            tagsContainer.appendChild(li);
+            
+        });
+    });
+</script>  
     
 <%- include('partials/_footer') %>
