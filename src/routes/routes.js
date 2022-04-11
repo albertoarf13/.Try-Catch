@@ -36,7 +36,8 @@ router.get('/preguntas/busqueda-por-etiquetas-vista', preguntasController.busque
 router.get('/preguntas/busqueda-por-etiquetas', preguntasController.busqueda_basica);
 
 
-router.get('/usuarios/:correo/edit', usersController.editar_vista);
+router.get('/usuarios/:correo/edit', usersController.vista_editar_usuario);
+router.post('/usuarios/:correo/update', usersController.actualizar_usuario);
 
 
 function isLogged(req, res, next){
