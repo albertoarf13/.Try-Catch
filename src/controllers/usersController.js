@@ -131,8 +131,7 @@ function checkUsername(nombre){
 
 usuarioController.vista_editar_usuario = (req, res) =>{
 
-    const correo = req.params.correo;
-
+    const correo = req.session.correo;
 
     req.getConnection((err, conn)=>{
         
@@ -178,7 +177,7 @@ usuarioController.actualizar_usuario = (req, res) =>{
                 res.json(err);
             }
             else{
-                res.redirect('/usuarios/'+ correo + '/edit');
+                res.redirect('/usuarios/editar-mi-perfil');
             }
 
 
