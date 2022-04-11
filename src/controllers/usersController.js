@@ -129,6 +129,38 @@ function checkUsername(nombre){
     return nombre.length >= 3;
 }
 
+usuarioController.mostrar = (req, res) => {
+
+    const correo = req.params.correo;
+
+
+    req.getConnection((err, conn)=>{
+        
+        conn.query(`select *
+            from usuario
+            where correo = ?;`, [correo], (err, usuarios)=>{
+
+            if(err){
+                res.json(err);
+            }
+            else if(usuarios[0] == null){
+
+                res.status(451).render('prueba-mostrar-atributos-usuario.ejs', { error: "El usuario no existe" });
+                return;
+            } 
+            else{
+                
+                res.status(450).render('prueba-mostrar-atributos-usuario.ejs', {
+                    usuario: usuarios[0]
+                });
+            }
+
+
+        });
+    });
+    
+}
+
 //Test
 
 
