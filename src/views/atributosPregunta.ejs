@@ -50,7 +50,9 @@
                               <% }); %>
                             </div>
                             <div>
-                              <span class="usernamelink"><img class="user_img" src="/user_icon.png"><%= preguntas.correo %></span>
+                              <a href="/usuarios/<%= preguntas.correo %>" class="usernamelink">
+                                <img class="user_img" src="/user_icon.png"><%= preguntas.correo %>
+                              </a>
                             </div>
                           </div>
                     </div>
@@ -92,7 +94,9 @@
                         <div class="card mb-3 preg_box respuesta">
                             <div class="card-header respuesta__header">
                                 <div>
-                                    <i class="fa-solid fa-user"></i> <%= respuesta.correo %>
+                                    <a href="/usuarios/<%= respuesta.correo %>" class="respuesta__correo">
+                                        <i class="fa-solid fa-user"></i> <%= respuesta.correo %>
+                                    </a>
                                 </div>
                                 
                             </div>
@@ -128,7 +132,9 @@
                                             <div class="card mb-3 respuestaARespuesta">
                                                 <div class="card-header respuestaARespuesta__header">
                                                     <div>
-                                                        <i class="fa-solid fa-user"></i> <%= respuestaARespuesta.correo %>
+                                                        <a href="/usuarios/<%= respuestaARespuesta.correo %>" class="respuestaARespuesta__correo">
+                                                            <i class="fa-solid fa-user"></i> <%= respuestaARespuesta.correo %>
+                                                        </a>
                                                     </div>
                                                     
                                                 </div>

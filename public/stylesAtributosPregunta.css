@@ -26,6 +26,16 @@
     height: min-content;
 }
 
+.respuesta .respuesta__correo{
+    color: black;
+    text-decoration: none;
+}
+
+.respuestaARespuesta .respuestaARespuesta__correo{
+    color: black;
+    text-decoration: none;
+}
+
 /*.respuesta .respuesta__header{
     display: flex;
     justify-content: space-between;

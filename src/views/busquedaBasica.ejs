@@ -56,7 +56,9 @@
                             <% }); %>
                           </div>
                           <div>
-                            <span class="usernamelink"><img class="user_img" src="/user_icon.png"><%= preg.correo %></span>
+                            <a href="/usuarios/<%= preg.correo %>" class="usernamelink">
+                              <img class="user_img" src="/user_icon.png"><%= preg.correo %>
+                            </a>
                           </div>
                         </div>
                       </div>
