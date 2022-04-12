@@ -15,3 +15,25 @@
     margin-top: 0.5%;
     margin-left: 80%;
 }
+
+.pregunta .pregunta__header{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1em;
+}
+
+.pregunta .pregunta__header .btn-group{
+    height: min-content;
+}
+
+/*.respuesta .respuesta__header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.respuestaARespuesta .respuestaARespuesta__header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}*/

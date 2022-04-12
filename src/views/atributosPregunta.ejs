@@ -14,9 +14,20 @@
                     <%= error %>
                 </div>
               <% } else { %>
-                <div class="card preg_box">
+                <div class="card preg_box pregunta">
                     <br>
-                    <h3 class="card-title card-titulo"><%= preguntas.titulo %></h3>
+                    <div class="pregunta__header">
+                        <h3 class="card-title card-titulo"><%= preguntas.titulo %></h3>
+                        <% if(locals.correo) { %>
+                            <% if(locals.correo == preguntas.correo) { %>
+                                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                    <button class="btn btn-outline-primary"><i class="fas fa-trash"></i></button>
+                                    <a href="/preguntas/<%= preguntas.id %>/editar" class="btn btn-outline-primary"><i class="fas fa-pencil"></i></a>
+                                </div>
+                            <% } %>
+                        <% } %>
+                    </div>
+                    
                     <hr>
                     <div class="card-body">
                       <p class="card-text"><%= preguntas.descripcion %></p>
@@ -78,9 +89,12 @@
                     <br>
                     <% respuestas.forEach(function(respuesta){ %>
         
-                        <div class="card mb-3 preg_box">
-                            <div class="card-header">
-                                <i class="fa-solid fa-user"></i> <%= respuesta.correo %>
+                        <div class="card mb-3 preg_box respuesta">
+                            <div class="card-header respuesta__header">
+                                <div>
+                                    <i class="fa-solid fa-user"></i> <%= respuesta.correo %>
+                                </div>
+                                
                             </div>
                             <div class="card-body">
                                 <p class="card-text"><%= respuesta.descripcion %></p>
@@ -111,9 +125,12 @@
                                     <div class="mt-3">
                                         <% respuesta.respuestasARespuesta.forEach(function(respuestaARespuesta){ %>
             
-                                            <div class="card mb-3">
-                                                <div class="card-header">
-                                                    <i class="fa-solid fa-user"></i> <%= respuestaARespuesta.correo %>
+                                            <div class="card mb-3 respuestaARespuesta">
+                                                <div class="card-header respuestaARespuesta__header">
+                                                    <div>
+                                                        <i class="fa-solid fa-user"></i> <%= respuestaARespuesta.correo %>
+                                                    </div>
+                                                    
                                                 </div>
                                                 <div class="card-body">
                                                     <p class="card-text"><%= respuestaARespuesta.descripcion %></p>
