@@ -35,9 +35,11 @@ router.post('/preguntas/:idPregunta/responder-respuesta/:idRespuesta', isLogged,
 
 //Respuestas
 router.post('/preguntas/respuesta/like', isLogged, respuestasController.likeRespuesta);
+router.post('/preguntas/respuesta/dislike', isLogged, respuestasController.dislikeRespuesta);
 
 //Aclaracion
 router.post('/preguntas/aclaracion/like', isLogged, aclaracionesController.likeRespuesta);
+router.post('/preguntas/aclaracion/dislike', isLogged, aclaracionesController.dislikeRespuesta);
 
 //Busqueda por etiquetas
 router.get('/preguntas/busqueda-por-etiquetas-vista', preguntasController.busqueda_por_etiquetas_vista);
