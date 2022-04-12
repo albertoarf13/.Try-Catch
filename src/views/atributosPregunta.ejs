@@ -53,8 +53,17 @@
                               </a>
                             </div>
                           </div>
+                         
                     </div>
-                    
+                    <% if(locals.correo == preguntas.correo) { %>
+                    <div class="card-body">
+                        <div class="erasePregunta">
+                            <button type="button" class="btn btn-danger">
+                                <i class="fas fa-trash"></i>    
+                            </button>
+                        </div>
+                    </div>
+                    <%}%>
                   </div>
                   <br> 
                   <div class="preg_box">
