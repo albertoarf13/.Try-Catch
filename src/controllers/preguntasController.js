@@ -216,8 +216,14 @@ preguntasController.prueba_mostrar_preguntas_recientes = (req, res) => {
     console.log("offset", offset);
 
     req.getConnection((err, conn)=>{
-        conn.query(`select pregunta.*, ifnull(GROUP_CONCAT(etiqueta.nombre), '') as etiquetas
-        from pregunta
+        conn.query(`select pregunta.*, num_respuestas, ifnull(GROUP_CONCAT(etiqueta.nombre), '') as etiquetas
+        from (
+            select pregunta.*, COUNT(respuesta.id) as num_respuestas
+            from pregunta
+            left join respuesta
+            on pregunta.id = respuesta.idPregunta
+            group by pregunta.id
+        ) as pregunta
         left join etiqueta_pregunta
         on pregunta.id =  etiqueta_pregunta.id_pregunta
         left join etiqueta
