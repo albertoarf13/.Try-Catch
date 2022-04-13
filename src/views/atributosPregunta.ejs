@@ -131,7 +131,15 @@
             
                                     </form>
                                 </div>
-        
+                                <% if(locals.correo == respuesta.correo) { %>
+                                <div class="card-body">
+                                    <div class="eraseRespuesta">
+                                        <button type="button" class="btn btn-danger">
+                                            <i class="fas fa-trash"></i>    
+                                        </button>
+                                    </div>
+                                <%}%>
+                                </div>
                                 <% if(respuesta.respuestasARespuesta.length > 0){ %>
                                     <div class="mt-3">
                                         <% respuesta.respuestasARespuesta.forEach(function(respuestaARespuesta){ %>
@@ -148,6 +156,14 @@
                                                 <div class="card-body">
                                                     <p class="card-text"><%= respuestaARespuesta.descripcion %></p>
                                                 </div>
+                                                <% if(locals.correo == respuestaARespuesta.correo) { %>
+                                                    <div class="card-body">
+                                                        <div class="eraseRespuesta">
+                                                            <button type="button" class="btn btn-danger">
+                                                                <i class="fas fa-trash"></i>    
+                                                            </button>
+                                                        </div>
+                                                    <%}%>
                                             </div>
                                             
                                         <% }); %>

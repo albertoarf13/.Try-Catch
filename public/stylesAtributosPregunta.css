@@ -38,6 +38,10 @@
 .erasePregunta {
     text-align: end;
 }
+.eraseRespuesta{
+    text-align: end;
+}
+
 
 /*.respuesta .respuesta__header{
     display: flex;
