@@ -28,12 +28,34 @@ preguntasController.atribs = (req, res) => {
                     return pregunta.etiquetas;
                 })
 
-                conn.query(`select respuesta.id, respuesta.descripcion, respuesta.imagen, respuesta.correo, respuesta_a_respuesta.descripcion as descripcionRespuestaARespuesta, respuesta_a_respuesta.correo as correoRespuestaARespuesta
-                from (select * from respuesta where idPregunta = ?) as respuesta
-                left join respuesta_a_respuesta
-                on respuesta.id = respuesta_a_respuesta.idRespuesta;`, [idPregunta], (err, respuestas)=>{
+                // Esto es para saber si ya le dimos like o dislike y eso
+                let correoUsuarioActual = null;
+                if(req.session.correo){
+                    correoUsuarioActual = req.session.correo;
+                }
 
-                    //console.log(respuestas)
+                conn.query(`select respuesta.*, aclaracion.id as idAclaracion,  aclaracion.descripcion as descripcionRespuestaARespuesta, aclaracion.correo as correoRespuestaARespuesta, aclaracion.a_likes as a_likes, aclaracion.a_dislikes, aclaracion.a_has_dado_like, aclaracion.a_has_dado_dislike
+                from (
+                    select respuesta.*, 
+                    SUM(valorar.likes) as likes, SUM(valorar.dislikes) as dislikes, 
+                    SUM(case when valorar.correo = ? and valorar.likes = 1 then 1 else 0 end) as has_dado_like,
+                    SUM(case when valorar.correo = ? and valorar.dislikes = 1 then 1 else 0 end) as has_dado_dislike
+                    from respuesta
+                    left join valorar
+                    on respuesta.id = valorar.idRespuesta
+                    where respuesta.idPregunta = ?
+                    group by respuesta.id
+                ) as respuesta
+                left join (select respuesta_a_respuesta.*, SUM(valorar_aclaracion.likes) as a_likes, SUM(valorar_aclaracion.dislikes) as a_dislikes, 
+                SUM(case when valorar_aclaracion.correo = ? and valorar_aclaracion.likes = 1 then 1 else 0 end) as a_has_dado_like,
+                SUM(case when valorar_aclaracion.correo = ? and valorar_aclaracion.dislikes = 1 then 1 else 0 end) as a_has_dado_dislike
+                from respuesta_a_respuesta
+                left join valorar_aclaracion
+                on respuesta_a_respuesta.id = valorar_aclaracion.idAclaracion
+                group by respuesta_a_respuesta.id) as aclaracion
+                on respuesta.id = aclaracion.idRespuesta;`, [correoUsuarioActual,correoUsuarioActual,idPregunta,correoUsuarioActual,correoUsuarioActual], (err, respuestas)=>{
+
+                    console.log('Adios', respuestas)
 
                     let respuestasObjeto = {};
 
@@ -48,17 +70,26 @@ preguntasController.atribs = (req, res) => {
                             respuestasObjeto[respuesta.id].descripcion = respuesta.descripcion;
                             respuestasObjeto[respuesta.id].imagen = respuesta.imagen;
                             respuestasObjeto[respuesta.id].correo = respuesta.correo;
+                            respuestasObjeto[respuesta.id].likes = respuesta.likes;
+                            respuestasObjeto[respuesta.id].dislikes = respuesta.dislikes;
+                            respuestasObjeto[respuesta.id].has_dado_like = respuesta.has_dado_like;
+                            respuestasObjeto[respuesta.id].has_dado_dislike = respuesta.has_dado_dislike;
 
 
                             respuestasObjeto[respuesta.id].respuestasARespuesta = [];
                         }
 
                         if(respuesta.descripcionRespuestaARespuesta != null){
-
                             respuestasObjeto[respuesta.id].respuestasARespuesta.push({
+                                id: respuesta.idAclaracion,
                                 descripcion: respuesta.descripcionRespuestaARespuesta,
                                 correo: respuesta.correoRespuestaARespuesta,
-                            })
+                                likes: respuesta.a_likes,
+                                dislikes: respuesta.a_dislikes,
+                                has_dado_like: respuesta.a_has_dado_like,
+                                has_dado_dislike: respuesta.a_has_dado_dislike,
+                            });
+                          
                         }
                         
                     })
@@ -70,7 +101,7 @@ preguntasController.atribs = (req, res) => {
                         respuestasOficial.push(respuesta[1]);
                     })
             
-                    //console.log(respuestasOficial)
+                    console.log(respuestasOficial)
                     var pregs = JSON.parse(JSON.stringify(infoPregunta));
 
                     res.status(450).render('atributosPregunta.ejs', {

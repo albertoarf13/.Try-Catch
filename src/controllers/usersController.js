@@ -19,7 +19,6 @@ usuarioController.sign_up = (req, res) => {
                     if(err){
                         res.json(err);
                     }else{
-                        console.log(usuario);
                         res.status(451).render('login.ejs', { mensaje: "Se ha registrado con exito" });
                     }
                 });
@@ -45,7 +44,6 @@ usuarioController.login = (req, res) => {
     
     req.getConnection((err, conn)=>{
         conn.query("SELECT * FROM usuario WHERE correo = ? AND contraseya = ?", [correo, contraseya], (err, usuario)=>{
-            console.log(usuario);
             if(err){
                 res.status(402).json(err);
             }

@@ -4,6 +4,7 @@ const multer = require('multer');
 const upload = multer({ storage: multer.memoryStorage() });
 const usersController = require('../controllers/usersController');
 const preguntasController = require('../controllers/preguntasController');
+const respuestasController = require('../controllers/respuestasController');
 
 router.get('/', preguntasController.prueba_mostrar_preguntas_recientes);
 router.get('/preguntas/page=:pag', preguntasController.prueba_mostrar_preguntas_recientes);
@@ -27,6 +28,9 @@ router.get('/preguntas/mostrar-etiquetas', preguntasController.prueba_mostrar_et
 //router.get('/preguntas/:id/responder', isLogged, preguntasController.prueba_responder_vista);
 router.post('/preguntas/:id/responder', isLogged, upload.single("imagen"), preguntasController.responder_pregunta);
 router.post('/preguntas/:idPregunta/responder-respuesta/:idRespuesta', isLogged, preguntasController.responder_respuesta);
+
+//Respuestas
+router.post('/preguntas/respuesta/like', isLogged, respuestasController.likeRespuesta);
 
 //Busqueda por etiquetas
 //router.get('/preguntas/busqueda-por-etiquetas-vista', preguntasController.busqueda_por_etiquetas_vista);
