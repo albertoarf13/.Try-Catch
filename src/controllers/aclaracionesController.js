@@ -63,7 +63,7 @@ aclaracionesController.dislikeRespuesta = (req,res) => {
                         res.redirect('back');
                     }
                 });
-            }else if(result[0].likes){
+            }else if(result[0].dislikes){
                 conn.query('delete from valorar_aclaracion where correo = ? and idAclaracion = ?;', [correo, idAclaracion], (err, resultUpt)=>{
         
                     if(err){
@@ -72,7 +72,7 @@ aclaracionesController.dislikeRespuesta = (req,res) => {
                         res.redirect('back');
                     }
                 });
-            }else if(result[0].dislikes){
+            }else if(result[0].likes){
                 conn.query('UPDATE valorar_aclaracion SET likes = 0, dislikes = 1 where correo = ? and idAclaracion = ?;', [correo, idAclaracion], (err, resultUpt)=>{
     
                     if(err){

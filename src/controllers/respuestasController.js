@@ -66,7 +66,7 @@ respuestasController.dislikeRespuesta = (req,res) => {
                         return;
                     }
                 });
-            }else if(result[0].likes == 1){
+            }else if(result[0].dislikes == 1){
                 conn.query('delete from valorar where correo = ? and idRespuesta = ?;', [correo, idRespuesta], (err, resultUpt)=>{
 
                     if(err){
@@ -76,7 +76,7 @@ respuestasController.dislikeRespuesta = (req,res) => {
                         return;
                     }
                 });
-            }else if(result[0].dislikes == 1){
+            }else if(result[0].likes == 1){
                 conn.query('UPDATE valorar SET likes = 0, dislikes = 1 where correo = ? and idRespuesta = ?;', [correo, idRespuesta], (err, resultUpt)=>{        
                     if(err){
                         res.status(500).json(err);
