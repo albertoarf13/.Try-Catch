@@ -9,6 +9,7 @@ const respuestasController = require('../controllers/respuestasController');
 router.get('/', preguntasController.prueba_mostrar_preguntas_recientes);
 router.get('/preguntas/page=:pag', preguntasController.prueba_mostrar_preguntas_recientes);
 
+
 router.post('/sign-up', usersController.sign_up);
 router.get('/sign-up_page', usersController.sign_up_page);
 
@@ -33,8 +34,9 @@ router.post('/preguntas/:idPregunta/responder-respuesta/:idRespuesta', isLogged,
 router.post('/preguntas/respuesta/like', isLogged, respuestasController.likeRespuesta);
 
 //Busqueda por etiquetas
-//router.get('/preguntas/busqueda-por-etiquetas-vista', preguntasController.busqueda_por_etiquetas_vista);
+router.get('/preguntas/busqueda-por-etiquetas-vista', preguntasController.busqueda_por_etiquetas_vista);
 router.get('/preguntas/busqueda-por-etiquetas', preguntasController.busqueda_basica);
+
 
 function isLogged(req, res, next){
     if(req.session.correo){
@@ -53,6 +55,4 @@ function isNotLogged(req, res, next){
         next();
     }
 }
-
 module.exports = router;
-
