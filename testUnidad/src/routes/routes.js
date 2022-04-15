@@ -32,6 +32,10 @@ router.post('/preguntas/:idPregunta/responder-respuesta/:idRespuesta', isLogged,
 //router.get('/preguntas/busqueda-por-etiquetas-vista', preguntasController.busqueda_por_etiquetas_vista);
 router.get('/preguntas/busqueda-por-etiquetas', preguntasController.busqueda_basica);
 
+
+//Ver atributos de usuario
+router.get('/usuarios/:correo', usersController.mostrar);
+
 function isLogged(req, res, next){
     if(req.session.correo){
         next();
