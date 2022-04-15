@@ -17,9 +17,18 @@
                 <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                   Ordenar
                 </button>
+                
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                  <li><a class="dropdown-item" href="#">Numero de valoraciones ↑</a></li>
-                  <li><a class="dropdown-item" href="#">Numero de valoraciones ↓</a></li>
+                  <% if(!query.vals) { %>
+                    <li><a class="dropdown-item" href="<%= currentPage%>vals=true" >Numero de valoraciones ↑</a></li>
+                    <li><a class="dropdown-item" href="<%= currentPage%>vals=false">Numero de valoraciones ↓</a></li>
+                    <li><a class="dropdown-item" onClick="eliminarFiltro()">Sin ordenar</a></li>
+                  <% } else { %>
+                    <li><a class="dropdown-item" onClick="setFiltroOrdenarValTrue()" >Numero de valoraciones ↑</a></li>
+                    <li><a class="dropdown-item" onClick="setFiltroOrdenarValFalse()">Numero de valoraciones ↓</a></li>
+                    <li><a class="dropdown-item" onClick="eliminarFiltro()">Sin ordenar</a></li>
+                  <% } %>
+                  
                 </ul>
               </div>
               <div class="btn-group" role="group" aria-label="Basic outlined example">
@@ -93,6 +102,20 @@ function setFiltroRespondidasTrue(){
 
 function setFiltroRespondidasFalse(){
   window.location.href = window.location.href.replace('respondidas=true', 'respondidas=false');
+}
+
+
+
+function eliminarFiltro(){
+  window.location.href = removeUrlParameter(window.location.href, "vals");
+}
+
+function setFiltroOrdenarValTrue(){
+  window.location.href = window.location.href.replace('vals=false', 'vals=true');
+}
+
+function setFiltroOrdenarValFalse(){
+  window.location.href = window.location.href.replace('vals=true', 'vals=false');
 }
 
 

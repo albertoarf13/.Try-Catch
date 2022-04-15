@@ -315,8 +315,10 @@ preguntasController.responder_respuesta = (req, res) =>{
 
 }
 
-let query_busqueda_basica = `select pregunta.*, ifnull(GROUP_CONCAT(etiqueta.nombre), '') as etiquetas
+let query_busqueda_basica = `select pregunta.*, ifnull(GROUP_CONCAT(etiqueta.nombre), '') as etiquetas, COUNT(respuesta.id) as num_respuestas
     from pregunta
+    left join respuesta
+	on pregunta.id = respuesta.idPregunta
     left join etiqueta_pregunta
     on pregunta.id =  etiqueta_pregunta.id_pregunta
     left join etiqueta
@@ -431,6 +433,23 @@ where pregunta.num_respuestas > 0
 order by pregunta.id desc
 limit 10 offset ?;`;
 
+function sort_by_key_asc(array, key)
+{
+ return array.sort(function(a, b)
+ {
+  var x = a[key]; var y = b[key];
+  return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+ });
+}
+
+function sort_by_key_desc(array, key)
+{
+ return array.sort(function(a, b)
+ {
+  var x = a[key]; var y = b[key];
+  return ((x < y) ? 1 : ((x > y) ? -1 : 0));
+ });
+}
 
 preguntasController.busqueda_basica = (req, res) => {
     let page = req.query.page;
@@ -456,6 +475,13 @@ preguntasController.busqueda_basica = (req, res) => {
     // Por defecto es búsqueda básica
     let query = query_busqueda_basica;
 
+    let order_num_val;
+    if (req.query.vals == "true"){
+        order_num_val = true;
+    }else if (req.query.vals == "false"){
+        order_num_val = false;
+    }
+
     if(req.query.respondidas == "false"){
         query = query_busqueda_no_respondidas;
     }
@@ -480,11 +506,18 @@ preguntasController.busqueda_basica = (req, res) => {
         req.getConnection((err, conn)=>{
 
             conn.query(query, [dynamicInput, offset] ,(err, lista_preguntas)=>{
+
                 lista_preguntas.map(pregunta=>{
                     pregunta.etiquetas = pregunta.etiquetas.split(',');
                     return pregunta.etiquetas;
                 })
-    
+                
+                if(order_num_val){
+                    lista_preguntas = sort_by_key_asc(lista_preguntas, "num_respuestas")
+                }else{
+                    lista_preguntas = sort_by_key_desc(lista_preguntas, "num_respuestas")
+                }
+
                 if(err){
                     res.json(err);
                 }
@@ -497,8 +530,7 @@ preguntasController.busqueda_basica = (req, res) => {
                     else{
                         currentPage = currentPage.substring(0, currentPage.indexOf('page='));
                     }
-    
-                    var preguntas = JSON.parse(JSON.stringify(lista_preguntas));
+                    var preguntas = JSON.parse(JSON.stringify(lista_preguntas));                  
                     res.status(401).render('busquedaBasica.ejs', {
                         preguntas : preguntas, 
                         currentPage: currentPage, 
