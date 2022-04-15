@@ -43,7 +43,7 @@ aclaracionesController.likeRespuesta = (req,res) => {
 
 }
 
-preguntasController.actualizar_aclaracion = (req, res) =>{
+aclaracionesController.actualizar_aclaracion = (req, res) =>{
     let respuesta = req.body.respuesta;
     let id = req.body.idAclaracion;
     let idPregunta = req.session.idPregunta;

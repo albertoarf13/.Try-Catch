@@ -724,4 +724,43 @@ preguntasController.busqueda_por_etiquetas = (req, res) => {
 }
 
 
+preguntasController.vista_editar_pregunta = (req, res) => {
+    let id = req.params.id;
+
+    req.getConnection((err, conn)=>{
+        conn.query(`select pregunta.*, ifnull(GROUP_CONCAT(etiqueta.nombre), '') as etiquetas
+        from pregunta
+        left join etiqueta_pregunta
+        on pregunta.id =  etiqueta_pregunta.id_pregunta
+        left join etiqueta
+        on etiqueta_pregunta.id_etiqueta = etiqueta.id
+        where pregunta.id = ?;`, [id],  (err, pregunta)=>{
+            
+            if(err){
+                res.json(err);
+            }else if(pregunta.length > 0){
+                pregunta.map(pregunta=>{
+                    pregunta.etiquetas = pregunta.etiquetas.split(',');
+                    return pregunta.etiquetas;
+                })
+
+                conn.query('SELECT * FROM etiqueta', (err, etiquetas)=>{
+            
+                    if(err){
+                        res.json(err);
+                    }else{
+                        res.render('editarPregunta.ejs', {
+                            pregunta: pregunta[0],
+                            etiquetas: etiquetas
+                        });
+                    }
+                })
+            }else{
+                res.redirect('/preguntas/mostrar/'+ idPregunta);  
+            }
+
+        })
+    });
+}
+
 module.exports = preguntasController;

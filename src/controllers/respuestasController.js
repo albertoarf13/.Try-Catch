@@ -45,7 +45,8 @@ respuestasController.likeRespuesta = (req,res) => {
     });
 
 }
-preguntasController.actualizar_respuesta = (req, res) =>{
+
+respuestasController.actualizar_respuesta = (req, res) =>{
 
     let respuesta = req.body.respuesta;
     let idPregunta = req.params.idPregunta;
