@@ -182,6 +182,56 @@ preguntasController.crear_pregunta = (req, res) => {
     
 }
 
+preguntasController.actualizar_pregunta = (req, res) => {
+
+    let {titulo, descripcion, etiquetas} = req.body;
+    let id = req.params.id;
+
+    if(titulo.length <= 0 || descripcion.length <= 0 || etiquetas == undefined){
+       // res.redirect('/preguntas/crear?error=' + encodeURIComponent('El título, descripción y etiquetas no pueden estar vacíos'));
+        return;
+    }
+
+    let imagen = null;
+
+    if(req.file != undefined){
+        imagen = req.file.buffer.toString('base64');
+    }
+
+    req.getConnection((err, conn)=>{
+
+        conn.query('UPDATE pregunta SET titulo = ?, descripcion = ?, imagen = ? WHERE id = ?', [titulo, descripcion, imagen, id], (err, result)=>{
+            if(err){
+                res.json(err);
+                return;
+            }
+            else{
+
+                if(!Array.isArray(etiquetas)){
+                    etiquetas = [etiquetas];
+                }
+                conn.query('DELETE FROM etiqueta_pregunta WHERE id_pregunta = ?', [id], (err, result) => {
+                    if(err){
+                        res.json(err);
+                    }
+                })
+
+                etiquetas.forEach(etiqueta => {
+                    conn.query('INSERT INTO etiqueta_pregunta(id_etiqueta, id_pregunta) VALUES(?,?)', [etiqueta, result.insertId], (err, result)=>{
+                        if(err){
+                            res.json(err);
+                            return;
+                        }
+                    })
+                })
+
+                res.redirect('/preguntas/mostrar/'+result.insertId);
+            }
+        })
+    });
+    
+}
+
 preguntasController.prueba_mostrar_imagenes = (req, res) => {
 
     req.getConnection((err, conn)=>{

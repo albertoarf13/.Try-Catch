@@ -45,5 +45,37 @@ respuestasController.likeRespuesta = (req,res) => {
     });
 
 }
+preguntasController.actualizar_respuesta = (req, res) =>{
 
+    let respuesta = req.body.respuesta;
+    let idPregunta = req.params.idPregunta;
+    let id = req.body.idRespuesta;
+
+    if(respuesta.length <= 0){
+        res.redirect('/preguntas/mostrar/'+ idPregunta+ '?error='+ encodeURIComponent('La respuesta no puede estar vacía'));
+        return;
+    }
+
+    let imagen = null;
+
+    if(req.file != undefined){
+        imagen = req.file.buffer.toString('base64');
+    }
+
+
+    req.getConnection((err, conn)=>{
+
+        conn.query('UPDATE respuesta SET descripcion = ?, imagen = ? WHERE id = ? ', [respuesta,imagen, id], (err, result)=>{
+            
+            if(err){
+                res.status(500).json(err);
+                return;
+            }
+            
+            res.redirect('back');
+            return;
+        })
+    });
+
+}
 module.exports = respuestasController;

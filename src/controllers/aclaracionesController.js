@@ -43,4 +43,28 @@ aclaracionesController.likeRespuesta = (req,res) => {
 
 }
 
+preguntasController.actualizar_aclaracion = (req, res) =>{
+    let respuesta = req.body.respuesta;
+    let id = req.body.idAclaracion;
+    let idPregunta = req.session.idPregunta;
+    if(respuesta.length <= 0){
+        res.redirect('/preguntas/mostrar/'+ idPregunta+ 'error='+ encodeURIComponent('La respuesta no puede estar vacía'));
+        return;
+    }
+
+    req.getConnection((err, conn)=>{
+
+        conn.query('UPDATE respuesta_a_respuesta SET descripcion = ? WHERE id = ?', [respuesta, id ], (err, result)=>{
+            
+            if(err){
+                res.status(500).json(err);
+                return;
+            }
+            
+            res.redirect('/preguntas/mostrar/'+ idPregunta);
+        })
+    });
+
+}
+
 module.exports = aclaracionesController;

@@ -33,10 +33,14 @@ router.get('/preguntas/mostrar-etiquetas', preguntasController.prueba_mostrar_et
 router.post('/preguntas/:id/responder', isLogged, upload.single("imagen"), preguntasController.responder_pregunta);
 router.post('/preguntas/:idPregunta/responder-respuesta/:idRespuesta', isLogged, preguntasController.responder_respuesta);
 
+router.post('/preguntas/:id/actualizar', isLogged, upload.single("imagen"), preguntasController.actualizar_pregunta);
+
 //Respuestas
+router.post('/preguntas/:id/responder', isLogged, upload.single("imagen"), respuestasController.actualizar_respuesta);
 router.post('/preguntas/respuesta/like', isLogged, respuestasController.likeRespuesta);
 
 //Aclaracion
+router.post('/preguntas/aclaracion/actualizar', isLogged, aclaracionesController.actualizar_aclaracion);
 router.post('/preguntas/aclaracion/like', isLogged, aclaracionesController.likeRespuesta);
 
 //Busqueda por etiquetas
