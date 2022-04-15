@@ -128,6 +128,13 @@ preguntasController.busqueda_basica = (req, res) => {
     let etiquetas = req.query.etiquetas;
     let la_busqueda_es_por_etiquetas = false;
 
+    let order_num_val;
+    if (req.query.vals == "true"){
+        // nada
+    }else if (req.query.vals == "false"){
+        // nada
+    }
+
     if(req.query.respondidas == "false"){
         // nada
     }
