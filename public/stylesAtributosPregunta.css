@@ -93,3 +93,7 @@ button.like.like--activo{
 .container-like-y-dislike-pregunta form, .container-like-y-dislike-aclaracion form{
     margin-left: 1em;
 }
+
+.codeBox{
+    margin-left: 5%;
+}
