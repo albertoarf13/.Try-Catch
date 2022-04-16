@@ -7,50 +7,61 @@
 
     <div class="main">
         <div class="content-container">
-
+            <div class="card preg_box pregunta">
+                <br>
+                <div class="pregunta__header">
+                    <h3 class="card-title card-titulo"><%= pregunta.titulo %></h3>
+                </div>
+                
+                <hr>
+                <div class="card-body">
+                  <p class="card-text"><%= pregunta.descripcion %></p>
+                  
+                </div>
+                <% if(pregunta.imagen != null){ %>
+                    <hr>
+                    <div class="imagen_atb">
+                        <img src="data:image/png;base64,<%= pregunta.imagen %>" style="width: 100%; max-width: 700px;" alt="">
+                    <br>
+                    <div class="mb-3"></div>
+                    </div>
+                <% } %>
+                <hr>    
+                <div class="card-body">
+                    <div class="tagsynombrecontainer">
+                        <div>
+                          <% pregunta.etiquetas.forEach(function(etiqueta){ %>
+                            <span class="badge bg-secondary"><%= etiqueta %></span>
+                          <% }); %>
+                        </div>
+                        <div>
+                          <a href="/usuarios/<%= pregunta.correo %>" class="usernamelink">
+                            <img class="user_img" src="/user_icon.png"><%= pregunta.correo %>
+                          </a>
+                        </div>
+                      </div>
+                </div>
+                
+              </div>
+              <br> 
             <div class="crearPregunta-container">
                 <div class="crearPregunta">
                     
-                    <h5>Editar Pregunta:</h5>
-                    <br>
                     <!-- Juntar con Back-End -->
-                    <form method="POST" action="/preguntas/<%= pregunta.id %>/actualizar" enctype="multipart/form-data">
+                    <form method="POST" action="/preguntas/respuesta/<%= respuesta.id %>/actualizar" enctype="multipart/form-data">
                      
                             <div class="inputs">
                                 <p>
-                                    <!-- <h2>Introduce un titulo</h2> -->
-                                    <label for="respuesta">Editar titulo</label>
-                                    <input class="titulo" name="titulo" required maxlength="100" value="<%= pregunta.titulo %>">
-                                </p>
-                                <p>
                                     <!-- <h2>Escribe tu Pregunta</h2> -->
-                                    <label for="respuesta">Editar tu Pregunta</label>
-                                    <textarea class="cuadro" name="descripcion" required maxlength="20000" ><%= pregunta.descripcion %></textarea>
+                                    <label for="respuesta">Edita tu respuesta</label>
+                                    <textarea  class="form-control" name="descripcion" required maxlength="20000" ><%= respuesta.descripcion %></textarea>
                                 </p>
                                 <p>
-                                    <div>
-                                        <% pregunta.etiquetas.forEach(function(etiqueta){ %>
-                                          <span class="badge bg-secondary"><%= etiqueta %></span>
-                                        <% }); %>
-                                    </div>
-                                    <br>
-                                    <!-- <h2>Etiquetas (se pueden seleccionar varias con Ctrl)</h2> -->
-                                    <label for="respuesta">Etiquetas (se pueden seleccionar varias con Ctrl)</label>
-                                    <select class="form-select" multiple name="etiquetas" required>
-                                        <% etiquetas.forEach(function(etiqueta){ %>
-                                            <% if(pregunta.etiquetas.includes(etiqueta.nombre)){ %>
-                                                <option value="<%= etiqueta.id %>" selected><%= etiqueta.nombre %></option>
-                                            <% }else{ %>
-                                                <option value="<%= etiqueta.id %>"><%= etiqueta.nombre %></option>
-                                            <% } %>
-                                        <% }); %>
-                                    </select>
-
-                                    <% if(pregunta.imagen != null) { %>
+                                    <% if(respuesta.imagen != null) { %>
                                         <br>
                                         <h6>Imagen actual:</h6>
                                         <div class="imagen_atb">
-                                        <img id="imgActual" src="data:image/png;base64,<%= pregunta.imagen %>" style="width: 100%; max-width: 700px;" alt="">
+                                        <img id="imgActual" src="data:image/png;base64,<%= respuesta.imagen %>" style="width: 100%; max-width: 700px;" alt="">
                                         <br>
                                         </div>
                                         <label id="label" for="borrarImagen">Borrar imagen actual: </label>
@@ -61,6 +72,7 @@
                                 <p>
                                     <label for="imageFile">Selecciona una imagen:</label>
                                     <input type="file" accept="image/*" name="imagen">
+                                    <input type="hidden" id="delImage" name="idPregunta" value="<%= pregunta.id %>"/>
                                 </p>
                                 <p>
                                     <button type="submit" class="btn btn-primary">Editar</button>

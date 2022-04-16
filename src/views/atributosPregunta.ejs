@@ -88,7 +88,7 @@
                     <h5>Respuestas de usuarios:</h5>
                     <br>
                     <% respuestas.forEach(function(respuesta){ %>
-        
+                        
                         <div class="card mb-3 preg_box respuesta">
                             <div class="card-header respuesta__header">
                                 <div>
@@ -96,10 +96,18 @@
                                         <i class="fa-solid fa-user"></i> <%= respuesta.correo %>
                                     </a>
                                 </div>
+                                <% if(locals.correo) { %>
+                                        <% if(locals.correo == respuesta.correo) { %>
+                                            <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                                <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-trash"></i></button>
+                                                <a href="/preguntas/respuesta/<%= respuesta.id %>/editar"" class="btn btn-outline-primary"><i class="fas fa-pencil"></i></a>
+                                            </div>
+                                        <% } %>
+                                <% } %>
                                 
                             </div>
                             <div class="card-body">
-                                <p class="card-text"><%= respuesta.descripcion %></p>
+                                <p id="descResp"+i class="card-text"><%= respuesta.descripcion %></p>
                                 
                                 <div class="imagen_atb">
                                     <% if(respuesta.imagen != null){ %>
@@ -158,10 +166,17 @@
                                                             <i class="fa-solid fa-user"></i> <%= respuestaARespuesta.correo %>
                                                         </a>
                                                     </div>
-                                                    
+                                                    <% if(locals.correo) { %>
+                                                        <% if(locals.correo == respuestaARespuesta.correo) { %>
+                                                            <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                                                <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-trash"></i></button>
+                                                                <a href="#" class="btn btn-outline-primary"><i class="fas fa-pencil"></i></a>
+                                                            </div>
+                                                        <% } %>
+                                                    <% } %>
                                                 </div>
                                                 <div class="card-body">
-                                                    <p class="card-text"><%= respuestaARespuesta.descripcion %></p>
+                                                    <p id="descAcl" class="card-text"><%= respuestaARespuesta.descripcion %></p>
 
                                                     <div class="container-boton-responder-y-likes-y-dislikes">                                                
                                                         <div class="container-like-y-dislike-aclaracion">
@@ -253,8 +268,15 @@
         formContainer.classList.remove('d-none');
     }
     
-    
-    
+    function editRespuesta(element){
+        console.log("LLego aqui");
+
+        const textArea = document.createElement("textarea");
+        textArea.setAttribute("class", "form-control")
+        textArea.textContent = element.textContent;
+        element.replaceWith(textArea);
+    }
+
 </script>
   
 <%- include('partials/_footer') %>

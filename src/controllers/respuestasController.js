@@ -48,35 +48,93 @@ respuestasController.likeRespuesta = (req,res) => {
 
 respuestasController.actualizar_respuesta = (req, res) =>{
 
-    let respuesta = req.body.respuesta;
-    let idPregunta = req.params.idPregunta;
-    let id = req.body.idRespuesta;
+    let descripcion = req.body.descripcion;
+    let id = req.params.id;
+    let idPregunta = req.body.idPregunta;
+    let imgBorrada = req.body.delImagen;
+    
 
-    if(respuesta.length <= 0){
+    if(descripcion.length <= 0){
         res.redirect('/preguntas/mostrar/'+ idPregunta+ '?error='+ encodeURIComponent('La respuesta no puede estar vacía'));
         return;
     }
+
+    let query = 'UPDATE respuesta SET descripcion = ? '
+    let queryArgs = [descripcion, id];
 
     let imagen = null;
 
     if(req.file != undefined){
         imagen = req.file.buffer.toString('base64');
+        query += ',imagen = ? '
+        queryArgs = [descripcion, imagen, id];
+    }
+
+    if(imgBorrada == "true"){
+        query += ',imagen = ? '
+        queryArgs = [descripcion, imagen, id];
+        imagen = 'null';
     }
 
 
     req.getConnection((err, conn)=>{
 
-        conn.query('UPDATE respuesta SET descripcion = ?, imagen = ? WHERE id = ? ', [respuesta,imagen, id], (err, result)=>{
+        conn.query(query + 'WHERE id = ? ', queryArgs, (err, result)=>{
             
             if(err){
                 res.status(500).json(err);
                 return;
             }
             
-            res.redirect('back');
+            res.redirect('/preguntas/mostrar/'+ idPregunta);
             return;
         })
     });
 
 }
+
+respuestasController.vista_editar_respuesta = (req, res) =>{
+    let id = req.params.id;
+
+    req.getConnection((err, conn)=>{
+
+        conn.query('select * from respuesta where id = ?', [id], (err, respuesta)=>{
+            
+            if(err){
+                res.status(500).json(err);
+                return;
+            }
+            
+            console.log(respuesta);
+            conn.query(`select pregunta.*, ifnull(GROUP_CONCAT(etiqueta.nombre), '') as etiquetas
+            from pregunta
+            left join etiqueta_pregunta
+            on pregunta.id =  etiqueta_pregunta.id_pregunta
+            left join etiqueta
+            on etiqueta_pregunta.id_etiqueta = etiqueta.id
+            where pregunta.id = ?;`, [respuesta[0].idPregunta],  (err, pregunta)=>{
+                
+                if(err){
+                    res.json(err);
+                    return;
+                }
+
+                pregunta.map(pregunta=>{
+                    pregunta.etiquetas = pregunta.etiquetas.split(',');
+                    return pregunta.etiquetas;
+                })
+
+                console.log(pregunta[0]);
+                res.render('editarRespuesta.ejs', {
+                    pregunta: pregunta[0],
+                    respuesta: respuesta[0]
+                });
+            })
+            
+        })
+    });
+
+
+}
+
 module.exports = respuestasController;

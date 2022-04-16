@@ -37,8 +37,9 @@ router.post('/preguntas/:idPregunta/responder-respuesta/:idRespuesta', isLogged,
 router.post('/preguntas/:id/actualizar', isLogged, upload.single("imagen"), preguntasController.actualizar_pregunta);
 
 //Respuestas
-router.post('/preguntas/:id/responder', isLogged, upload.single("imagen"), respuestasController.actualizar_respuesta);
+router.post('/preguntas/respuesta/:id/actualizar', isLogged, upload.single("imagen"), respuestasController.actualizar_respuesta);
 router.post('/preguntas/respuesta/like', isLogged, respuestasController.likeRespuesta);
+router.get('/preguntas/respuesta/:id/editar', isLogged, respuestasController.vista_editar_respuesta);
 
 //Aclaracion
 router.post('/preguntas/aclaracion/actualizar', isLogged, aclaracionesController.actualizar_aclaracion);
