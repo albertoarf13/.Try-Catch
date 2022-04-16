@@ -37,6 +37,10 @@ router.post('/preguntas/respuesta/like', isLogged, respuestasController.likeResp
 router.get('/preguntas/busqueda-por-etiquetas-vista', preguntasController.busqueda_por_etiquetas_vista);
 router.get('/preguntas/busqueda-por-etiquetas', preguntasController.busqueda_basica);
 
+//Editar nuestro perfil de usuario
+router.get('/usuarios/editar-mi-perfil', isLogged, usersController.vista_editar_usuario);
+router.post('/usuarios/:correo/update', usersController.actualizar_usuario);
+
 
 function isLogged(req, res, next){
     if(req.session.correo){

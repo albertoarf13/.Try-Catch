@@ -277,9 +277,6 @@ preguntasController.busqueda_basica = (req, res) => {
             etiquetas: 'c++,java,GPS'} ]
     }
    
-    let etiquetas = req.query.etiquetas;
-    let la_busqueda_es_por_etiquetas = false;
-
     // Por defecto es búsqueda básica
     let query = query_busqueda_basica;
 

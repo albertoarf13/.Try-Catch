@@ -1,107 +1,226 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="41" failures="0" errors="0" time="10.64">
-  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-03-29T19:08:20" time="4.437" tests="2">
-    <testcase classname=" [Ver Atributos] con id existente" name=" [Ver Atributos] con id existente" time="0.126">
+<testsuites name="jest tests" tests="85" failures="1" errors="0" time="21.687">
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-04-16T11:52:45" time="2.919" tests="1">
+    <testcase classname=" [Editar Perfil] cambiar biografia y nombre" name=" [Editar Perfil] cambiar biografia y nombre" time="0.112">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-04-16T11:52:45" time="3.015" tests="8">
+    <testcase classname=" [Ver vista inicial] " name=" [Ver vista inicial] " time="0.116">
+    </testcase>
+    <testcase classname=" [Ver vista prueba mostrar etiquetas] " name=" [Ver vista prueba mostrar etiquetas] " time="0.014">
+    </testcase>
+    <testcase classname=" [Ver vista prueba mostrar etiquetas] " name=" [Ver vista prueba mostrar etiquetas] " time="0.006">
+    </testcase>
+    <testcase classname=" [Ver vista crear pregunta vista]" name=" [Ver vista crear pregunta vista]" time="0.01">
+    </testcase>
+    <testcase classname=" [Ver vista inicio de sesion]" name=" [Ver vista inicio de sesion]" time="0.019">
+    </testcase>
+    <testcase classname=" [Ver vista inicio de sesion] sin sesion" name=" [Ver vista inicio de sesion] sin sesion" time="0.01">
+    </testcase>
+    <testcase classname=" [Ver vista inicio de sesion] con sesion" name=" [Ver vista inicio de sesion] con sesion" time="0.051">
+    </testcase>
+    <testcase classname=" [Ver vista terminar sesion] con sesion" name=" [Ver vista terminar sesion] con sesion" time="0.012">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-04-16T11:52:45" time="3.128" tests="3">
+    <testcase classname=" [Responder respuesta] con sesion iniciada" name=" [Responder respuesta] con sesion iniciada" time="0.295">
+    </testcase>
+    <testcase classname=" [Responder pregunta] vacia" name=" [Responder pregunta] vacia" time="0.061">
+    </testcase>
+    <testcase classname=" [Responder pregunta] sin iniciar sesión" name=" [Responder pregunta] sin iniciar sesión" time="0.012">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-04-16T11:52:45" time="3.173" tests="3">
+    <testcase classname=" [Responder pregunta] con sesion iniciada" name=" [Responder pregunta] con sesion iniciada" time="0.308">
+    </testcase>
+    <testcase classname=" [Responder pregunta] vacia" name=" [Responder pregunta] vacia" time="0.068">
+    </testcase>
+    <testcase classname=" [Responder pregunta] sin iniciar sesión" name=" [Responder pregunta] sin iniciar sesión" time="0.011">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-04-16T11:52:45" time="3.344" tests="4">
+    <testcase classname=" [Busqueda respondidas] con resultado" name=" [Busqueda respondidas] con resultado" time="0.35">
+    </testcase>
+    <testcase classname=" [Busqueda respondidas] sin resultado" name=" [Busqueda respondidas] sin resultado" time="0.133">
+    </testcase>
+    <testcase classname=" [Busqueda respondidas] sin resultado pagina 2" name=" [Busqueda respondidas] sin resultado pagina 2" time="0.106">
+    </testcase>
+    <testcase classname=" [Busqueda respondidas] buscar por etiquetas" name=" [Busqueda respondidas] buscar por etiquetas" time="0.09">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-04-16T11:52:45" time="3.366" tests="6">
+    <testcase classname=" [Crear pregunta] con sesion iniciada" name=" [Crear pregunta] con sesion iniciada" time="0.266">
+    </testcase>
+    <testcase classname=" [Crear pregunta] sin sesion iniciada" name=" [Crear pregunta] sin sesion iniciada" time="0.01">
+    </testcase>
+    <testcase classname=" [Crear pregunta] descripcion vacia" name=" [Crear pregunta] descripcion vacia" time="0.063">
+    </testcase>
+    <testcase classname=" [Crear pregunta] titulo vacia" name=" [Crear pregunta] titulo vacia" time="0.064">
+    </testcase>
+    <testcase classname=" [Crear pregunta] etiquetas vacia" name=" [Crear pregunta] etiquetas vacia" time="0.073">
+    </testcase>
+    <testcase classname=" [Crear pregunta] todos vacia" name=" [Crear pregunta] todos vacia" time="0.064">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-04-16T11:52:45" time="3.456" tests="4">
+    <testcase classname=" [Busqueda no respondidas] con resultado" name=" [Busqueda no respondidas] con resultado" time="0.362">
+    </testcase>
+    <testcase classname=" [Busqueda no respondidas] sin resultado" name=" [Busqueda no respondidas] sin resultado" time="0.094">
+    </testcase>
+    <testcase classname=" [Busqueda no respondidas] sin resultado pagina 2" name=" [Busqueda no respondidas] sin resultado pagina 2" time="0.123">
+    </testcase>
+    <testcase classname=" [Busqueda no respondidas] buscar por etiquetas" name=" [Busqueda no respondidas] buscar por etiquetas" time="0.107">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-04-16T11:52:45" time="3.387" tests="3">
+    <testcase classname=" [Busqueda por etiquetas] con resultado" name=" [Busqueda por etiquetas] con resultado" time="0.428">
+    </testcase>
+    <testcase classname=" [Busqueda por etiquetas] sin resultado" name=" [Busqueda por etiquetas] sin resultado" time="0.071">
+    </testcase>
+    <testcase classname=" [Busqueda por etiquetas] sin resultado pagina 2" name=" [Busqueda por etiquetas] sin resultado pagina 2" time="0.078">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-04-16T11:52:45" time="3.47" tests="10">
+    <testcase classname=" [Registro] Usuarios correcto" name=" [Registro] Usuarios correcto" time="0.352">
+    </testcase>
+    <testcase classname=" [Registro] Usuarios existente" name=" [Registro] Usuarios existente" time="0.064">
+    </testcase>
+    <testcase classname=" [Registro] Usuario datos vacios" name=" [Registro] Usuario datos vacios" time="0.012">
+    </testcase>
+    <testcase classname=" [Registro] Usuarios nombre incorrecto" name=" [Registro] Usuarios nombre incorrecto" time="0.018">
+    </testcase>
+    <testcase classname=" [Registro] Usuarios contraseña diferente" name=" [Registro] Usuarios contraseña diferente" time="0.015">
+    </testcase>
+    <testcase classname=" [Registro] Usuarios contraseña insuficiente numero caracteres" name=" [Registro] Usuarios contraseña insuficiente numero caracteres" time="0.013">
+    </testcase>
+    <testcase classname=" [Registro] Usuarios contraseña falta mayusucla" name=" [Registro] Usuarios contraseña falta mayusucla" time="0.012">
+    </testcase>
+    <testcase classname=" [Registro] Usuarios contraseña falta minuscula" name=" [Registro] Usuarios contraseña falta minuscula" time="0.012">
+    </testcase>
+    <testcase classname=" [Inicio de sesion] correo/contraseña correcto" name=" [Inicio de sesion] correo/contraseña correcto" time="0.084">
+    </testcase>
+    <testcase classname=" [Inicio de sesion] correo/contraseña incorrecto" name=" [Inicio de sesion] correo/contraseña incorrecto" time="0.081">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-04-16T11:52:45" time="3.798" tests="3">
+    <testcase classname=" [Busqueda basica] con resultado" name=" [Busqueda basica] con resultado" time="0.34">
+    </testcase>
+    <testcase classname=" [Busqueda basica] sin resultado" name=" [Busqueda basica] sin resultado" time="0.51">
+    </testcase>
+    <testcase classname=" [Busqueda basica] sin resultado" name=" [Busqueda basica] sin resultado" time="0.097">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-04-16T11:52:48" time="1.186" tests="3">
+    <testcase classname=" [Ver Atributos] con id existente" name=" [Ver Atributos] con id existente" time="0.209">
     </testcase>
     <testcase classname=" [Ver Atributos] con id no existente" name=" [Ver Atributos] con id no existente" time="0.019">
     </testcase>
-  </testsuite>
-  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-03-29T19:08:20" time="4.757" tests="7">
-    <testcase classname=" [Registro] Usuarios correcto" name=" [Registro] Usuarios correcto" time="0.183">
-    </testcase>
-    <testcase classname=" [Registro] Usuario datos vacios" name=" [Registro] Usuario datos vacios" time="0.011">
-    </testcase>
-    <testcase classname=" [Registro] Usuarios nombre incorrecto" name=" [Registro] Usuarios nombre incorrecto" time="0.005">
-    </testcase>
-    <testcase classname=" [Registro] Usuarios contraseña diferente" name=" [Registro] Usuarios contraseña diferente" time="0.004">
-    </testcase>
-    <testcase classname=" [Registro] Usuarios contraseña insuficiente numero caracteres" name=" [Registro] Usuarios contraseña insuficiente numero caracteres" time="0.006">
-    </testcase>
-    <testcase classname=" [Registro] Usuarios contraseña falta mayusucla" name=" [Registro] Usuarios contraseña falta mayusucla" time="0.005">
-    </testcase>
-    <testcase classname=" [Registro] Usuarios contraseña falta minuscula" name=" [Registro] Usuarios contraseña falta minuscula" time="0.007">
+    <testcase classname=" [Ver Atributos] con id no existente" name=" [Ver Atributos] con id no existente" time="0.021">
     </testcase>
   </testsuite>
-  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-03-29T19:08:20" time="4.828" tests="1">
-    <testcase classname=" [Busqueda basica] Prueba" name=" [Busqueda basica] Prueba" time="0.278">
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-04-16T11:52:48" time="1.217" tests="8">
+    <testcase classname=" [Registro] Usuarios correcto" name=" [Registro] Usuarios correcto" time="0.095">
     </testcase>
-  </testsuite>
-  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-03-29T19:08:20" time="5.059" tests="3">
-    <testcase classname=" [Responder pregunta] con sesion iniciada" name=" [Responder pregunta] con sesion iniciada" time="0.425">
-    </testcase>
-    <testcase classname=" [Responder pregunta] vacia" name=" [Responder pregunta] vacia" time="0.059">
-    </testcase>
-    <testcase classname=" [Responder pregunta] sin iniciar sesión" name=" [Responder pregunta] sin iniciar sesión" time="0.008">
-    </testcase>
-  </testsuite>
-  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-03-29T19:08:25" time="0.7" tests="2">
-    <testcase classname=" [Inicio de sesion] correo/contraseña correcto" name=" [Inicio de sesion] correo/contraseña correcto" time="0.054">
-    </testcase>
-    <testcase classname=" [Inicio de sesion] correo/contraseña incorrecto" name=" [Inicio de sesion] correo/contraseña incorrecto" time="0.025">
-    </testcase>
-  </testsuite>
-  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-03-29T19:08:20" time="5.308" tests="10">
-    <testcase classname=" [Registro] Usuarios correcto" name=" [Registro] Usuarios correcto" time="0.352">
-    </testcase>
-    <testcase classname=" [Registro] Usuarios existente" name=" [Registro] Usuarios existente" time="0.063">
+    <testcase classname=" [Registro] Usuarios repetido" name=" [Registro] Usuarios repetido" time="0.023">
     </testcase>
     <testcase classname=" [Registro] Usuario datos vacios" name=" [Registro] Usuario datos vacios" time="0.018">
     </testcase>
-    <testcase classname=" [Registro] Usuarios nombre incorrecto" name=" [Registro] Usuarios nombre incorrecto" time="0.008">
+    <testcase classname=" [Registro] Usuarios nombre incorrecto" name=" [Registro] Usuarios nombre incorrecto" time="0.013">
     </testcase>
-    <testcase classname=" [Registro] Usuarios contraseña diferente" name=" [Registro] Usuarios contraseña diferente" time="0.009">
+    <testcase classname=" [Registro] Usuarios contraseña diferente" name=" [Registro] Usuarios contraseña diferente" time="0.016">
     </testcase>
-    <testcase classname=" [Registro] Usuarios contraseña insuficiente numero caracteres" name=" [Registro] Usuarios contraseña insuficiente numero caracteres" time="0.007">
+    <testcase classname=" [Registro] Usuarios contraseña insuficiente numero caracteres" name=" [Registro] Usuarios contraseña insuficiente numero caracteres" time="0.017">
     </testcase>
-    <testcase classname=" [Registro] Usuarios contraseña falta mayusucla" name=" [Registro] Usuarios contraseña falta mayusucla" time="0.006">
+    <testcase classname=" [Registro] Usuarios contraseña falta mayusucla" name=" [Registro] Usuarios contraseña falta mayusucla" time="0.019">
     </testcase>
-    <testcase classname=" [Registro] Usuarios contraseña falta minuscula" name=" [Registro] Usuarios contraseña falta minuscula" time="0.007">
-    </testcase>
-    <testcase classname=" [Inicio de sesion] correo/contraseña correcto" name=" [Inicio de sesion] correo/contraseña correcto" time="0.206">
-    </testcase>
-    <testcase classname=" [Inicio de sesion] correo/contraseña incorrecto" name=" [Inicio de sesion] correo/contraseña incorrecto" time="0.064">
+    <testcase classname=" [Registro] Usuarios contraseña falta minuscula" name=" [Registro] Usuarios contraseña falta minuscula" time="0.014">
     </testcase>
   </testsuite>
-  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-03-29T19:08:20" time="5.369" tests="6">
-    <testcase classname=" [Crear pregunta] con sesion iniciada" name=" [Crear pregunta] con sesion iniciada" time="0.315">
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-04-16T11:52:48" time="1.201" tests="3">
+    <testcase classname=" [Responder respuesta] con sesion iniciada" name=" [Responder respuesta] con sesion iniciada" time="0.128">
+    </testcase>
+    <testcase classname=" [Responder pregunta] vacia" name=" [Responder pregunta] vacia" time="0.045">
+    </testcase>
+    <testcase classname=" [Responder pregunta] sin iniciar sesión" name=" [Responder pregunta] sin iniciar sesión" time="0.019">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-04-16T11:52:48" time="1.254" tests="3">
+    <testcase classname=" [Responder pregunta] con sesion iniciada" name=" [Responder pregunta] con sesion iniciada" time="0.121">
+    </testcase>
+    <testcase classname=" [Responder pregunta] vacia" name=" [Responder pregunta] vacia" time="0.037">
+    </testcase>
+    <testcase classname=" [Responder pregunta] sin iniciar sesión" name=" [Responder pregunta] sin iniciar sesión" time="0.016">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-04-16T11:52:48" time="1.228" tests="2">
+    <testcase classname=" [Inicio de sesion] correo/contraseña correcto" name=" [Inicio de sesion] correo/contraseña correcto" time="0.075">
+    </testcase>
+    <testcase classname=" [Inicio de sesion] correo/contraseña incorrecto" name=" [Inicio de sesion] correo/contraseña incorrecto" time="0.051">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-04-16T11:52:48" time="1.199" tests="3">
+    <testcase classname=" [Dar like] sin like y sin dislike" name=" [Dar like] sin like y sin dislike" time="0.093">
+    </testcase>
+    <testcase classname=" [Dar like] sin like y con dislike" name=" [Dar like] sin like y con dislike" time="0.029">
+    </testcase>
+    <testcase classname=" [Dar like] con like" name=" [Dar like] con like" time="0.028">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-04-16T11:52:48" time="1.251" tests="4">
+    <testcase classname=" [Busqueda basica por preguntas respondidas] con resultado" name=" [Busqueda basica por preguntas respondidas] con resultado" time="0.091">
+    </testcase>
+    <testcase classname=" [Busqueda respondidas] sin resultado" name=" [Busqueda respondidas] sin resultado" time="0.022">
+    </testcase>
+    <testcase classname=" [Busqueda respondidas] sin resultado pagina 2" name=" [Busqueda respondidas] sin resultado pagina 2" time="0.006">
+    </testcase>
+    <testcase classname=" [Busqueda respondidas] buscar por etiquetas" name=" [Busqueda respondidas] buscar por etiquetas" time="0.011">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-04-16T11:52:48" time="1.312" tests="6">
+    <testcase classname=" [Crear pregunta] con sesion iniciada" name=" [Crear pregunta] con sesion iniciada" time="0.151">
     </testcase>
     <testcase classname=" [Crear pregunta] sin sesion iniciada" name=" [Crear pregunta] sin sesion iniciada" time="0.009">
     </testcase>
-    <testcase classname=" [Crear pregunta] descripcion vacia" name=" [Crear pregunta] descripcion vacia" time="0.081">
+    <testcase classname=" [Crear pregunta] descripcion vacia" name=" [Crear pregunta] descripcion vacia" time="0.024">
     </testcase>
-    <testcase classname=" [Crear pregunta] titulo vacia" name=" [Crear pregunta] titulo vacia" time="0.061">
+    <testcase classname=" [Crear pregunta] titulo vacia" name=" [Crear pregunta] titulo vacia" time="0.026">
     </testcase>
-    <testcase classname=" [Crear pregunta] etiquetas vacia" name=" [Crear pregunta] etiquetas vacia" time="0.207">
+    <testcase classname=" [Crear pregunta] etiquetas vacia" name=" [Crear pregunta] etiquetas vacia" time="0.011">
     </testcase>
-    <testcase classname=" [Crear pregunta] todos vacia" name=" [Crear pregunta] todos vacia" time="0.114">
-    </testcase>
-  </testsuite>
-  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-03-29T19:08:25" time="0.696" tests="1">
-    <testcase classname=" [Busquedad basica] correcto" name=" [Busquedad basica] correcto" time="0.054">
+    <testcase classname=" [Crear pregunta] todos vacia" name=" [Crear pregunta] todos vacia" time="0.029">
     </testcase>
   </testsuite>
-  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-03-29T19:08:25" time="0.776" tests="4">
-    <testcase classname=" [Crear pregunta] con sesion iniciada sin etiquetas correcto" name=" [Crear pregunta] con sesion iniciada sin etiquetas correcto" time="0.088">
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-04-16T11:52:48" time="1.349" tests="3">
+    <testcase classname=" [Busqueda basica] con resultado" name=" [Busqueda basica] con resultado" time="0.188">
     </testcase>
-    <testcase classname=" [Crear pregunta] con sesion iniciada con titulo incorrecto" name=" [Crear pregunta] con sesion iniciada con titulo incorrecto" time="0.016">
+    <testcase classname=" [Busqueda basica] sin resultado" name=" [Busqueda basica] sin resultado" time="0.013">
     </testcase>
-    <testcase classname=" [Crear pregunta] con sesion iniciada con descripcion incorrecto" name=" [Crear pregunta] con sesion iniciada con descripcion incorrecto" time="0.017">
-    </testcase>
-    <testcase classname=" [Crear pregunta] con sesion iniciada con titulo incorrecto" name=" [Crear pregunta] con sesion iniciada con titulo incorrecto" time="0.015">
+    <testcase classname=" [Busqueda basica] sin resultado" name=" [Busqueda basica] sin resultado" time="0.019">
     </testcase>
   </testsuite>
-  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-03-29T19:08:25" time="0.635" tests="3">
-    <testcase classname=" [Responder pregunta] con sesion iniciada" name=" [Responder pregunta] con sesion iniciada" time="0.042">
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-04-16T11:52:48" time="1.094" tests="3">
+    <testcase classname=" [Busqueda por etiquetas] con resultado" name=" [Busqueda por etiquetas] con resultado" time="0.078">
     </testcase>
-    <testcase classname=" [Responder pregunta] vacia" name=" [Responder pregunta] vacia" time="0.009">
+    <testcase classname=" [Busqueda por etiquetas] sin resultado" name=" [Busqueda por etiquetas] sin resultado" time="0.01">
     </testcase>
-    <testcase classname=" [Responder pregunta] sin iniciar sesión" name=" [Responder pregunta] sin iniciar sesión" time="0.005">
+    <testcase classname=" [Busqueda por etiquetas] sin resultado pagina 2" name=" [Busqueda por etiquetas] sin resultado pagina 2" time="0.009">
     </testcase>
   </testsuite>
-  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2022-03-29T19:08:20" time="9.169" tests="2">
-    <testcase classname=" [Ver Atributos] con id existente" name=" [Ver Atributos] con id existente" time="4.499">
+  <testsuite name="undefined" errors="0" failures="1" skipped="0" timestamp="2022-04-16T11:52:45" time="19.043" tests="2">
+    <testcase classname=" [Ver Atributos] con id existente" name=" [Ver Atributos] con id existente" time="10.003">
+      <failure>Error: thrown: &quot;Exceeded timeout of 10000 ms for a test.
+Use jest.setTimeout(newTimeout) to increase the timeout value, if this is a long-running test.&quot;
+    at Object.&lt;anonymous&gt; (C:\Users\dunia\Documents\GitHub\.Try-Catch\Test\verAtributos.test.js:12:1)
+    at Runtime._execModule (C:\Users\dunia\Documents\GitHub\.Try-Catch\node_modules\jest-runtime\build\index.js:1646:24)
+    at Runtime._loadModule (C:\Users\dunia\Documents\GitHub\.Try-Catch\node_modules\jest-runtime\build\index.js:1185:12)
+    at Runtime.requireModule (C:\Users\dunia\Documents\GitHub\.Try-Catch\node_modules\jest-runtime\build\index.js:1009:12)
+    at jestAdapter (C:\Users\dunia\Documents\GitHub\.Try-Catch\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:13)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at runTestInternal (C:\Users\dunia\Documents\GitHub\.Try-Catch\node_modules\jest-runner\build\runTest.js:389:16)
+    at runTest (C:\Users\dunia\Documents\GitHub\.Try-Catch\node_modules\jest-runner\build\runTest.js:475:34)
+    at Object.worker (C:\Users\dunia\Documents\GitHub\.Try-Catch\node_modules\jest-runner\build\testWorker.js:133:12)</failure>
     </testcase>
-    <testcase classname=" [Ver Atributos] con id no existente" name=" [Ver Atributos] con id no existente" time="0.049">
+    <testcase classname=" [Ver Atributos] con id no existente" name=" [Ver Atributos] con id no existente" time="6.253">
     </testcase>
   </testsuite>
 </testsuites>
