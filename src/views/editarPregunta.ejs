@@ -12,7 +12,7 @@
                 <div class="crearPregunta">
                     
                     <!-- Juntar con Back-End -->
-                    <form method="POST" action="/preguntas/actualizar" enctype="multipart/form-data">
+                    <form method="POST" action="/preguntas/<%= pregunta.id %>/actualizar" enctype="multipart/form-data">
                      
                             <div class="inputs">
                                 <p>
@@ -36,9 +36,11 @@
                                     <label for="respuesta">Etiquetas (se pueden seleccionar varias con Ctrl)</label>
                                     <select class="form-select" multiple name="etiquetas" required>
                                         <% etiquetas.forEach(function(etiqueta){ %>
-                                            if(!pregunta.etiquetas.includes(etiqueta)){
+                                            <% if(pregunta.etiquetas.includes(etiqueta.nombre)){ %>
+                                                <option value="<%= etiqueta.id %>" selected><%= etiqueta.nombre %></option>
+                                            <% }else{ %>
                                                 <option value="<%= etiqueta.id %>"><%= etiqueta.nombre %></option>
-                                            }
+                                            <% } %>
                                         <% }); %>
                                     </select>
 
@@ -46,11 +48,12 @@
                                         <br>
                                         <h6>Imagen actual:</h6>
                                         <div class="imagen_atb">
-                                        <img src="data:image/png;base64,<%= pregunta.imagen %>" style="width: 100%; max-width: 700px;" alt="">
+                                        <img id="imgActual" src="data:image/png;base64,<%= pregunta.imagen %>" style="width: 100%; max-width: 700px;" alt="">
                                         <br>
                                         </div>
-                                        <label for="borrarImagen">Borrar imagen actual: </label>
-                                        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-trash"></i></button>
+                                        <label id="label" for="borrarImagen">Borrar imagen actual: </label>
+                                        <button type="button" class="btn btn-outline-primary" id="borrarButton" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-trash"></i></button>
+                                        <input type="hidden" id="delImage" name="delImagen" value="false"/>
                                     <% } %>
                                 </p>
                                 <p>
@@ -71,11 +74,28 @@
         
                 </div>
             </div>
-                
-           
-    
         </div>
     </div>
 </div>
+
+<script>
+    var borrarImg = document.getElementById("delImage");
+    var borrarImgButton = document.getElementById("borrarButton");
+    var imagenActual = document.getElementById("imgActual");
+    var labelBorrar = document.getElementById("label");
+
+    borrarImgButton.onclick = () => {
+        if(borrarImg.value == "false"){
+            borrarImg.value = "true";
+            imagenActual.style.display = "none";
+            labelBorrar.textContent = "Recuperar imagen actual: ";
+        }else{
+            borrarImg.value = "false";
+            imagenActual.style.display = "block";
+            labelBorrar.textContent = "Borrar imagen actual: ";
+        }
+    }
+
+</script>
     
 <%- include('partials/_footer') %>

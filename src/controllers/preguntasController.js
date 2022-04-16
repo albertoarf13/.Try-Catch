@@ -186,6 +186,8 @@ preguntasController.actualizar_pregunta = (req, res) => {
 
     let {titulo, descripcion, etiquetas} = req.body;
     let id = req.params.id;
+    let imgBorrada = req.body.delImagen;
+
 
     if(titulo.length <= 0 || descripcion.length <= 0 || etiquetas == undefined){
        // res.redirect('/preguntas/crear?error=' + encodeURIComponent('El título, descripción y etiquetas no pueden estar vacíos'));
@@ -193,14 +195,24 @@ preguntasController.actualizar_pregunta = (req, res) => {
     }
 
     let imagen = null;
+    let query = 'UPDATE pregunta SET titulo = ?, descripcion = ?, '
+    let queryArgs = [titulo, descripcion, id];
 
     if(req.file != undefined){
         imagen = req.file.buffer.toString('base64');
+        queryArgs = [titulo, descripcion, imagen, id];
+        query += 'imagen = ? '
+    }
+
+    if(imgBorrada == "true"){
+        query += 'imagen = ? '
+        queryArgs = [titulo, descripcion, imagen, id];
+        imagen = 'null';
     }
 
     req.getConnection((err, conn)=>{
 
-        conn.query('UPDATE pregunta SET titulo = ?, descripcion = ?, imagen = ? WHERE id = ?', [titulo, descripcion, imagen, id], (err, result)=>{
+        conn.query(query + 'WHERE id = ?', queryArgs, (err, result)=>{
             if(err){
                 res.json(err);
                 return;
@@ -217,7 +229,7 @@ preguntasController.actualizar_pregunta = (req, res) => {
                 })
 
                 etiquetas.forEach(etiqueta => {
-                    conn.query('INSERT INTO etiqueta_pregunta(id_etiqueta, id_pregunta) VALUES(?,?)', [etiqueta, result.insertId], (err, result)=>{
+                    conn.query('INSERT INTO etiqueta_pregunta(id_etiqueta, id_pregunta) VALUES(?,?)', [etiqueta, id], (err, result)=>{
                         if(err){
                             res.json(err);
                             return;
@@ -225,7 +237,7 @@ preguntasController.actualizar_pregunta = (req, res) => {
                     })
                 })
 
-                res.redirect('/preguntas/mostrar/'+result.insertId);
+                res.redirect('/preguntas/mostrar/'+ id);
             }
         })
     });
