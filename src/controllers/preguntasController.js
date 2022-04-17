@@ -29,18 +29,11 @@ preguntasController.atribs = (req, res) => {
                     return pregunta.etiquetas;
                 })
 
-<<<<<<< HEAD
-                conn.query(`select respuesta.id, respuesta.descripcion, respuesta.imagen, respuesta.correo, respuesta_a_respuesta.id as respuesta-respuesta-id, respuesta_a_respuesta.descripcion as descripcionRespuestaARespuesta, respuesta_a_respuesta.correo as correoRespuestaARespuesta
-                from (select * from respuesta where idPregunta = ?) as respuesta
-                left join respuesta_a_respuesta
-                on respuesta.id = respuesta_a_respuesta.idRespuesta;`, [idPregunta], (err, respuestas)=>{
-=======
                 // Esto es para saber si ya le dimos like o dislike y eso
                 let correoUsuarioActual = null;
                 if(req.session.correo){
                     correoUsuarioActual = req.session.correo;
                 }
->>>>>>> dev
 
                 conn.query(`select respuesta.*, aclaracion.id as idAclaracion,  aclaracion.descripcion as descripcionRespuestaARespuesta, aclaracion.correo as correoRespuestaARespuesta, aclaracion.a_likes as a_likes, aclaracion.a_dislikes, aclaracion.a_has_dado_like, aclaracion.a_has_dado_dislike
                 from (
@@ -91,11 +84,7 @@ preguntasController.atribs = (req, res) => {
 
                         if(respuesta.descripcionRespuestaARespuesta != null){
                             respuestasObjeto[respuesta.id].respuestasARespuesta.push({
-<<<<<<< HEAD
-                                id: respuesta.respuesta-respuesta-id,
-=======
                                 id: respuesta.idAclaracion,
->>>>>>> dev
                                 descripcion: respuesta.descripcionRespuestaARespuesta,
                                 correo: respuesta.correoRespuestaARespuesta,
                                 likes: respuesta.a_likes,
