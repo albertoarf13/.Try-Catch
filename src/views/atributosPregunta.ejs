@@ -81,7 +81,10 @@
     
                         <div class="form-group mb-3">
                             <label for="respuesta">Realiza tu respuesta</label>
-                            <textarea class="form-control" name="respuesta" rows="3" required minlength="3" maxlength="2000"></textarea>
+                            <div>
+                                <button id="codeButton" type="button" class="btn btn-primary btn-sm">Code</button>
+                                <textarea id="txtArea" class="form-control cuadro" name="descripcion" required maxlength="20000"></textarea>
+                            </div>
                         </div>
                         
                         <div class="mb-3">
@@ -290,6 +293,17 @@
     
     
     
+</script>
+<script>
+    var codebutton = document.getElementById("codeButton");
+    var txtArea = document.getElementById("txtArea");
+
+
+    codebutton.onclick = () =>{
+        const [start, end] = [txtArea.selectionStart, txtArea.selectionEnd];
+        txtArea.setRangeText('\n|code|\n\n\|code|', start, end, 'select');
+    }
+
 </script>
   
 <%- include('partials/_footer') %>

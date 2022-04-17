@@ -95,5 +95,11 @@ button.like.like--activo{
 }
 
 .codeBox{
-    margin-left: 5%;
+    margin-left: 1%;
+    border: 2px;
+    border-radius: 15px;
+}
+
+.cuadro{
+    height: 200px;
 }
