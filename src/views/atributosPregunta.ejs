@@ -117,9 +117,33 @@
                                         <div class="mb-3"></div>
                                     <% } %>
                                 </div>
-        
+                              
+                            
+                                <div class="container-like-y-dislike-pregunta">
+                                    <form method="POST" action="/preguntas/respuesta/like">
+                                        <button class="like <% if(respuesta.has_dado_like){ %>like--activo<% } %>">   
+                                            <i class="fas fa-thumbs-up"></i>
+                                        </button>
+    
+                                        <span><%= respuesta.likes %></span>
+                                        
+                                        <input type="hidden" name="correo" value="<%= locals.correo %>" />
+                                        <input type="hidden" name="idRespuesta" value="<%= respuesta.id %>" />
+                                    </form>
+
+                                    <form method="POST" action="/preguntas/respuesta/dislike">
+                                        <button class="dislike <% if(respuesta.has_dado_dislike){ %>dislike--activo<% } %>">   
+                                            <i class="fas fa-thumbs-down"></i>
+                                        </button>
+                                        <span><%= respuesta.dislikes %></span>
+                                        
+                                        <input type="hidden" name="correo" value="<%= locals.correo %>" />
+                                        <input type="hidden" name="idRespuesta" value="<%= respuesta.id %>" />
+                                    </form>
+                                </div>
+
                                 <button id="boton-responder-respuesta-<%= respuesta.id %>" onClick="hacerAlgo(<%= respuesta.id %>)" class="btn btn-outline-secondary">Responder</button>
-        
+                               
                                 <div class="d-none" id="form-responder-respuesta-<%= respuesta.id %>">
                                     <form method="POST" action="/preguntas/<%= preguntas.id %>/responder-respuesta/<%= respuesta.id %>">
         
@@ -153,7 +177,34 @@
                                                 </div>
                                                 <div class="card-body">
                                                     <p class="card-text"><%= respuestaARespuesta.descripcion %></p>
+
+                                                    <div class="container-boton-responder-y-likes-y-dislikes">                                                
+                                                        <div class="container-like-y-dislike-aclaracion">
+                                                            <form method="POST" action="/preguntas/aclaracion/like">
+                                                                <button class="like <% if(respuestaARespuesta.has_dado_like){ %>like--activo<% } %>">   
+                                                                    <i class="fas fa-thumbs-up"></i>
+                                                                </button>
+                            
+                                                                <span><%= respuestaARespuesta.likes %></span>
+                                                                
+                                                                <input type="hidden" name="correo" value="<%= locals.correo %>" />
+                                                                <input type="hidden" name="idAclaracion" value="<%= respuestaARespuesta.id %>" />
+                                                            </form>
+                    
+                                                            <form method="POST" action="/preguntas/aclaracion/dislike">
+                                                                <button class="dislike <% if(respuestaARespuesta.has_dado_dislike){ %>dislike--activo<% } %>">   
+                                                                    <i class="fas fa-thumbs-down"></i>
+                                                                </button>
+                                                                <span><%= respuestaARespuesta.dislikes %></span>
+                                                                
+                                                                <input type="hidden" name="correo" value="<%= locals.correo %>" />
+                                                                <input type="hidden" name="idAclaracion" value="<%= respuestaARespuesta.id %>" />
+                                                            </form>
+                                                        </div>
+                                                        
+                                                    </div>
                                                 </div>
+<<<<<<< HEAD
                                                 <% if(locals.correo == respuestaARespuesta.correo) { %>
                                                     <div class="card-body">
                                                         <div class="eraseRespuesta-Respuesta">
@@ -164,8 +215,12 @@
                                                            
                                                         </div>
                                                     <%}%>
+=======
+                                                
+                                           
+>>>>>>> dev
                                             </div>
-                                            
+                                        
                                         <% }); %>
                                     </div>
                                 <% } %>

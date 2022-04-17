@@ -29,12 +29,41 @@ preguntasController.atribs = (req, res) => {
                     return pregunta.etiquetas;
                 })
 
+<<<<<<< HEAD
                 conn.query(`select respuesta.id, respuesta.descripcion, respuesta.imagen, respuesta.correo, respuesta_a_respuesta.id as respuesta-respuesta-id, respuesta_a_respuesta.descripcion as descripcionRespuestaARespuesta, respuesta_a_respuesta.correo as correoRespuestaARespuesta
                 from (select * from respuesta where idPregunta = ?) as respuesta
                 left join respuesta_a_respuesta
                 on respuesta.id = respuesta_a_respuesta.idRespuesta;`, [idPregunta], (err, respuestas)=>{
+=======
+                // Esto es para saber si ya le dimos like o dislike y eso
+                let correoUsuarioActual = null;
+                if(req.session.correo){
+                    correoUsuarioActual = req.session.correo;
+                }
+>>>>>>> dev
 
-                    //console.log(respuestas)
+                conn.query(`select respuesta.*, aclaracion.id as idAclaracion,  aclaracion.descripcion as descripcionRespuestaARespuesta, aclaracion.correo as correoRespuestaARespuesta, aclaracion.a_likes as a_likes, aclaracion.a_dislikes, aclaracion.a_has_dado_like, aclaracion.a_has_dado_dislike
+                from (
+                    select respuesta.*, 
+                    SUM(valorar.likes) as likes, SUM(valorar.dislikes) as dislikes, 
+                    SUM(case when valorar.correo = ? and valorar.likes = 1 then 1 else 0 end) as has_dado_like,
+                    SUM(case when valorar.correo = ? and valorar.dislikes = 1 then 1 else 0 end) as has_dado_dislike
+                    from respuesta
+                    left join valorar
+                    on respuesta.id = valorar.idRespuesta
+                    where respuesta.idPregunta = ?
+                    group by respuesta.id
+                ) as respuesta
+                left join (select respuesta_a_respuesta.*, SUM(valorar_aclaracion.likes) as a_likes, SUM(valorar_aclaracion.dislikes) as a_dislikes, 
+                SUM(case when valorar_aclaracion.correo = ? and valorar_aclaracion.likes = 1 then 1 else 0 end) as a_has_dado_like,
+                SUM(case when valorar_aclaracion.correo = ? and valorar_aclaracion.dislikes = 1 then 1 else 0 end) as a_has_dado_dislike
+                from respuesta_a_respuesta
+                left join valorar_aclaracion
+                on respuesta_a_respuesta.id = valorar_aclaracion.idAclaracion
+                group by respuesta_a_respuesta.id) as aclaracion
+                on respuesta.id = aclaracion.idRespuesta;`, [correoUsuarioActual,correoUsuarioActual,idPregunta,correoUsuarioActual,correoUsuarioActual], (err, respuestas)=>{
+
+                    console.log('Adios', respuestas)
 
                     let respuestasObjeto = {};
                         if(err){
@@ -51,18 +80,30 @@ preguntasController.atribs = (req, res) => {
                             respuestasObjeto[respuesta.id].descripcion = respuesta.descripcion;
                             respuestasObjeto[respuesta.id].imagen = respuesta.imagen;
                             respuestasObjeto[respuesta.id].correo = respuesta.correo;
+                            respuestasObjeto[respuesta.id].likes = respuesta.likes;
+                            respuestasObjeto[respuesta.id].dislikes = respuesta.dislikes;
+                            respuestasObjeto[respuesta.id].has_dado_like = respuesta.has_dado_like;
+                            respuestasObjeto[respuesta.id].has_dado_dislike = respuesta.has_dado_dislike;
 
 
                             respuestasObjeto[respuesta.id].respuestasARespuesta = [];
                         }
 
                         if(respuesta.descripcionRespuestaARespuesta != null){
-
                             respuestasObjeto[respuesta.id].respuestasARespuesta.push({
+<<<<<<< HEAD
                                 id: respuesta.respuesta-respuesta-id,
+=======
+                                id: respuesta.idAclaracion,
+>>>>>>> dev
                                 descripcion: respuesta.descripcionRespuestaARespuesta,
                                 correo: respuesta.correoRespuestaARespuesta,
-                            })
+                                likes: respuesta.a_likes,
+                                dislikes: respuesta.a_dislikes,
+                                has_dado_like: respuesta.a_has_dado_like,
+                                has_dado_dislike: respuesta.a_has_dado_dislike,
+                            });
+                          
                         }
                         
                     })
@@ -74,7 +115,7 @@ preguntasController.atribs = (req, res) => {
                         respuestasOficial.push(respuesta[1]);
                     })
             
-                    //console.log(respuestasOficial)
+                    console.log(respuestasOficial)
                     var pregs = JSON.parse(JSON.stringify(infoPregunta));
 
                     res.status(450).render('atributosPregunta.ejs', {
@@ -220,8 +261,14 @@ preguntasController.prueba_mostrar_preguntas_recientes = (req, res) => {
     console.log("offset", offset);
 
     req.getConnection((err, conn)=>{
-        conn.query(`select pregunta.*, ifnull(GROUP_CONCAT(etiqueta.nombre), '') as etiquetas
-        from pregunta
+        conn.query(`select pregunta.*, num_respuestas, ifnull(GROUP_CONCAT(etiqueta.nombre), '') as etiquetas
+        from (
+            select pregunta.*, COUNT(respuesta.id) as num_respuestas
+            from pregunta
+            left join respuesta
+            on pregunta.id = respuesta.idPregunta
+            group by pregunta.id
+        ) as pregunta
         left join etiqueta_pregunta
         on pregunta.id =  etiqueta_pregunta.id_pregunta
         left join etiqueta
@@ -314,7 +361,13 @@ preguntasController.responder_respuesta = (req, res) =>{
 }
 
 let query_busqueda_basica = `select pregunta.*, ifnull(GROUP_CONCAT(etiqueta.nombre), '') as etiquetas
-    from pregunta
+    from (
+        select pregunta.*, COUNT(respuesta.id) as num_respuestas
+        from pregunta
+        left join respuesta
+        on pregunta.id = respuesta.idPregunta
+        group by pregunta.id
+    ) as pregunta
     left join etiqueta_pregunta
     on pregunta.id =  etiqueta_pregunta.id_pregunta
     left join etiqueta
@@ -429,6 +482,23 @@ where pregunta.num_respuestas > 0
 order by pregunta.id desc
 limit 10 offset ?;`;
 
+function sort_by_key_asc(array, key)
+{
+ return array.sort(function(a, b)
+ {
+  var x = a[key]; var y = b[key];
+  return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+ });
+}
+
+function sort_by_key_desc(array, key)
+{
+ return array.sort(function(a, b)
+ {
+  var x = a[key]; var y = b[key];
+  return ((x < y) ? 1 : ((x > y) ? -1 : 0));
+ });
+}
 
 preguntasController.busqueda_basica = (req, res) => {
     let page = req.query.page;
@@ -454,6 +524,13 @@ preguntasController.busqueda_basica = (req, res) => {
     // Por defecto es búsqueda básica
     let query = query_busqueda_basica;
 
+    let order_num_val;
+    if (req.query.vals == "true"){
+        order_num_val = true;
+    }else if (req.query.vals == "false"){
+        order_num_val = false;
+    }
+
     if(req.query.respondidas == "false"){
         query = query_busqueda_no_respondidas;
     }
@@ -478,11 +555,18 @@ preguntasController.busqueda_basica = (req, res) => {
         req.getConnection((err, conn)=>{
 
             conn.query(query, [dynamicInput, offset] ,(err, lista_preguntas)=>{
+
                 lista_preguntas.map(pregunta=>{
                     pregunta.etiquetas = pregunta.etiquetas.split(',');
                     return pregunta.etiquetas;
                 })
-    
+                
+                if(order_num_val){
+                    lista_preguntas = sort_by_key_asc(lista_preguntas, "num_respuestas")
+                }else{
+                    lista_preguntas = sort_by_key_desc(lista_preguntas, "num_respuestas")
+                }
+
                 if(err){
                     res.json(err);
                 }
@@ -495,8 +579,7 @@ preguntasController.busqueda_basica = (req, res) => {
                     else{
                         currentPage = currentPage.substring(0, currentPage.indexOf('page='));
                     }
-    
-                    var preguntas = JSON.parse(JSON.stringify(lista_preguntas));
+                    var preguntas = JSON.parse(JSON.stringify(lista_preguntas));                  
                     res.status(401).render('busquedaBasica.ejs', {
                         preguntas : preguntas, 
                         currentPage: currentPage, 
