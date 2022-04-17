@@ -31,24 +31,16 @@
                     
                     <hr>
                     <div class="card-body">
-                      <% var desc = preguntas.descripcion.split('|code|') %>
-                      <% console.log(desc.length) %>
-                      <% if(desc.length > 1){ %>
-                        <% var pair = false%>
-                        <% desc.forEach(function(elem){ %>
-                            <% if(!pair) { %>
-                                <p class="card-text"><%= elem %></p>
-                                <% pair = true%>
+                        <% preguntas.descripcion.forEach(function(elem){ %>
+                            <% console.log(elem) %>
+                            <% if(!elem.code) { %>
+                                <p class="card-text"><%= elem.text %></p>
                             <% } else { %>
                                 <div class="codeBox">
-                                    <pre><code><%= elem %></code></pre>
+                                    <pre><code><%= elem.text %></code></pre>
                                 </div>
-                                <% pair = false%>
                             <% } %>
                         <% }); %>
-                      <% } else { %>
-                        <p class="card-text"><%= preguntas.descripcion %></p>
-                      <% } %>
                     </div>
                     <% if(preguntas.imagen != null){ %>
                         <hr>
@@ -121,24 +113,16 @@
                                 
                             </div>
                             <div class="card-body">
-                                <% var desc = respuesta.descripcion.split('|code|') %>
-                                <% console.log(desc.length) %>
-                                <% if(desc.length > 1){ %>
-                                    <% var pair = false%>
-                                    <% desc.forEach(function(elem){ %>
-                                        <% if(!pair) { %>
-                                            <p class="card-text"><%= elem %></p>
-                                            <% pair = true%>
-                                        <% } else { %>
-                                            <div class="codeBox">
-                                                <pre><code><%= elem %></code></pre>
-                                            </div>
-                                            <% pair = false%>
-                                        <% } %>
-                                    <% }); %>
-                                <% } else { %>
-                                    <p class="card-text"><%= respuesta.descripcion %></p>
-                                <% } %>
+                                <% respuesta.descripcion.forEach(function(elem){ %>
+                                    <% console.log(elem) %>
+                                    <% if(!elem.code) { %>
+                                        <p class="card-text"><%= elem.text %></p>
+                                    <% } else { %>
+                                        <div class="codeBox">
+                                            <pre><code><%= elem.text %></code></pre>
+                                        </div>
+                                    <% } %>
+                                <% }); %>
                                 <div class="imagen_atb">
                                     <% if(respuesta.imagen != null){ %>
                                         <img src="data:image/png;base64,<%= respuesta.imagen %>" style="width: 100%; max-width: 700px;" alt="">
@@ -199,8 +183,16 @@
                                                     
                                                 </div>
                                                 <div class="card-body">
-                                                    <p class="card-text"><%= respuestaARespuesta.descripcion %></p>
-
+                                                    <% respuestaARespuesta.descripcion.forEach(function(elem){ %>
+                                                        <% console.log(elem) %>
+                                                        <% if(!elem.code) { %>
+                                                            <p class="card-text"><%= elem.text %></p>
+                                                        <% } else { %>
+                                                            <div class="codeBox">
+                                                                <pre><code><%= elem.text %></code></pre>
+                                                            </div>
+                                                        <% } %>
+                                                    <% }); %>
                                                     <div class="container-boton-responder-y-likes-y-dislikes">                                                
                                                         <div class="container-like-y-dislike-aclaracion">
                                                             <form method="POST" action="/preguntas/aclaracion/like">
@@ -301,8 +293,10 @@
 
     codebutton.onclick = () =>{
         const [start, end] = [txtArea.selectionStart, txtArea.selectionEnd];
-        txtArea.setRangeText('\n|code|\n\n\|code|', start, end, 'select');
+        txtArea.setRangeText('\n-code-\n\n\-code-', start, end, 'select');
     }
+
+
 
 </script>
   
