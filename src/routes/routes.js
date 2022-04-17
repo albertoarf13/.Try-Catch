@@ -42,6 +42,11 @@ router.post('/usuarios/:correo/update', usersController.actualizar_usuario);
 //Ver atributos de usuario
 router.get('/usuarios/:correo', usersController.mostrar);
 
+//borrar comentario
+router.get('/preguntas/:id/borrar_pregunta', isLogged, preguntasController.borrar_pregunta)
+router.get('/preguntas/:id/borrar_respuesta', isLogged, preguntasController.borrar_respuesta)
+router.get('/preguntas/:id/borrar_respuesta_respuesta', isLogged, preguntasController.borrar_respuesta_respuesta)
+
 
 
 function isLogged(req, res, next){

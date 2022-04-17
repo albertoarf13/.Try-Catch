@@ -58,12 +58,12 @@
                     <% if(locals.correo == preguntas.correo) { %>
                     <div class="card-body">
                         <div class="erasePregunta">
-                            <button type="button" class="btn btn-danger">
-                                <i class="fas fa-trash"></i>    
-                            </button>
+                            <a href="/preguntas/<%= preguntas.id %>/borrar_pregunta" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                            
                         </div>
                     </div>
                     <%}%>
+
                   </div>
                   <br> 
                   <div class="preg_box">
@@ -134,9 +134,7 @@
                                 <% if(locals.correo == respuesta.correo) { %>
                                 <div class="card-body">
                                     <div class="eraseRespuesta">
-                                        <button type="button" class="btn btn-danger">
-                                            <i class="fas fa-trash"></i>    
-                                        </button>
+                                        <a href="/preguntas/<%= respuesta.id %>/borrar_respuesta" class="btn btn-danger"><i class="fas fa-trash"></i></a>
                                     </div>
                                 <%}%>
                                 </div>
@@ -158,10 +156,12 @@
                                                 </div>
                                                 <% if(locals.correo == respuestaARespuesta.correo) { %>
                                                     <div class="card-body">
-                                                        <div class="eraseRespuesta">
-                                                            <button type="button" class="btn btn-danger">
-                                                                <i class="fas fa-trash"></i>    
-                                                            </button>
+                                                        <div class="eraseRespuesta-Respuesta">
+                                                            console.log(respuestaARespuesta.id);
+                                                            <%  console.log(respuestaARespuesta) %>
+                            
+                                                            <a href="/preguntas/<%= respuestaARespuesta.id %>/borrar_respuesta_respuesta" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                                           
                                                         </div>
                                                     <%}%>
                                             </div>

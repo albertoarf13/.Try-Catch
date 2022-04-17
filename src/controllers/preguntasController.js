@@ -1,3 +1,4 @@
+const req = require("express/lib/request");
 
 const preguntasController = {};
 //const dbUser = require(../integracion/dbUser)
@@ -28,7 +29,7 @@ preguntasController.atribs = (req, res) => {
                     return pregunta.etiquetas;
                 })
 
-                conn.query(`select respuesta.id, respuesta.descripcion, respuesta.imagen, respuesta.correo, respuesta_a_respuesta.descripcion as descripcionRespuestaARespuesta, respuesta_a_respuesta.correo as correoRespuestaARespuesta
+                conn.query(`select respuesta.id, respuesta.descripcion, respuesta.imagen, respuesta.correo, respuesta_a_respuesta.id as respuesta-respuesta-id, respuesta_a_respuesta.descripcion as descripcionRespuestaARespuesta, respuesta_a_respuesta.correo as correoRespuestaARespuesta
                 from (select * from respuesta where idPregunta = ?) as respuesta
                 left join respuesta_a_respuesta
                 on respuesta.id = respuesta_a_respuesta.idRespuesta;`, [idPregunta], (err, respuestas)=>{
@@ -36,7 +37,9 @@ preguntasController.atribs = (req, res) => {
                     //console.log(respuestas)
 
                     let respuestasObjeto = {};
-
+                        if(err){
+                            res.json(err);
+                        }
                     respuestas.forEach(respuesta => {
                         
 
@@ -56,6 +59,7 @@ preguntasController.atribs = (req, res) => {
                         if(respuesta.descripcionRespuestaARespuesta != null){
 
                             respuestasObjeto[respuesta.id].respuestasARespuesta.push({
+                                id: respuesta.respuesta-respuesta-id,
                                 descripcion: respuesta.descripcionRespuestaARespuesta,
                                 correo: respuesta.correoRespuestaARespuesta,
                             })
@@ -642,5 +646,35 @@ preguntasController.busqueda_por_etiquetas = (req, res) => {
     
 }
 
+preguntasController.borrar_pregunta = (req, res) =>{
+    let idPregunta = req.params.id;
+
+    req.getConnection((err, conn) => {
+        conn.query('DELETE FROM pregunta where pregunta.id = ?;', [idPregunta], (err, infoPregunta)=>{
+            res.redirect('/');
+        });
+    })
+};
+preguntasController.borrar_respuesta = (req, res) =>{
+    
+    let idRespuesta = req.params.id;
+
+    req.getConnection((err, conn) => {
+        conn.query('DELETE FROM respuesta where respuesta.id = ?;', [idRespuesta], (err, infoPregunta)=>{
+            res.redirect('/');
+        });
+    })
+};
+
+preguntasController.borrar_respuesta_respuesta = (req, res) =>{
+    
+    let id = req.params.id;
+
+    req.getConnection((err, conn) => {
+        conn.query('DELETE FROM respuesta_a_respuesta where respuesta_a_respuesta.id = ?;', [id], (err, infoPregunta)=>{
+            res.redirect('/');
+        });
+    })
+};
 
 module.exports = preguntasController;
