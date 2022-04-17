@@ -53,17 +53,7 @@
                               </a>
                             </div>
                           </div>
-                         
-                    </div>
-                    <% if(locals.correo == preguntas.correo) { %>
-                    <div class="card-body">
-                        <div class="erasePregunta">
-                            <a href="/preguntas/<%= preguntas.id %>/borrar_pregunta" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-                            
-                        </div>
-                    </div>
-                    <%}%>
-
+                    </div>  
                   </div>
                   <br> 
                   <div class="preg_box">
@@ -105,7 +95,7 @@
                                         <i class="fa-solid fa-user"></i> <%= respuesta.correo %>
                                     </a>
                                 </div>
-                                
+                                   
                             </div>
                             <div class="card-body">
                                 <p class="card-text"><%= respuesta.descripcion %></p>
@@ -204,7 +194,6 @@
                                                         
                                                     </div>
                                                 </div>
-<<<<<<< HEAD
                                                 <% if(locals.correo == respuestaARespuesta.correo) { %>
                                                     <div class="card-body">
                                                         <div class="eraseRespuesta-Respuesta">
@@ -215,10 +204,6 @@
                                                            
                                                         </div>
                                                     <%}%>
-=======
-                                                
-                                           
->>>>>>> dev
                                             </div>
                                         
                                         <% }); %>
@@ -250,11 +235,11 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary">Eliminar</button>
+                <a type="button" class="btn btn-primary" href="/preguntas/<%= preguntas.id %>/borrar_pregunta">Eliminar</a>
             </div>
         </div>
     </div>
-</div>
+</div>  
 
 
 <script>
