@@ -170,7 +170,7 @@
                                                         <% if(locals.correo == respuestaARespuesta.correo) { %>
                                                             <div class="btn-group" role="group" aria-label="Basic outlined example">
                                                                 <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-trash"></i></button>
-                                                                <a href="#" class="btn btn-outline-primary"><i class="fas fa-pencil"></i></a>
+                                                                <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2" onclick= "editarAclaración('<%= respuestaARespuesta.descripcion %>' , '<%= respuestaARespuesta.id %>')"><i class="fas fa-pencil"></i></button>
                                                             </div>
                                                         <% } %>
                                                     <% } %>
@@ -243,6 +243,29 @@
     </div>
 </div>
 
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel2">Editar aclaracion</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="formModal" method="POST" action="">
+            <div class="mb-3">
+              <label for="message-text" class="col-form-label">Aclaracion:</label>
+              <textarea id ="textareaModal" name="respuesta" class="form-control" id="message-text" required></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button class="btn btn-primary">Editar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
 <script>
     
@@ -275,6 +298,15 @@
         textArea.setAttribute("class", "form-control")
         textArea.textContent = element.textContent;
         element.replaceWith(textArea);
+    }
+
+    let textAreaModal = document.getElementById("textareaModal");
+    formModal = document.getElementById("formModal");
+
+    function editarAclaración(texto, id){
+        textAreaModal.textContent = texto;
+        formModal.setAttribute("action", "/preguntas/aclaracion/"+ id + "/actualizar")
+        console.log(texto);
     }
 
 </script>
