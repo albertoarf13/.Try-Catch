@@ -733,7 +733,7 @@ preguntasController.borrar_respuesta = (req, res) =>{
 
     req.getConnection((err, conn) => {
         conn.query('DELETE FROM respuesta where respuesta.id = ?;', [idRespuesta], (err, infoPregunta)=>{
-            res.redirect('/');
+            res.redirect('back');
         });
     })
 };
@@ -744,7 +744,7 @@ preguntasController.borrar_respuesta_respuesta = (req, res) =>{
 
     req.getConnection((err, conn) => {
         conn.query('DELETE FROM respuesta_a_respuesta where respuesta_a_respuesta.id = ?;', [id], (err, infoPregunta)=>{
-            res.redirect('/');
+            res.redirect('back');
         });
     })
 };
