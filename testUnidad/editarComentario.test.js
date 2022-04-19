@@ -82,8 +82,8 @@ test('[Editar respuesta] con sesion iniciada', async () => {
 
 
     const response = await testSession.post('/login').send(usuario);
-    '/preguntas/:id/responder'
-    const response2 = await testSession.post('/preguntas//'+ respuesta.id +'/actualizar').send(respuesta);
+
+    const response2 = await testSession.post('/preguntas/respuesta/'+ respuesta.id +'/actualizar').send(respuesta);
     console.log(response2.text);
     expect(response2.status).toBe(302);
     expect(response2.text).toBe('Found. Redirecting to /preguntas/mostrar/'+respuesta.idPregunta)
@@ -91,9 +91,8 @@ test('[Editar respuesta] con sesion iniciada', async () => {
 });
 
 
-test('[Editar pregunta] sin sesion iniciada', async () => {
+test('[Editar respuesta] sin sesion iniciada', async () => {
 
-    const usuario = { correo: 'prueba@prueba.es', contraseya: '1234567Aa'};
     const respuesta = {
         idPregunta: 161,
         id: 433,
@@ -108,23 +107,23 @@ test('[Editar pregunta] sin sesion iniciada', async () => {
 
 });
 
-test('[Editar pregunta] con sesion iniciada pero no es mia ', async () => {
+test('[Editar respuesta] incorrecto', async () => {
 
     const usuario = { correo: 'prueba@prueba.es', contraseya: '1234567Aa'};
     const respuesta = {
-        idPregunta: 161,
-        id: 433,
-        descripcion: "test",
+        idPregunta: 1,
+        id: 1,
+        descripcion: "",
     }
 
     let testSession = session(app);
 
 
     const response = await testSession.post('/login').send(usuario);
-    
+
     const response2 = await testSession.post('/preguntas/respuesta/'+ respuesta.id +'/actualizar').send(respuesta);
-    expect(response2.status).toBe(302);
-    expect(response2.text).toBe('Found. Redirecting to /login')
+    console.log(response2.text);
+    expect(response2.status).toBe(450);
 
 });
 
@@ -132,11 +131,11 @@ test('[Editar pregunta] con sesion iniciada pero no es mia ', async () => {
 
 test('[Editar aclaracion] con sesion iniciada', async () => {
 
-    const usuario = { correo: 'testcrear@pregunta.es', contraseya: '1234567Aa'};
+    const usuario = { correo: 'prueab@prueba.es', contraseya: '1234567Aa'};
     const aclaracion = {
-        idPregunta: 161,
-        id: 238,
-        respuesta: "testeadisimo",
+        idPregunta: 1,
+        id: 1,
+        respuesta: "test",
     }
 
     let testSession = session(app);
@@ -147,18 +146,17 @@ test('[Editar aclaracion] con sesion iniciada', async () => {
     const response2 = await testSession.post('/preguntas/aclaracion/'+ aclaracion.id +'/actualizar').send(aclaracion);
     console.log(response2.text);
     expect(response2.status).toBe(302);
-    expect(response2.text).toBe('Found. Redirecting to /');
+    expect(response2.text).toBe('Found. Redirecting to /login');
 
 });
 
 
 test('[Editar aclaracion] sin sesion iniciada', async () => {
 
-    const usuario = { correo: 'prueba@prueba.es', contraseya: '1234567Aa'};
     const aclaracion = {
         idPregunta: 161,
         id: 238,
-        respuesta: "testeadisimo",
+        respuesta: "test",
     }
 
     let testSession = session(app);
@@ -169,13 +167,13 @@ test('[Editar aclaracion] sin sesion iniciada', async () => {
 
 });
 
-test('[Editar aclaracion] con sesion iniciada pero no es mia ', async () => {
+test('[Editar aclaracion] incorrecto ', async () => {
 
     const usuario = { correo: 'prueba@prueba.es', contraseya: '1234567Aa'};
     const aclaracion = {
         idPregunta: 161,
         id: 238,
-        respuesta: "testeadisimo",
+        respuesta: "",
     }
 
     let testSession = session(app);
@@ -184,7 +182,6 @@ test('[Editar aclaracion] con sesion iniciada pero no es mia ', async () => {
     const response = await testSession.post('/login').send(usuario);
     
     const response2 = await testSession.post('/preguntas/aclaracion/'+ aclaracion.id +'/actualizar').send(aclaracion);
-    expect(response2.status).toBe(302);
-    expect(response2.text).toBe('Found. Redirecting to /login')
+    expect(response2.status).toBe(450);
 
 });
