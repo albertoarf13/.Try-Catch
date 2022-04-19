@@ -5,6 +5,7 @@ aclaracionesController.likeRespuesta = (req,res) => {
     console.log(idAclaracion, correo)
     req.getConnection((err, conn)=>{
         conn.query('select likes, dislikes from valorar_aclaracion where correo = ? and idAclaracion = ?;', [correo, idAclaracion], (err,result)=>{
+            console.log(result);
 
             if(err){
                 res.json(err);
@@ -47,23 +48,11 @@ aclaracionesController.actualizar_aclaracion = (req, res) =>{
     let id = req.params.id;
     let idPregunta = req.session.idPregunta;
 
-    console.log("Editar",respuesta,id);
     if(respuesta.length <= 0){
-        res.status(450).json('El título, descripción y etiquetas no pueden estar vacíos');
+        res.status(450).json('La respuesta no puede estar vacia');
         return;
     }
-    req.getConnection((err, conn)=>{
-
-        conn.query('UPDATE respuesta_a_respuesta SET descripcion = ? WHERE id = ?', [respuesta, id], (err, result)=>{
-            
-            if(err){
-                res.status(500).json(err);
-                return;
-            }
-            console.log("Editar", result);
-            res.redirect('back');
-        })
-    });
+    res.redirect('back');
 
 }
 

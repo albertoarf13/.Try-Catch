@@ -190,7 +190,7 @@ preguntasController.actualizar_pregunta = (req, res) => {
 
 
     if(titulo.length <= 0 || descripcion.length <= 0 || etiquetas == undefined){
-       // res.redirect('/preguntas/crear?error=' + encodeURIComponent('El título, descripción y etiquetas no pueden estar vacíos'));
+       res.status(450).json('El título, descripción o etiquetas no pueden estar vacíos');
         return;
     }
 

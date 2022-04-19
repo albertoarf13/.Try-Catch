@@ -118,4 +118,25 @@ usuarioController.mostrar = (req, res) => {
     }
 }
 
+usuarioController.vista_editar_usuario = (req, res) =>{
+
+    const correo = req.session.correo;
+ 
+                res.status(450).render('editarUsuario.ejs', {
+                    usuario: usuarios[0]
+                });
+           
+
+ 
+}
+
+
+usuarioController.actualizar_usuario = (req, res) =>{
+
+    const correo = req.params.correo;
+    const {nombre, bio} = req.body;
+    res.redirect('/usuarios/editar-mi-perfil');
+            
+
+}
 module.exports = usuarioController;

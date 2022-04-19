@@ -164,6 +164,44 @@ preguntasController.crear_pregunta = (req, res) => {
     res.redirect('/preguntas/crear');
 }
 
+preguntasController.actualizar_pregunta = (req, res) => {
+
+    let {titulo, descripcion, etiquetas} = req.body;
+    let id = req.params.id;
+    let imgBorrada = req.body.delImagen;
+
+
+    if(titulo.length <= 0 || descripcion.length <= 0 || etiquetas == undefined){
+        res.status(450).json('Un campo que ha introducio esta vacio')
+        return;
+    }
+
+    let imagen = null;
+    let query = 'UPDATE pregunta SET titulo = ?, descripcion = ?, '
+    let queryArgs = [titulo, descripcion, id];
+
+    if(req.file != undefined){
+        imagen = req.file.buffer.toString('base64');
+        queryArgs = [titulo, descripcion, imagen, id];
+        query += 'imagen = ? '
+    }
+
+    if(imgBorrada == "true"){
+        query += 'imagen = ? '
+        queryArgs = [titulo, descripcion, imagen, id];
+        imagen = 'null';
+    }
+
+
+
+    if(!Array.isArray(etiquetas)){
+        etiquetas = [etiquetas];
+    }
+           
+    res.redirect('/preguntas/mostrar/'+ id);
+    
+}
+
 preguntasController.prueba_mostrar_imagenes = (req, res) => {
         
     res.status(450).render('prueba-mostrar-imagenes.ejs', {
@@ -277,15 +315,14 @@ preguntasController.busqueda_basica = (req, res) => {
             etiquetas: 'c++,java,GPS'} ]
     }
    
-    let etiquetas = req.query.etiquetas;
-    let la_busqueda_es_por_etiquetas = false;
+    etiquetas = req.query.etiquetas;
+    la_busqueda_es_por_etiquetas = false;
 
     // Por defecto es búsqueda básica
     let query = query_busqueda_basica;
 
     if(req.query.respondidas == "false"){
         query = query_busqueda_no_respondidas;
-        console.log("hola..............................");
     }
     else if(req.query.respondidas == "true"){
         query = query_busqueda_respondidas;
@@ -456,5 +493,33 @@ preguntasController.busqueda_por_etiquetas = (req, res) => {
     
 }
 
+
+
+preguntasController.vista_editar_pregunta = (req, res) => {
+    let id = req.params.id;
+
+    if(err){
+        res.json(err);
+    }else if(pregunta.length > 0){
+        pregunta.map(pregunta=>{
+            pregunta.etiquetas = pregunta.etiquetas.split(',');
+            return pregunta.etiquetas;
+        })
+
+    
+    
+    if(err){
+        res.json(err);
+    }else{
+        res.render('editarPregunta.ejs', {
+            pregunta: pregunta[0],
+            etiquetas: etiquetas
+        });
+    }
+
+    }else{
+        res.redirect('/preguntas/mostrar/'+ idPregunta);  
+    }
+}
 
 module.exports = preguntasController;

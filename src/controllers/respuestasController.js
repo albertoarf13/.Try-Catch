@@ -55,7 +55,7 @@ respuestasController.actualizar_respuesta = (req, res) =>{
     
 
     if(descripcion.length <= 0){
-        res.redirect('/preguntas/mostrar/'+ idPregunta+ '?error='+ encodeURIComponent('La respuesta no puede estar vacía'));
+        res.status(450).json('El título, descripción y etiquetas no pueden estar vacíos');
         return;
     }
 

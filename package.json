@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --forceExit --testTimeout=10000",
+    "test": "jest --forceExit --testTimeout=10000 ./testUnidad/editarComentario",
     "test:coverage": "jest --coverage --testTimeout=10000",
     "dev": "nodemon src/index.js"
   },
