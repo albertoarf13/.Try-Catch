@@ -87,7 +87,7 @@
                     <h5>Respuestas de usuarios:</h5>
                     <br>
                     <% respuestas.forEach(function(respuesta){ %>
-        
+                        
                         <div class="card mb-3 preg_box respuesta">
                             <div class="card-header respuesta__header">
                                 <div>
@@ -106,7 +106,7 @@
                                    
                             </div>
                             <div class="card-body">
-                                <p class="card-text"><%= respuesta.descripcion %></p>
+                                <p id="descResp"+i class="card-text"><%= respuesta.descripcion %></p>
                                 
                                 <div class="imagen_atb">
                                     <% if(respuesta.imagen != null){ %>
@@ -176,7 +176,7 @@
                                                     
                                                 </div>
                                                 <div class="card-body">
-                                                    <p class="card-text"><%= respuestaARespuesta.descripcion %></p>
+                                                    <p id="descAcl" class="card-text"><%= respuestaARespuesta.descripcion %></p>
 
                                                     <div class="container-boton-responder-y-likes-y-dislikes">                                                
                                                         <div class="container-like-y-dislike-aclaracion">
@@ -240,6 +240,29 @@
         </div>
     </div>
 </div>  
+
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel2">Editar aclaracion</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="formModal" method="POST" action="">
+            <div class="mb-3">
+              <label for="message-text" class="col-form-label">Aclaracion:</label>
+              <textarea id ="textareaModal" name="respuesta" class="form-control" id="message-text" required></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button class="btn btn-primary">Editar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 <script>

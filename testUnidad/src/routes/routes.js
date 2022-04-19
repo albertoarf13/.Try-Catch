@@ -2,10 +2,11 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const upload = multer({ storage: multer.memoryStorage() });
+
 const usersController = require('../controllers/usersController');
 const preguntasController = require('../controllers/preguntasController');
 const respuestasController = require('../controllers/respuestasController');
-
+const aclaracionesController = require('../controllers/aclaracionesController');
 router.get('/', preguntasController.prueba_mostrar_preguntas_recientes);
 router.get('/preguntas/page=:pag', preguntasController.prueba_mostrar_preguntas_recientes);
 
@@ -25,17 +26,26 @@ router.get('/preguntas/crear', isLogged, preguntasController.crear_pregunta_vist
 router.post('/preguntas/crear', isLogged, upload.single("imagen"), preguntasController.crear_pregunta);
 router.get('/preguntas/mostrar-imagenes', preguntasController.prueba_mostrar_imagenes);
 router.get('/preguntas/mostrar-etiquetas', preguntasController.prueba_mostrar_etiquetas);
+router.get('/preguntas/:id/editar', isLogged, preguntasController.vista_editar_pregunta);
 
 //router.get('/preguntas/:id/responder', isLogged, preguntasController.prueba_responder_vista);
 router.post('/preguntas/:id/responder', isLogged, upload.single("imagen"), preguntasController.responder_pregunta);
 router.post('/preguntas/:idPregunta/responder-respuesta/:idRespuesta', isLogged, preguntasController.responder_respuesta);
 
+router.post('/preguntas/:id/actualizar', isLogged, upload.single("imagen"), preguntasController.actualizar_pregunta);
 //Respuestas
+router.post('/preguntas/respuesta/:id/actualizar', isLogged, upload.single("imagen"), respuestasController.actualizar_respuesta);
 router.post('/preguntas/respuesta/like', isLogged, respuestasController.likeRespuesta);
+router.get('/preguntas/respuesta/:id/editar', isLogged, respuestasController.vista_editar_respuesta);
+
+//Aclaracion
+router.post('/preguntas/aclaracion/:id/actualizar', isLogged, aclaracionesController.actualizar_aclaracion);
+router.post('/preguntas/aclaracion/like', isLogged, aclaracionesController.likeRespuesta);
 
 //Busqueda por etiquetas
 router.get('/preguntas/busqueda-por-etiquetas-vista', preguntasController.busqueda_por_etiquetas_vista);
 router.get('/preguntas/busqueda-por-etiquetas', preguntasController.busqueda_basica);
+
 
 
 function isLogged(req, res, next){
@@ -55,4 +65,8 @@ function isNotLogged(req, res, next){
         next();
     }
 }
+function textCode(){
+    
+}
+
 module.exports = router;

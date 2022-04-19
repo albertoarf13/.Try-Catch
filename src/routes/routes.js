@@ -28,16 +28,22 @@ router.get('/preguntas/crear', isLogged, preguntasController.crear_pregunta_vist
 router.post('/preguntas/crear', isLogged, upload.single("imagen"), preguntasController.crear_pregunta);
 router.get('/preguntas/mostrar-imagenes', preguntasController.prueba_mostrar_imagenes);
 router.get('/preguntas/mostrar-etiquetas', preguntasController.prueba_mostrar_etiquetas);
+router.get('/preguntas/:id/editar', isLogged, preguntasController.vista_editar_pregunta);
 
 //router.get('/preguntas/:id/responder', isLogged, preguntasController.prueba_responder_vista);
 router.post('/preguntas/:id/responder', isLogged, upload.single("imagen"), preguntasController.responder_pregunta);
 router.post('/preguntas/:idPregunta/responder-respuesta/:idRespuesta', isLogged, preguntasController.responder_respuesta);
 
+router.post('/preguntas/:id/actualizar', isLogged, upload.single("imagen"), preguntasController.actualizar_pregunta);
+
 //Respuestas
+router.post('/preguntas/respuesta/:id/actualizar', isLogged, upload.single("imagen"), respuestasController.actualizar_respuesta);
 router.post('/preguntas/respuesta/like', isLogged, respuestasController.likeRespuesta);
 router.post('/preguntas/respuesta/dislike', isLogged, respuestasController.dislikeRespuesta);
+router.get('/preguntas/respuesta/:id/editar', isLogged, respuestasController.vista_editar_respuesta);
 
 //Aclaracion
+router.post('/preguntas/aclaracion/:id/actualizar', isLogged, aclaracionesController.actualizar_aclaracion);
 router.post('/preguntas/aclaracion/like', isLogged, aclaracionesController.likeRespuesta);
 router.post('/preguntas/aclaracion/dislike', isLogged, aclaracionesController.dislikeRespuesta);
 
