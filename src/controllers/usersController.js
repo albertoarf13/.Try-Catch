@@ -215,6 +215,30 @@ usuarioController.actualizar_usuario = (req, res) =>{
 }
 
 
+usuarioController.baja_usuario = (req, res) =>{
+
+
+    req.getConnection((err, conn)=>{
+        
+        conn.query(`update usuario
+            set eliminado = 1
+            where correo = ?;`, [req.session.correo], (err, result)=>{
+
+            if(err){
+                res.json(err);
+            }
+            else{
+                req.session.destroy();
+                res.redirect('/');
+            }
+
+
+        });
+    });
+
+}
+
+
 
 //Test
 
