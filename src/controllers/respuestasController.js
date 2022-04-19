@@ -5,6 +5,11 @@ respuestasController.likeRespuesta = (req,res) => {
     const idRespuesta = req.body.idRespuesta;
     const correo = req.body.correo;
 
+    if(correo != req.session.correo){
+        res.status(450).render('atributosPregunta.ejs', { error: "Se ha producido un error." });
+        return;
+    }
+
     req.getConnection((err, conn)=>{
         conn.query('select likes, dislikes from valorar where correo = ? and idRespuesta = ?;', [correo, idRespuesta], (err,result)=>{
 

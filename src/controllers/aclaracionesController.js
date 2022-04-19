@@ -2,7 +2,12 @@ aclaracionesController = {};
 aclaracionesController.likeRespuesta = (req,res) => {
     const idAclaracion = req.body.idAclaracion;
     const correo = req.body.correo;
-    console.log(idAclaracion, correo)
+    
+    if(correo != req.session.correo){
+        res.status(450).render('atributosPregunta.ejs', { error: "Se ha producido un error." });
+        return;
+    }
+
     req.getConnection((err, conn)=>{
         conn.query('select likes, dislikes from valorar_aclaracion where correo = ? and idAclaracion = ?;', [correo, idAclaracion], (err,result)=>{
             console.log(result);
