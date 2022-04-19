@@ -67,19 +67,19 @@ respuestasController.actualizar_respuesta = (req, res) =>{
     if(req.file != undefined){
         imagen = req.file.buffer.toString('base64');
         query += ',imagen = ? '
-        queryArgs = [descripcion, imagen, id];
+        queryArgs = [descripcion, imagen, id, req.session.correo];
     }
 
     if(imgBorrada == "true"){
         query += ',imagen = ? '
-        queryArgs = [descripcion, imagen, id];
+        queryArgs = [descripcion, imagen, id, req.session.correo];
         imagen = 'null';
     }
 
 
     req.getConnection((err, conn)=>{
 
-        conn.query(query + 'WHERE id = ? ', queryArgs, (err, result)=>{
+        conn.query(query + 'WHERE id = ? AND correo = ? ', queryArgs, (err, result)=>{
             
             if(err){
                 res.status(500).json(err);
@@ -98,14 +98,18 @@ respuestasController.vista_editar_respuesta = (req, res) =>{
 
     req.getConnection((err, conn)=>{
 
-        conn.query('select * from respuesta where id = ?', [id], (err, respuesta)=>{
+        conn.query('select * from respuesta where id = ? AND correo = ?', [id, req.session.correo], (err, respuesta)=>{
             
             if(err){
                 res.status(500).json(err);
                 return;
             }
             
-            console.log(respuesta);
+            if(respues[0].id != id)
+            {
+                res.redirect('/preguntas/mostrar/'+ id);  
+                return;
+            }
             conn.query(`select pregunta.*, ifnull(GROUP_CONCAT(etiqueta.nombre), '') as etiquetas
             from pregunta
             left join etiqueta_pregunta
