@@ -195,17 +195,17 @@ preguntasController.actualizar_pregunta = (req, res) => {
     }
 
     let imagen = null;
-    let query = 'UPDATE pregunta SET titulo = ?, descripcion = ?, '
+    let query = 'UPDATE pregunta SET titulo = ?, descripcion = ? '
     let queryArgs = [titulo, descripcion, id];
 
     if(req.file != undefined){
         imagen = req.file.buffer.toString('base64');
         queryArgs = [titulo, descripcion, imagen, id];
-        query += 'imagen = ? '
+        query += ', imagen = ? '
     }
 
     if(imgBorrada == "true"){
-        query += 'imagen = ? '
+        query += ', imagen = ? '
         queryArgs = [titulo, descripcion, imagen, id];
         imagen = 'null';
     }
@@ -214,7 +214,7 @@ preguntasController.actualizar_pregunta = (req, res) => {
 
         conn.query(query + 'WHERE id = ?', queryArgs, (err, result)=>{
             if(err){
-                res.json(err);
+                res.status(451).json(err);
                 return;
             }
             else{
@@ -224,20 +224,20 @@ preguntasController.actualizar_pregunta = (req, res) => {
                 }
                 conn.query('DELETE FROM etiqueta_pregunta WHERE id_pregunta = ?', [id], (err, result) => {
                     if(err){
-                        res.json(err);
+                        res.status(452).json(err);
                     }
                 })
 
                 etiquetas.forEach(etiqueta => {
                     conn.query('INSERT INTO etiqueta_pregunta(id_etiqueta, id_pregunta) VALUES(?,?)', [etiqueta, id], (err, result)=>{
                         if(err){
-                            res.json(err);
+                            res.status(453).json(err);
                             return;
                         }
                     })
                 })
 
-                res.redirect('/preguntas/mostrar/'+ id);
+                res.status(450).redirect('/preguntas/mostrar/'+ id);
             }
         })
     });
