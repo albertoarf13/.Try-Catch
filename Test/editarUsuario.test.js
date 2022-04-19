@@ -12,7 +12,7 @@ beforeAll(() => {
 test('[Editar usuario] con sesion iniciada', async () => {
 
     const usuario = { correo: 'prueba@prueba.es', contraseya: '1234567Aa'};
-    const info = {nombrePrueba, bioPrueba}
+    const info = {nombrePrueba:"nombrePrueba", bioPrueba:"bioPrueba"}
 
     let testSession = session(app);
 
@@ -26,7 +26,7 @@ test('[Editar usuario] con sesion iniciada', async () => {
 
 test('[Editar usuario] sin sesion iniciada', async () => {
 
-    const info = {nombrePrueba, bioPrueba}
+    const info = {nombrePrueba:"nombrePrueba", bioPrueba:"bioPrueba"}
 
     let testSession = session(app); 
 
