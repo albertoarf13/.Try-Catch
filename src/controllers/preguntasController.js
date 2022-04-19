@@ -783,7 +783,7 @@ preguntasController.borrar_pregunta = (req, res) =>{
     let idPregunta = req.params.id;
 
     req.getConnection((err, conn) => {
-        conn.query('DELETE FROM pregunta where pregunta.id = ?;', [idPregunta], (err, infoPregunta)=>{
+        conn.query('DELETE FROM pregunta where pregunta.id = ? AND correo = ?;', [idPregunta, req.session.correo], (err, infoPregunta)=>{
             res.redirect('/');
         });
     })
@@ -793,7 +793,7 @@ preguntasController.borrar_respuesta = (req, res) =>{
     let idRespuesta = req.params.id;
 
     req.getConnection((err, conn) => {
-        conn.query('DELETE FROM respuesta where respuesta.id = ?;', [idRespuesta], (err, infoPregunta)=>{
+        conn.query('DELETE FROM respuesta where respuesta.id = ? AND correo = ?;', [idRespuesta, req.session.correo], (err, infoPregunta)=>{
             res.redirect('back');
         });
     })
@@ -804,7 +804,7 @@ preguntasController.borrar_respuesta_respuesta = (req, res) =>{
     let id = req.params.id;
 
     req.getConnection((err, conn) => {
-        conn.query('DELETE FROM respuesta_a_respuesta where respuesta_a_respuesta.id = ?;', [id], (err, infoPregunta)=>{
+        conn.query('DELETE FROM respuesta_a_respuesta where respuesta_a_respuesta.id = ? AND correo = ?;', [id, req.session.correo], (err, infoPregunta)=>{
             res.redirect('back');
         });
     })
