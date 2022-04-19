@@ -28,12 +28,34 @@ preguntasController.atribs = (req, res) => {
                     return pregunta.etiquetas;
                 })
 
-                conn.query(`select respuesta.id, respuesta.descripcion, respuesta.imagen, respuesta.correo, respuesta_a_respuesta.descripcion as descripcionRespuestaARespuesta, respuesta_a_respuesta.correo as correoRespuestaARespuesta
-                from (select * from respuesta where idPregunta = ?) as respuesta
-                left join respuesta_a_respuesta
-                on respuesta.id = respuesta_a_respuesta.idRespuesta;`, [idPregunta], (err, respuestas)=>{
+                // Esto es para saber si ya le dimos like o dislike y eso
+                let correoUsuarioActual = null;
+                if(req.session.correo){
+                    correoUsuarioActual = req.session.correo;
+                }
 
-                    //console.log(respuestas)
+                conn.query(`select respuesta.*, aclaracion.id as idAclaracion,  aclaracion.descripcion as descripcionRespuestaARespuesta, aclaracion.correo as correoRespuestaARespuesta, aclaracion.a_likes as a_likes, aclaracion.a_dislikes, aclaracion.a_has_dado_like, aclaracion.a_has_dado_dislike
+                from (
+                    select respuesta.*, 
+                    SUM(valorar.likes) as likes, SUM(valorar.dislikes) as dislikes, 
+                    SUM(case when valorar.correo = ? and valorar.likes = 1 then 1 else 0 end) as has_dado_like,
+                    SUM(case when valorar.correo = ? and valorar.dislikes = 1 then 1 else 0 end) as has_dado_dislike
+                    from respuesta
+                    left join valorar
+                    on respuesta.id = valorar.idRespuesta
+                    where respuesta.idPregunta = ?
+                    group by respuesta.id
+                ) as respuesta
+                left join (select respuesta_a_respuesta.*, SUM(valorar_aclaracion.likes) as a_likes, SUM(valorar_aclaracion.dislikes) as a_dislikes, 
+                SUM(case when valorar_aclaracion.correo = ? and valorar_aclaracion.likes = 1 then 1 else 0 end) as a_has_dado_like,
+                SUM(case when valorar_aclaracion.correo = ? and valorar_aclaracion.dislikes = 1 then 1 else 0 end) as a_has_dado_dislike
+                from respuesta_a_respuesta
+                left join valorar_aclaracion
+                on respuesta_a_respuesta.id = valorar_aclaracion.idAclaracion
+                group by respuesta_a_respuesta.id) as aclaracion
+                on respuesta.id = aclaracion.idRespuesta;`, [correoUsuarioActual,correoUsuarioActual,idPregunta,correoUsuarioActual,correoUsuarioActual], (err, respuestas)=>{
+
+                    console.log('Adios', respuestas)
 
                     let respuestasObjeto = {};
 
@@ -48,17 +70,26 @@ preguntasController.atribs = (req, res) => {
                             respuestasObjeto[respuesta.id].descripcion = respuesta.descripcion;
                             respuestasObjeto[respuesta.id].imagen = respuesta.imagen;
                             respuestasObjeto[respuesta.id].correo = respuesta.correo;
+                            respuestasObjeto[respuesta.id].likes = respuesta.likes;
+                            respuestasObjeto[respuesta.id].dislikes = respuesta.dislikes;
+                            respuestasObjeto[respuesta.id].has_dado_like = respuesta.has_dado_like;
+                            respuestasObjeto[respuesta.id].has_dado_dislike = respuesta.has_dado_dislike;
 
 
                             respuestasObjeto[respuesta.id].respuestasARespuesta = [];
                         }
 
                         if(respuesta.descripcionRespuestaARespuesta != null){
-
                             respuestasObjeto[respuesta.id].respuestasARespuesta.push({
+                                id: respuesta.idAclaracion,
                                 descripcion: respuesta.descripcionRespuestaARespuesta,
                                 correo: respuesta.correoRespuestaARespuesta,
-                            })
+                                likes: respuesta.a_likes,
+                                dislikes: respuesta.a_dislikes,
+                                has_dado_like: respuesta.a_has_dado_like,
+                                has_dado_dislike: respuesta.a_has_dado_dislike,
+                            });
+                          
                         }
                         
                     })
@@ -70,7 +101,7 @@ preguntasController.atribs = (req, res) => {
                         respuestasOficial.push(respuesta[1]);
                     })
             
-                    //console.log(respuestasOficial)
+                    console.log(respuestasOficial)
                     var pregs = JSON.parse(JSON.stringify(infoPregunta));
 
                     res.status(450).render('atributosPregunta.ejs', {
@@ -145,6 +176,68 @@ preguntasController.crear_pregunta = (req, res) => {
                 })
 
                 res.redirect('/preguntas/mostrar/'+result.insertId);
+            }
+        })
+    });
+    
+}
+
+preguntasController.actualizar_pregunta = (req, res) => {
+
+    let {titulo, descripcion, etiquetas} = req.body;
+    let id = req.params.id;
+    let imgBorrada = req.body.delImagen;
+
+
+    if(titulo.length <= 0 || descripcion.length <= 0 || etiquetas == undefined){
+       // res.redirect('/preguntas/crear?error=' + encodeURIComponent('El título, descripción y etiquetas no pueden estar vacíos'));
+        return;
+    }
+
+    let imagen = null;
+    let query = 'UPDATE pregunta SET titulo = ?, descripcion = ?, '
+    let queryArgs = [titulo, descripcion, id];
+
+    if(req.file != undefined){
+        imagen = req.file.buffer.toString('base64');
+        queryArgs = [titulo, descripcion, imagen, id];
+        query += 'imagen = ? '
+    }
+
+    if(imgBorrada == "true"){
+        query += 'imagen = ? '
+        queryArgs = [titulo, descripcion, imagen, id];
+        imagen = 'null';
+    }
+
+    req.getConnection((err, conn)=>{
+
+        conn.query(query + 'WHERE id = ?', queryArgs, (err, result)=>{
+            if(err){
+                res.json(err);
+                return;
+            }
+            else{
+
+                if(!Array.isArray(etiquetas)){
+                    etiquetas = [etiquetas];
+                }
+                conn.query('DELETE FROM etiqueta_pregunta WHERE id_pregunta = ?', [id], (err, result) => {
+                    if(err){
+                        res.json(err);
+                    }
+                })
+
+                etiquetas.forEach(etiqueta => {
+                    conn.query('INSERT INTO etiqueta_pregunta(id_etiqueta, id_pregunta) VALUES(?,?)', [etiqueta, id], (err, result)=>{
+                        if(err){
+                            res.json(err);
+                            return;
+                        }
+                    })
+                })
+
+                res.redirect('/preguntas/mostrar/'+ id);
             }
         })
     });
@@ -642,5 +735,44 @@ preguntasController.busqueda_por_etiquetas = (req, res) => {
     
 }
 
+
+preguntasController.vista_editar_pregunta = (req, res) => {
+    let id = req.params.id;
+
+    req.getConnection((err, conn)=>{
+        conn.query(`select pregunta.*, ifnull(GROUP_CONCAT(etiqueta.nombre), '') as etiquetas
+        from pregunta
+        left join etiqueta_pregunta
+        on pregunta.id =  etiqueta_pregunta.id_pregunta
+        left join etiqueta
+        on etiqueta_pregunta.id_etiqueta = etiqueta.id
+        where pregunta.id = ?;`, [id],  (err, pregunta)=>{
+            
+            if(err){
+                res.json(err);
+            }else if(pregunta.length > 0){
+                pregunta.map(pregunta=>{
+                    pregunta.etiquetas = pregunta.etiquetas.split(',');
+                    return pregunta.etiquetas;
+                })
+
+                conn.query('SELECT * FROM etiqueta', (err, etiquetas)=>{
+            
+                    if(err){
+                        res.json(err);
+                    }else{
+                        res.render('editarPregunta.ejs', {
+                            pregunta: pregunta[0],
+                            etiquetas: etiquetas
+                        });
+                    }
+                })
+            }else{
+                res.redirect('/preguntas/mostrar/'+ idPregunta);  
+            }
+
+        })
+    });
+}
 
 module.exports = preguntasController;

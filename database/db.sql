@@ -39,6 +39,7 @@ CREATE TABLE etiqueta_pregunta(
 	id_pregunta INT(6) UNSIGNED REFERENCES pregunta(id),
     PRIMARY KEY(id_etiqueta, id_pregunta)
 );
+
 CREATE TABLE `valorar` (
   `correo` varchar(100) NOT NULL,
   `idRespuesta` int(6) unsigned NOT NULL,
@@ -49,6 +50,7 @@ CREATE TABLE `valorar` (
   CONSTRAINT `valorar_ibfk_1` FOREIGN KEY (`correo`) REFERENCES `usuario` (`correo`),
   CONSTRAINT `valorar_ibfk_2` FOREIGN KEY (`idRespuesta`) REFERENCES `respuesta` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1
+
 CREATE TABLE `valorar_aclaracion` (
   `correo` varchar(100) NOT NULL,
   `idAclaracion` int(6) unsigned NOT NULL,
