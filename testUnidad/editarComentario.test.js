@@ -13,8 +13,8 @@ test('[Editar pregunta] con sesion iniciada', async () => {
 
     const usuario = { correo: 'prueba@prueba.es', contraseya: '1234567Aa'};
     const pregunta = {
-        id: 161,
-        titulo: "Pregunta de testito",
+        id: 1,
+        titulo: "Pregunta de test",
         descripcion: "testeado",
         etiquetas: [1,2,4]
     }
@@ -35,7 +35,7 @@ test('[Editar pregunta] sin sesion iniciada', async () => {
 
     const usuario = { correo: 'prueba@prueba.es', contraseya: '1234567Aa'};
     const pregunta = {
-        id: 161,
+        id: 1,
         titulo: "Pregunta de test",
         descripcion: "test",
         etiquetas: [1,2,3]
@@ -49,43 +49,41 @@ test('[Editar pregunta] sin sesion iniciada', async () => {
 
 });
 
-test('[Editar pregunta] con sesion iniciada pero no es mia ', async () => {
+test('[Editar pregunta] incorreto', async () => {
 
     const usuario = { correo: 'prueba@prueba.es', contraseya: '1234567Aa'};
     const pregunta = {
-        id: 395,
-        titulo: "Pregunta de test",
-        descripcion: "test",
-        etiquetas: [1,2,3]
+        id: 1,
+        titulo: "",
+        descripcion: "",
+        etiquetas: undefined
     }
+    console.log(pregunta.titulo.length);
 
     let testSession = session(app);
-
-
     const response = await testSession.post('/login').send(usuario);
-    
     const response2 = await testSession.post('/preguntas/'+ pregunta.id +'/actualizar').send(pregunta);
-    expect(response2.status).toBe(302);
-    expect(response2.text).toBe('Found. Redirecting to /login')
+    expect(response2.status).toBe(450);
 
 });
+
 
 //RESPUESTAS
 test('[Editar respuesta] con sesion iniciada', async () => {
 
-    const usuario = { correo: 'testcrear@pregunta.es', contraseya: '1234567Aa'};
+    const usuario = { correo: 'prueba@prueba.es', contraseya: '1234567Aa'};
     const respuesta = {
-        idPregunta: 161,
-        id: 433,
-        descripcion: "testeado",
+        idPregunta: 1,
+        id: 1,
+        descripcion: "test",
     }
 
     let testSession = session(app);
 
 
     const response = await testSession.post('/login').send(usuario);
-    
-    const response2 = await testSession.post('/preguntas/respuesta/'+ respuesta.id +'/actualizar').send(respuesta);
+    '/preguntas/:id/responder'
+    const response2 = await testSession.post('/preguntas//'+ respuesta.id +'/actualizar').send(respuesta);
     console.log(response2.text);
     expect(response2.status).toBe(302);
     expect(response2.text).toBe('Found. Redirecting to /preguntas/mostrar/'+respuesta.idPregunta)

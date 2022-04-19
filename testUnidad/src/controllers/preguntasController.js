@@ -170,7 +170,6 @@ preguntasController.actualizar_pregunta = (req, res) => {
     let id = req.params.id;
     let imgBorrada = req.body.delImagen;
 
-
     if(titulo.length <= 0 || descripcion.length <= 0 || etiquetas == undefined){
         res.status(450).json('Un campo que ha introducio esta vacio')
         return;
@@ -191,6 +190,7 @@ preguntasController.actualizar_pregunta = (req, res) => {
         queryArgs = [titulo, descripcion, imagen, id];
         imagen = 'null';
     }
+
 
 
 
@@ -497,28 +497,21 @@ preguntasController.busqueda_por_etiquetas = (req, res) => {
 
 preguntasController.vista_editar_pregunta = (req, res) => {
     let id = req.params.id;
-
-    if(err){
-        res.json(err);
-    }else if(pregunta.length > 0){
+    //Añadir pregunta
+    if(pregunta[0].id == id){
         pregunta.map(pregunta=>{
             pregunta.etiquetas = pregunta.etiquetas.split(',');
             return pregunta.etiquetas;
         })
 
-    
-    
-    if(err){
-        res.json(err);
-    }else{
         res.render('editarPregunta.ejs', {
             pregunta: pregunta[0],
             etiquetas: etiquetas
         });
-    }
-
+                
     }else{
-        res.redirect('/preguntas/mostrar/'+ idPregunta);  
+        console.log("hola");
+        res.redirect('/preguntas/mostrar/'+ id);  
     }
 }
 

@@ -34,7 +34,6 @@ respuestasController.actualizar_respuesta = (req, res) =>{
     let id = req.params.id;
     let idPregunta = req.body.idPregunta;
     let imgBorrada = req.body.delImagen;
-    
 
     if(descripcion.length <= 0){
         res.status(450).json('La respuesta no puede estar vacía');
