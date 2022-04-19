@@ -187,34 +187,33 @@ preguntasController.actualizar_pregunta = (req, res) => {
     let {titulo, descripcion, etiquetas} = req.body;
     let id = req.params.id;
     let imgBorrada = req.body.delImagen;
-
-
+  
     if(titulo.length <= 0 || descripcion.length <= 0 || etiquetas == undefined){
-       // res.redirect('/preguntas/crear?error=' + encodeURIComponent('El título, descripción y etiquetas no pueden estar vacíos'));
+       res.status(450).json('El título, descripción o etiquetas no pueden estar vacíos');
         return;
     }
 
     let imagen = null;
-    let query = 'UPDATE pregunta SET titulo = ?, descripcion = ? '
+    let query = 'UPDATE pregunta SET titulo = ?, descripcion = ?, '
     let queryArgs = [titulo, descripcion, id];
 
     if(req.file != undefined){
         imagen = req.file.buffer.toString('base64');
-        queryArgs = [titulo, descripcion, imagen, id];
-        query += ', imagen = ? '
+        queryArgs = [titulo, descripcion, imagen, id,req.session.correo];
+        query += 'imagen = ? '
     }
 
     if(imgBorrada == "true"){
-        query += ', imagen = ? '
-        queryArgs = [titulo, descripcion, imagen, id];
+        query += 'imagen = ? '
+        queryArgs = [titulo, descripcion, imagen, id, req.session.correo];
         imagen = 'null';
     }
 
     req.getConnection((err, conn)=>{
 
-        conn.query(query + 'WHERE id = ?', queryArgs, (err, result)=>{
+        conn.query(query + 'WHERE id = ? AND correo = ?', queryArgs, (err, result)=>{
             if(err){
-                res.status(451).json(err);
+                res.json(err);
                 return;
             }
             else{
@@ -224,20 +223,20 @@ preguntasController.actualizar_pregunta = (req, res) => {
                 }
                 conn.query('DELETE FROM etiqueta_pregunta WHERE id_pregunta = ?', [id], (err, result) => {
                     if(err){
-                        res.status(452).json(err);
+                        res.json(err);
                     }
                 })
 
                 etiquetas.forEach(etiqueta => {
                     conn.query('INSERT INTO etiqueta_pregunta(id_etiqueta, id_pregunta) VALUES(?,?)', [etiqueta, id], (err, result)=>{
                         if(err){
-                            res.status(453).json(err);
+                            res.json(err);
                             return;
                         }
                     })
                 })
 
-                res.status(450).redirect('/preguntas/mostrar/'+ id);
+                res.redirect('/preguntas/mostrar/'+ id);
             }
         })
     });
@@ -735,7 +734,6 @@ preguntasController.busqueda_por_etiquetas = (req, res) => {
     
 }
 
-
 preguntasController.vista_editar_pregunta = (req, res) => {
     let id = req.params.id;
 
@@ -746,11 +744,11 @@ preguntasController.vista_editar_pregunta = (req, res) => {
         on pregunta.id =  etiqueta_pregunta.id_pregunta
         left join etiqueta
         on etiqueta_pregunta.id_etiqueta = etiqueta.id
-        where pregunta.id = ?;`, [id],  (err, pregunta)=>{
-            
+        where pregunta.id = ? AND pregunta.correo = ?;`, [id, req.session.correo],  (err, pregunta)=>{
+          
             if(err){
                 res.json(err);
-            }else if(pregunta.length > 0){
+            }else if(pregunta[0].id == id){
                 pregunta.map(pregunta=>{
                     pregunta.etiquetas = pregunta.etiquetas.split(',');
                     return pregunta.etiquetas;
@@ -768,7 +766,7 @@ preguntasController.vista_editar_pregunta = (req, res) => {
                     }
                 })
             }else{
-                res.redirect('/preguntas/mostrar/'+ idPregunta);  
+                res.redirect('/preguntas/mostrar/'+ id);  
             }
 
         })
