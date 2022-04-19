@@ -43,7 +43,7 @@ usuarioController.login = (req, res) => {
     const {correo, contraseya} = req.body;
     
     req.getConnection((err, conn)=>{
-        conn.query("SELECT * FROM usuario WHERE correo = ? AND contraseya = ?", [correo, contraseya], (err, usuario)=>{
+        conn.query("SELECT * FROM usuario WHERE correo = ? AND contraseya = ? AND eliminado = 0", [correo, contraseya], (err, usuario)=>{
             if(err){
                 res.status(402).json(err);
             }
