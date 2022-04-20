@@ -234,4 +234,6 @@ usuarioController.deleteUsuarioTest = (req, res) =>{
 
 }
 
+
+
 module.exports = usuarioController;
