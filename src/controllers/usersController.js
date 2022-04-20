@@ -193,6 +193,10 @@ usuarioController.actualizar_usuario = (req, res) =>{
     const correo = req.params.correo;
     const {nombre, bio} = req.body;
 
+    if(correo != req.session.correo){
+        res.status(450).render('editarUsuario.ejs', { error: "Se ha producido un error." });
+        return;
+    }
 
     req.getConnection((err, conn)=>{
         
