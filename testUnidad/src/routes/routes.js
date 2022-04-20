@@ -30,6 +30,9 @@ router.get('/preguntas/mostrar-etiquetas', preguntasController.prueba_mostrar_et
 router.post('/preguntas/:id/responder', isLogged, upload.single("imagen"), preguntasController.responder_pregunta);
 router.post('/preguntas/:idPregunta/responder-respuesta/:idRespuesta', isLogged, preguntasController.responder_respuesta);
 
+//Editar nuestro perfil de usuario
+router.post('/usuarios/baja',isLogged, usersController.baja_usuario);
+
 //Respuestas
 router.post('/preguntas/respuesta/like', isLogged, respuestasController.likeRespuesta);
 

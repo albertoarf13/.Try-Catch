@@ -46,7 +46,7 @@ router.get('/preguntas/busqueda-por-etiquetas', preguntasController.busqueda_bas
 //Editar nuestro perfil de usuario
 router.get('/usuarios/editar-mi-perfil', isLogged, usersController.vista_editar_usuario);
 router.post('/usuarios/:correo/update', usersController.actualizar_usuario);
-router.post('/usuarios/baja', usersController.baja_usuario);
+router.post('/usuarios/baja', isLogged, usersController.baja_usuario);
 
 //Ver atributos de usuario
 router.get('/usuarios/:correo', usersController.mostrar);

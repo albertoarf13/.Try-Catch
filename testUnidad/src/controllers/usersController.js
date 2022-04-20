@@ -46,6 +46,13 @@ usuarioController.logout = (req, res) => {
     res.redirect('/');
 }
 
+usuarioController.baja_usuario = (req, res) =>{
+    
+    req.session.destroy();
+    res.redirect('/');
+}
+
+
 function all_data(datos){//Comprueba que todas las entradas reciben datos
     for(var key in datos){
         if(!datos[key])
@@ -97,5 +104,6 @@ function checkUsername(nombre){
 
     return nombre.length >= 3;
 }
+
 
 module.exports = usuarioController;
