@@ -155,6 +155,11 @@
     width: 25px;
 }
 
+.user_img_header{
+    width: 30px;
+    margin-right: 15px;
+}
+
 .preg_box{
     width: 75%;
 
@@ -182,4 +187,22 @@
 
 .num_respondidas{
     margin-bottom: 10px;
+}
+
+.userDivHeader{
+    margin-right: 100px;
+}
+
+.avatar {
+    vertical-align: middle;
+    width: 32px;
+    max-width: 32px;
+    height: 32px;
+    max-height: 32px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.user_menu_dropdown{
+    font-size: small;
 }
