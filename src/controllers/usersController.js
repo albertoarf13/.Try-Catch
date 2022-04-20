@@ -43,7 +43,7 @@ usuarioController.login = (req, res) => {
     const {correo, contraseya} = req.body;
     
     req.getConnection((err, conn)=>{
-        conn.query("SELECT * FROM usuario WHERE correo = ? AND contraseya = ?", [correo, contraseya], (err, usuario)=>{
+        conn.query("SELECT * FROM usuario WHERE correo = ? AND contraseya = ? AND eliminado = 0", [correo, contraseya], (err, usuario)=>{
             if(err){
                 res.status(402).json(err);
             }
@@ -206,6 +206,30 @@ usuarioController.actualizar_usuario = (req, res) =>{
             }
             else{
                 res.redirect('/usuarios/editar-mi-perfil');
+            }
+
+
+        });
+    });
+
+}
+
+
+usuarioController.baja_usuario = (req, res) =>{
+
+
+    req.getConnection((err, conn)=>{
+        
+        conn.query(`update usuario
+            set eliminado = 1
+            where correo = ?;`, [req.session.correo], (err, result)=>{
+
+            if(err){
+                res.json(err);
+            }
+            else{
+                req.session.destroy();
+                res.redirect('/');
             }
 
 
