@@ -1,7 +1,7 @@
 const request = require('supertest');
-const routes = require('./src/routes/routes');
-const session = require('supertest-session');
-const app = require('./src/app.js');
+const app = require('../src/app');
+const routes = require('../src/routes/routes');
+const session = require('supertest-session');;
 const { beforeAll} = require('@jest/globals');
 
 beforeAll(() => {
@@ -10,7 +10,7 @@ beforeAll(() => {
 
 test('[Baja usuario] correcto', async () => {
 
-    const usuario = { correo: 'prueba@prueba.es', contraseya: '1234567Aa'};
+    const usuario = { correo: 'alberiva@ucm.es', contraseya: '123'};
     let testSession = session(app);
 
     const response = await testSession.post('/login').send(usuario);
@@ -20,7 +20,7 @@ test('[Baja usuario] correcto', async () => {
 
 });
 test('[Baja usuario]  incorrecto sin session inciada', async () => {
-    
+
     const response = await request(app).post('/usuarios/baja');
     expect(response.status).toBe(302);
     expect(response.text).toBe("Found. Redirecting to /login");
