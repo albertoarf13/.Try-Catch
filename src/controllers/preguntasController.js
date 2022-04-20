@@ -643,6 +643,7 @@ preguntasController.busqueda_por_etiquetas_vista = (req, res) => {
 
 }
 
+
 preguntasController.busqueda_por_etiquetas = (req, res) => {
     let page = req.query.page;
     let offset;
@@ -717,6 +718,21 @@ preguntasController.busqueda_por_etiquetas = (req, res) => {
     });
     
 }
+
+preguntasController.splitPrueba = (req, res) => {
+    let text = req
+    let result = splitCode(text)
+    let goodEnding = [
+        { text: 'noCodigoPrueba ', code: false },
+        { text: ' codigoPrueba ', code: true },
+        { text: ' noCodigoPrueba', code: false }
+      ]
+    if (result.length == goodEnding.length)
+        return 450
+    else
+        return 451
+}
+
 
 function splitCode(textoInicial){
     let i = 0;
