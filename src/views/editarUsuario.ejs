@@ -31,6 +31,13 @@
                             <label for="bio" class="form-label">Bio</label>
                             <textarea class="form-control" name="bio" rows="3"><%= usuario.bio %></textarea>
                         </div>
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                Eliminar usuario
+                            </button>
+                        </div>
+
+                        
                         
                         <button type="submit" class="btn btn-primary">Guardar cambios</button>
                     </form>
@@ -43,5 +50,29 @@
         </div>
     </div>
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Advertencia</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Seguro de que quieres eliminar este usuario?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+
+          <form action="/usuarios/baja" method="POST">
+              <button type="submit" class="btn btn-danger">Eliminar</button>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
     
 <%- include('partials/_footer') %>
