@@ -15,6 +15,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(function(request, response, next) {
     if (request.session.correo) {
         response.locals.correo = request.session.correo;
+        response.locals.imagen = request.session.imagen;
     }
     next();
 });

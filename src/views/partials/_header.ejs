@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/stylesAtributosPregunta.css" >
 </head>
 
-
+<% console.log("locals: ",locals) %>
 <body>
     <div class="header">
         <a href="/"><img src="/logo.png"></a>
@@ -25,7 +25,11 @@
               <div class="userDivHeader">
                 <!-- <i class='fas fa-user-circle' style='font-size:36px'></i> -->
                 <a href="" data-bs-toggle="dropdown" aria-expanded="false" id="userIcon">
-                  <img src="https://www.w3schools.com/howto/img_avatar2.png" alt="/user_icon.png" class="avatar"><i class='fas fa-angle-down'></i>
+                  <% if(locals.imagen) { %>
+                    <img src="data:image/png;base64,<%= locals.imagen %>" class="user_profile_icon"><i class='fas fa-angle-down'></i>
+                  <% } else { %>
+                    <i class='fas fa-user-circle user_profile_icon' style='font-size:40px'></i><i class='fas fa-angle-down'></i>
+                  <% } %>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="userIcon">
                   <li><a class="dropdown-item user_menu_dropdown" href="/usuarios/<%= locals.correo %>">Ver Perfil <i class="fas fa-user-alt"></i></a></li>

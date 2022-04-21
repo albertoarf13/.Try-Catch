@@ -52,6 +52,7 @@ usuarioController.login = (req, res) => {
             }
             else{
                 req.session.correo = usuario[0].correo;
+                req.session.imagen = usuario[0].imagen;
 
                 //aqui esta el problema, devuelve 302 porque esta siendo redireccionada O_o
                 res.redirect('/');
@@ -224,7 +225,7 @@ usuarioController.actualizar_usuario = (req, res) =>{
                 res.json(err);
             }
             else{
-                res.redirect('/usuarios/editar-mi-perfil');
+                res.redirect('/usuarios/'+correo);
             }
 
         });
