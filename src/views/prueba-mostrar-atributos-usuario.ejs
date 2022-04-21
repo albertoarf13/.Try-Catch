@@ -16,7 +16,11 @@
         <div class="card-usuario usuarioDiv">
           <div class="cabecera-usuario">
             <div class="avatar">
-              <img src="" alt="" width="100" height="100"/>
+              <% if (usuario.imagen) { %>
+                <img src="data:image/png;base64,<%= usuario.imagen %>" width="100" height="100"/>
+              <% } else { %>
+                <i class='fas fa-user-circle' style='font-size:95px'></i>
+              <% } %>
             </div>
           </div>
       
