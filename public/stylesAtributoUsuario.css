@@ -47,7 +47,12 @@ h3{
     padding: 1rem;
     background-color: lighten(#303f9f, 20%);
     text-align: center;
-  }
+}
+
+.usuarioDiv{
+  position: fixed;
+  /* width: 300px; */
+}
  
 
   
