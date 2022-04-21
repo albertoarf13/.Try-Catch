@@ -192,7 +192,7 @@ usuarioController.actualizar_usuario = (req, res) =>{
 
     const correo = req.params.correo;
     const {nombre, bio} = req.body;
-    const imagen = req.file;
+    let imagen;
 
     if(correo != req.session.correo){
         res.status(450).render('editarUsuario.ejs', { error: "Se ha producido un error." });
@@ -205,12 +205,15 @@ usuarioController.actualizar_usuario = (req, res) =>{
 
     let queryArgs = [nombre, bio, correo];
 
-    if(imagen != undefined){
+    console.log(req.file);
+
+    if(req.file != undefined){
         imagen = req.file.buffer.toString('base64');
         queryArgs = [nombre, bio, imagen, correo];
         query += `, imagen = ?`;
     }
 
+    console.log("query",query);
     query += ` where correo = ?`;
 
     req.getConnection((err, conn)=>{

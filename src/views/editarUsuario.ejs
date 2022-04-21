@@ -18,7 +18,7 @@
                     </div>
                 <% } else { %>
 
-                    <form method="POST" action="/usuarios/<%= usuario.correo %>/update">
+                    <form method="POST" action="/usuarios/<%= usuario.correo %>/update" enctype="multipart/form-data">
                         <div class="mb-3">
                             <!-- <div class="avatar">
                                 <img src="" alt="" width="100" height="100"/>

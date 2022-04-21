@@ -3,6 +3,7 @@ CREATE TABLE usuario (
   nombre VARCHAR(50) NOT NULL,
   correo VARCHAR(100) NOT NULL,
   contraseya VARCHAR(50) NOT NULL,
+  imagen LONGTEXT,
   bio TEXT
 );
 
