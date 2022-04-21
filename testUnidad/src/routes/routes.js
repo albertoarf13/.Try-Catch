@@ -33,9 +33,12 @@ router.post('/preguntas/:id/responder', isLogged, upload.single("imagen"), pregu
 router.post('/preguntas/:idPregunta/responder-respuesta/:idRespuesta', isLogged, preguntasController.responder_respuesta);
 
 router.post('/preguntas/:id/actualizar', isLogged, upload.single("imagen"), preguntasController.actualizar_pregunta);
+<<<<<<< HEAD
 //Editar nuestro perfil de usuario
 router.post('/usuarios/baja',isLogged, usersController.baja_usuario);
 
+=======
+>>>>>>> ver_atributos_usuario_hu
 //Respuestas
 router.post('/preguntas/respuesta/:id/actualizar', isLogged, upload.single("imagen"), respuestasController.actualizar_respuesta);
 router.post('/preguntas/respuesta/like', isLogged, respuestasController.likeRespuesta);
@@ -48,6 +51,14 @@ router.post('/preguntas/aclaracion/like', isLogged, aclaracionesController.likeR
 //Busqueda por etiquetas
 router.get('/preguntas/busqueda-por-etiquetas-vista', preguntasController.busqueda_por_etiquetas_vista);
 router.get('/preguntas/busqueda-por-etiquetas', preguntasController.busqueda_basica);
+
+//Editar nuestro perfil de usuario
+router.get('/usuarios/editar-mi-perfil', isLogged, usersController.vista_editar_usuario);
+router.post('/usuarios/:correo/update', usersController.actualizar_usuario);
+
+//Ver atributos de usuario
+router.get('/usuarios/:correo', usersController.mostrar);
+
 
 
 

@@ -201,6 +201,44 @@ preguntasController.actualizar_pregunta = (req, res) => {
     
 }
 
+preguntasController.actualizar_pregunta = (req, res) => {
+
+    let {titulo, descripcion, etiquetas} = req.body;
+    let id = req.params.id;
+    let imgBorrada = req.body.delImagen;
+
+    if(titulo.length <= 0 || descripcion.length <= 0 || etiquetas == undefined){
+        res.status(450).json('Un campo que ha introducio esta vacio')
+        return;
+    }
+
+    let imagen = null;
+    let query = 'UPDATE pregunta SET titulo = ?, descripcion = ?, '
+    let queryArgs = [titulo, descripcion, id];
+
+    if(req.file != undefined){
+        imagen = req.file.buffer.toString('base64');
+        queryArgs = [titulo, descripcion, imagen, id];
+        query += 'imagen = ? '
+    }
+
+    if(imgBorrada == "true"){
+        query += 'imagen = ? '
+        queryArgs = [titulo, descripcion, imagen, id];
+        imagen = 'null';
+    }
+
+
+
+
+    if(!Array.isArray(etiquetas)){
+        etiquetas = [etiquetas];
+    }
+           
+    res.redirect('/preguntas/mostrar/'+ id);
+    
+}
+
 preguntasController.prueba_mostrar_imagenes = (req, res) => {
         
     res.status(450).render('prueba-mostrar-imagenes.ejs', {
@@ -329,7 +367,6 @@ preguntasController.busqueda_basica = (req, res) => {
 
     if(req.query.respondidas == "false"){
         query = query_busqueda_no_respondidas;
-        console.log("hola..............................");
     }
     else if(req.query.respondidas == "true"){
         query = query_busqueda_respondidas;
@@ -519,5 +556,26 @@ preguntasController.vista_editar_pregunta = (req, res) => {
     }
 }
 
+
+
+preguntasController.vista_editar_pregunta = (req, res) => {
+    let id = req.params.id;
+    //Añadir pregunta
+    if(pregunta[0].id == id){
+        pregunta.map(pregunta=>{
+            pregunta.etiquetas = pregunta.etiquetas.split(',');
+            return pregunta.etiquetas;
+        })
+
+        res.render('editarPregunta.ejs', {
+            pregunta: pregunta[0],
+            etiquetas: etiquetas
+        });
+                
+    }else{
+        console.log("hola");
+        res.redirect('/preguntas/mostrar/'+ id);  
+    }
+}
 
 module.exports = preguntasController;
