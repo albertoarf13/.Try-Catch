@@ -192,18 +192,30 @@ usuarioController.actualizar_usuario = (req, res) =>{
 
     const correo = req.params.correo;
     const {nombre, bio} = req.body;
+    const imagen = req.file;
 
     if(correo != req.session.correo){
         res.status(450).render('editarUsuario.ejs', { error: "Se ha producido un error." });
         return;
     }
 
+    let query = `update usuario
+            set nombre = ?,
+            bio = ?`;
+
+    let queryArgs = [nombre, bio, correo];
+
+    if(imagen != undefined){
+        imagen = req.file.buffer.toString('base64');
+        queryArgs = [nombre, bio, imagen, correo];
+        query += `, imagen = ?`;
+    }
+
+    query += ` where correo = ?`;
+
     req.getConnection((err, conn)=>{
         
-        conn.query(`update usuario
-            set nombre = ?,
-            bio = ?
-            where correo = ?;`, [nombre, bio, correo], (err, result)=>{
+        conn.query( query, queryArgs, (err, result)=>{
 
             if(err){
                 res.json(err);
@@ -211,7 +223,6 @@ usuarioController.actualizar_usuario = (req, res) =>{
             else{
                 res.redirect('/usuarios/editar-mi-perfil');
             }
-
 
         });
     });

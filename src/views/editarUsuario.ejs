@@ -8,7 +8,7 @@
     <div class="main">
         <div class="content-container">
 
-            <div id="editar-usuario">
+            <div id="editar-usuario" class="crearPregunta-container">
 
                 <h2 style="margin-bottom: 1em;">Editar perfil</h2>
 
@@ -19,6 +19,13 @@
                 <% } else { %>
 
                     <form method="POST" action="/usuarios/<%= usuario.correo %>/update">
+                        <div class="mb-3">
+                            <!-- <div class="avatar">
+                                <img src="" alt="" width="100" height="100"/>
+                            </div> -->
+                            <label for="imagen" class="form-label">Editar foto de perfil:</label>
+                            <input type="file" accept="image/*" name="imagen">
+                        </div>
                         <div class="mb-3">
                             <label for="nombre" class="form-label">Nombre</label>
                             <input class="form-control" name="nombre" value="<%= usuario.nombre %>" required>
