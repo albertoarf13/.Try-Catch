@@ -297,8 +297,9 @@ preguntasController.prueba_mostrar_etiquetas = (req, res) => {
 preguntasController.prueba_mostrar_preguntas_recientes = (req, res) => {
     let page = req.params.pag;
     let offset;
-    console.log("pagina", page);
-    page = parseInt(eval(page));
+    
+    console.log("pagina", parseInt("sda"));
+    page = parseInt(page);
 
     if(page == undefined || isNaN(page) || page <= 1){
         offset = 0;
