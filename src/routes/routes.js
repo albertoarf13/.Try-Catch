@@ -12,7 +12,7 @@ const aclaracionesController = require('../controllers/aclaracionesController');
 router.get('/', preguntasController.prueba_mostrar_preguntas_recientes);
 router.get('/preguntas/page=:pag', preguntasController.prueba_mostrar_preguntas_recientes);
  
-
+ 
 router.post('/sign-up', usersController.sign_up);
 router.get('/sign-up_page', usersController.sign_up_page);
 
