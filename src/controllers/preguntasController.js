@@ -272,6 +272,7 @@ preguntasController.prueba_mostrar_preguntas_recientes = (req, res) => {
 
             preguntas.map(pregunta=>{
                 pregunta.etiquetas = pregunta.etiquetas.split(',');
+                pregunta.descripcion = pregunta.descripcion.split(/.......(?<=-code-.).*?(?=-code-)....../s)[0];
                 return pregunta.etiquetas;
             })
 
