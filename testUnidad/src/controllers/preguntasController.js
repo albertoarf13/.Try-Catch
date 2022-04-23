@@ -464,4 +464,13 @@ preguntasController.busqueda_por_etiquetas = (req, res) => {
 }
 
 
+preguntasController.borrar_respuesta_respuesta = (req, res) =>{
+    
+    let id = req.params.id;
+
+    if(id <= 0){
+        res.render('/preguntas/:id/borrar_respuesta_respuesta?error=' + encodeURIComponent('El id no puede ser menor que 0'));
+    }
+};
+
 module.exports = preguntasController;

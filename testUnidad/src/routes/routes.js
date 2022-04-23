@@ -37,6 +37,10 @@ router.post('/preguntas/respuesta/like', isLogged, respuestasController.likeResp
 router.get('/preguntas/busqueda-por-etiquetas-vista', preguntasController.busqueda_por_etiquetas_vista);
 router.get('/preguntas/busqueda-por-etiquetas', preguntasController.busqueda_basica);
 
+//borrar comentario
+router.get('/preguntas/:id/borrar_pregunta', isLogged, preguntasController.borrar_pregunta)
+router.get('/preguntas/:id/borrar_respuesta', isLogged, preguntasController.borrar_respuesta)
+router.get('/preguntas/:id/borrar_respuesta_respuesta', isLogged, preguntasController.borrar_respuesta_respuesta)
 
 function isLogged(req, res, next){
     if(req.session.correo){
