@@ -26,6 +26,7 @@ preguntasController.atribs = (req, res) => {
             }else{
                 infoPregunta.map(pregunta=>{
                     pregunta.etiquetas = pregunta.etiquetas.split(',');
+                    pregunta.descripcion = splitCode(pregunta.descripcion);
                     return pregunta.etiquetas;
                 })
 
@@ -70,7 +71,7 @@ preguntasController.atribs = (req, res) => {
                             respuestasObjeto[respuesta.id] = {}
                             
                             respuestasObjeto[respuesta.id].id = respuesta.id;
-                            respuestasObjeto[respuesta.id].descripcion = respuesta.descripcion;
+                            respuestasObjeto[respuesta.id].descripcion = splitCode(respuesta.descripcion);
                             respuestasObjeto[respuesta.id].imagen = respuesta.imagen;
                             respuestasObjeto[respuesta.id].correo = respuesta.correo;
                             respuestasObjeto[respuesta.id].likes = respuesta.likes;
@@ -82,10 +83,12 @@ preguntasController.atribs = (req, res) => {
                             respuestasObjeto[respuesta.id].respuestasARespuesta = [];
                         }
 
+                        
+                        
                         if(respuesta.descripcionRespuestaARespuesta != null){
                             respuestasObjeto[respuesta.id].respuestasARespuesta.push({
                                 id: respuesta.idAclaracion,
-                                descripcion: respuesta.descripcionRespuestaARespuesta,
+                                descripcion: splitCode(respuesta.descripcionRespuestaARespuesta),
                                 correo: respuesta.correoRespuestaARespuesta,
                                 likes: respuesta.a_likes,
                                 dislikes: respuesta.a_dislikes,
@@ -334,6 +337,7 @@ preguntasController.prueba_mostrar_preguntas_recientes = (req, res) => {
 
             preguntas.map(pregunta=>{
                 pregunta.etiquetas = pregunta.etiquetas.split(',');
+                pregunta.descripcion = pregunta.descripcion.split(/.......(?<=-code-.).*?(?=-code-)....../s)[0];
                 return pregunta.etiquetas;
             })
 
@@ -355,8 +359,8 @@ preguntasController.prueba_mostrar_preguntas_recientes = (req, res) => {
 }
 
 preguntasController.responder_pregunta = (req, res) =>{
-
-    let respuesta = req.body.respuesta;
+    console.log(req.body);
+    let respuesta = req.body.descripcion;
     let idPregunta = req.params.id;
 
     if(respuesta.length <= 0){
@@ -705,6 +709,7 @@ preguntasController.busqueda_por_etiquetas_vista = (req, res) => {
 
 }
 
+
 preguntasController.busqueda_por_etiquetas = (req, res) => {
     let page = req.query.page;
     let offset;
@@ -848,5 +853,60 @@ preguntasController.vista_editar_pregunta = (req, res) => {
         })
     });
 }
+preguntasController.splitPrueba = (req, res) => {
+    let text = req
+    let result = splitCode(text)
+    let goodEnding = [
+        { text: 'noCodigoPrueba ', code: false },
+        { text: ' codigoPrueba ', code: true },
+        { text: ' noCodigoPrueba', code: false }
+      ]
+    if (result.length == goodEnding.length)
+        return 450
+    else
+        return 451
+}
+
+
+function splitCode(textoInicial){
+    let i = 0;
+    let j = 0;
+    let k = 0;
+    let textoConCodigo = textoInicial.split('-code-');
+    let textoSinCodigo = textoInicial.split(/.......(?<=-code-.).*?(?=-code-)....../s);
+    let resultado = [];
+
+    while(i < textoConCodigo.length && j < textoSinCodigo.length)
+    {
+        if(textoConCodigo[i] == textoSinCodigo[j])// si es igual es texto normal
+        {
+            resultado[k] = {text: textoSinCodigo[j], code: false};
+            i++;
+            j++;
+            console.log("llego");
+        }
+        else 
+        {
+            resultado[k] = {text: textoConCodigo[i], code: true};
+            i++;
+            console.log("llego");
+        }
+        k++;
+    }
+    if(i < textoConCodigo.length)
+    {
+        resultado[k] = {text: textoConCodigo[i], code: true};
+        i++;
+    }
+    if(j < textoSinCodigo.length)
+    {
+        resultado[k] = {text: textoSinCodigo[j], code: false};
+        j++;
+    }
+
+    console.log(resultado);
+    return resultado;
+}
+
 
 module.exports = preguntasController;

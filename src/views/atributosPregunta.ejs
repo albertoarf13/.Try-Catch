@@ -1,5 +1,8 @@
 <%- include('partials/_header') %>
-
+<link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <div class="contenedor">
 
     <%- include('partials/_sidebar') %>
@@ -28,8 +31,16 @@
                     
                     <hr>
                     <div class="card-body">
-                      <p class="card-text"><%= preguntas.descripcion %></p>
-                      
+                        <% preguntas.descripcion.forEach(function(elem){ %>
+                            <% console.log(elem) %>
+                            <% if(!elem.code) { %>
+                                <p class="card-text"><%= elem.text %></p>
+                            <% } else { %>
+                                <div class="codeBox">
+                                    <pre><code><%= elem.text %></code></pre>
+                                </div>
+                            <% } %>
+                        <% }); %>
                     </div>
                     <% if(preguntas.imagen != null){ %>
                         <hr>
@@ -61,7 +72,10 @@
     
                         <div class="form-group mb-3">
                             <label for="respuesta">Realiza tu respuesta</label>
-                            <textarea class="form-control" name="respuesta" rows="3" required minlength="3" maxlength="2000"></textarea>
+                            <div>
+                                <button id="codeButton" type="button" class="btn btn-primary btn-sm">Code</button>
+                                <textarea id="txtArea" class="form-control cuadro" name="descripcion" required maxlength="20000"></textarea>
+                            </div>
                         </div>
                         
                         <div class="mb-3">
@@ -106,8 +120,16 @@
                                    
                             </div>
                             <div class="card-body">
-                                <p id="descResp"+i class="card-text"><%= respuesta.descripcion %></p>
-                                
+                                <% respuesta.descripcion.forEach(function(elem){ %>
+                                    <% console.log(elem) %>
+                                    <% if(!elem.code) { %>
+                                        <p class="card-text"><%= elem.text %></p>
+                                    <% } else { %>
+                                        <div class="codeBox">
+                                            <pre><code><%= elem.text %></code></pre>
+                                        </div>
+                                    <% } %>
+                                <% }); %>
                                 <div class="imagen_atb">
                                     <% if(respuesta.imagen != null){ %>
                                         <img src="data:image/png;base64,<%= respuesta.imagen %>" style="width: 100%; max-width: 700px;" alt="">
@@ -176,8 +198,16 @@
                                                     
                                                 </div>
                                                 <div class="card-body">
-                                                    <p id="descAcl" class="card-text"><%= respuestaARespuesta.descripcion %></p>
-
+                                                    <% respuestaARespuesta.descripcion.forEach(function(elem){ %>
+                                                        <% console.log(elem) %>
+                                                        <% if(!elem.code) { %>
+                                                            <p class="card-text"><%= elem.text %></p>
+                                                        <% } else { %>
+                                                            <div class="codeBox">
+                                                                <pre><code><%= elem.text %></code></pre>
+                                                            </div>
+                                                        <% } %>
+                                                    <% }); %>
                                                     <div class="container-boton-responder-y-likes-y-dislikes">                                                
                                                         <div class="container-like-y-dislike-aclaracion">
                                                             <form method="POST" action="/preguntas/aclaracion/like">
@@ -297,6 +327,19 @@
     }
     
     
+</script>
+<script>
+    var codebutton = document.getElementById("codeButton");
+    var txtArea = document.getElementById("txtArea");
+
+
+    codebutton.onclick = () =>{
+        const [start, end] = [txtArea.selectionStart, txtArea.selectionEnd];
+        txtArea.setRangeText('\n-code-\n\n\-code-', start, end, 'select');
+    }
+
+
+
 </script>
   
 <%- include('partials/_footer') %>

@@ -21,12 +21,15 @@
                                 <p>
                                     <!-- <h2>Introduce un titulo</h2> -->
                                     <label for="respuesta">Introduce un titulo</label>
-                                    <input class="form-control" name="titulo" required maxlength="100">
+                                    <input class="form-control me-2" name="titulo" required maxlength="100">
                                 </p>
                                 <p>
                                     <!-- <h2>Escribe tu Pregunta</h2> -->
-                                    <label for="respuesta">Escribe tu Pregunta</label>
-                                    <textarea class="form-control cuadro" name="descripcion" required maxlength="20000"></textarea>
+                                    <p>Escribe tu Pregunta</p>
+                                    <div>
+                                        <button id="codeButton" type="button" class="btn btn-primary btn-sm">Code</button>
+                                        <textarea id="txtArea" class="form-control cuadro" name="descripcion" required maxlength="20000"></textarea>
+                                    </div>
                                 </p>
                                 <p>
                                     <!-- <h2>Etiquetas (se pueden seleccionar varias con Ctrl)</h2> -->
@@ -69,6 +72,14 @@
             theme: "classic"
         });
     });
+    var codebutton = document.getElementById("codeButton");
+    var txtArea = document.getElementById("txtArea");
+
+
+    codebutton.onclick = () =>{
+        const [start, end] = [txtArea.selectionStart, txtArea.selectionEnd];
+        txtArea.setRangeText('\n-code-\n\n\-code-', start, end, 'select');
+    }
 
 </script>
     
