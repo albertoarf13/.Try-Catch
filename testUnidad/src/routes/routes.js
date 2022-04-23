@@ -31,6 +31,7 @@ router.post('/preguntas/:idPregunta/responder-respuesta/:idRespuesta', isLogged,
 
 //Respuestas
 router.post('/preguntas/respuesta/like', isLogged, respuestasController.likeRespuesta);
+router.post('/preguntas/respuesta/dislike', isLogged, respuestasController.dislikeRespuesta);
 
 //Busqueda por etiquetas
 //router.get('/preguntas/busqueda-por-etiquetas-vista', preguntasController.busqueda_por_etiquetas_vista);

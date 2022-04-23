@@ -27,4 +27,31 @@ respuestasController.likeRespuesta = (req,res) => {
     }
 }
 
+respuestasController.dislikeRespuesta = (req,res) => {
+    const idRespuesta = req.body.idRespuesta;
+    const correo = req.body.correo;
+
+    if(idRespuesta == 1){
+        result = {likes: 1, dislikes: 0};
+    }
+    else if(idRespuesta == 2){
+        result = {likes: 1, dislikes: 1};
+    }else{
+        result = {likes: 0, dislikes: 1};
+    }
+
+    if(result.length == 0){
+        
+        res.redirect('back');
+
+    }else if(result[0].likes == 1){
+
+        res.redirect('back'); 
+
+    }else if(result[0].dislikes == 1){
+        res.redirect('back');
+
+    }
+}
+
 module.exports = respuestasController;
