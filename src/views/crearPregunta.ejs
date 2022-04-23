@@ -1,6 +1,9 @@
 <%- include('partials/_header') %>
         
-<link rel="stylesheet" href="/stylescrearPregunta.css">  
+<link rel="stylesheet" href="/stylescrearPregunta.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <div class="contenedor">
 
     <%- include('partials/_sidebar') %>
@@ -18,17 +21,17 @@
                                 <p>
                                     <!-- <h2>Introduce un titulo</h2> -->
                                     <label for="respuesta">Introduce un titulo</label>
-                                    <input class="titulo" name="titulo" required maxlength="100">
+                                    <input class="form-control" name="titulo" required maxlength="100">
                                 </p>
                                 <p>
                                     <!-- <h2>Escribe tu Pregunta</h2> -->
                                     <label for="respuesta">Escribe tu Pregunta</label>
-                                    <textarea  class="cuadro" name="descripcion" required maxlength="20000"></textarea>
+                                    <textarea class="form-control cuadro" name="descripcion" required maxlength="20000"></textarea>
                                 </p>
                                 <p>
                                     <!-- <h2>Etiquetas (se pueden seleccionar varias con Ctrl)</h2> -->
-                                    <label for="respuesta">Etiquetas (se pueden seleccionar varias con Ctrl)</label>
-                                    <select class="form-select" multiple name="etiquetas" required>
+                                    <label for="respuesta">Etiquetas (5 max)</label>
+                                    <select class="js-example-basic-multiple" name="etiquetas" multiple="multiple" required style="width: 100%">
                                         <% etiquetas.forEach(function(etiqueta){ %>
                                             <option value="<%= etiqueta.id %>"><%= etiqueta.nombre %></option>
                                         <% }); %>
@@ -58,5 +61,15 @@
         </div>
     </div>
 </div>
+
+<script>
+    
+    $(document).ready(function() {
+        $('.js-example-basic-multiple').select2({
+            theme: "classic"
+        });
+    });
+
+</script>
     
 <%- include('partials/_footer') %>
