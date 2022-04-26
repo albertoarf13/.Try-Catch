@@ -38,6 +38,7 @@ restoreBD.reactive = async () =>{
         if (err) throw err;
         console.log("Connected!");
         con.query('update usuario set eliminado=0 where correo = ?', ["hola122@ucm.es"], (err, usuario)=>{
+            console.log(err);
             if(err){
                 res.json(err);
             }
@@ -77,8 +78,5 @@ restoreBD.encrypt = async () =>{
     });
 }
 
+
 module.exports = restoreBD;
-
-
-
-restoreBD.encrypt();

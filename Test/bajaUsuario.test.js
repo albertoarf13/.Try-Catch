@@ -1,3 +1,4 @@
+'use estrict';
 const request = require('supertest');
 const app = require('../src/app');
 const routes = require('../src/routes/routes');
@@ -6,9 +7,8 @@ const restoreBD = require('./restorebd');
 const { beforeAll} = require('@jest/globals');
 
 beforeAll(() => {
-    app.use('/', routes);  
+    app.use('/', routes); 
 });
-
 test('[Baja usuario] correcto', async () => {
 
     const usuario = { correo: 'hola122@ucm.es', contraseya: '124542'};
