@@ -21,10 +21,9 @@
                                     maxlength="50">
 
                                 <input type="submit" value="log in">
-
                             </div>
-                            <div class="g-signin2" data-onsuccess="onSignIn"></div>
-                            <a href="#" onclick="signOut();">Sign out</a>
+                            <div class="g-signin2 googleButton" data-onsuccess="onSignIn"></div>
+                            <!-- <a href="#" onclick="signOut();">Sign out</a> -->
                             <!-- <div class="mb-3">
                             <label for="email" class="form-label">Correo</label>
                             <input class="form-control" name="correo">
@@ -80,9 +79,11 @@
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.onload = function () {
                 console.log('Signed in as: ' + xhr.responseText);
-                if (xhr.responseText == 'success') {
-                    signOut();
+                if (xhr.status != 402) {
                     location.assign('/')
+                    googleUser.disconnect()
+                }else{
+                    signOut();
                 }
             };
             const data = { "nombre": profile.getGivenName(), "correo": profile.getEmail() };
@@ -92,10 +93,10 @@
         }
 
         function signOut() {
-            var auth2 = gapi.auth2.getAuthInstance();
-            auth2.signOut().then(function () {
-                console.log('User signed out.');
-            });
+             var auth2 = gapi.auth2.getAuthInstance();
+             auth2.signOut().then(function () {
+                 console.log('User signed out.');
+             });
         }
     </script>
 

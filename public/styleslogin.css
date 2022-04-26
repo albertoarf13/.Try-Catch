@@ -9,7 +9,7 @@
 .login {
 
     width: 320px;
-    height: 420px;
+    height: 450px;
     background: rgb(233, 233, 233);
     box-shadow: 0px 10px 10px -1px rgba(0,0,0,0.32);
     color: rgb(32, 32, 32);
@@ -68,4 +68,9 @@
     cursor: pointer;
     background: #f56a0e;
     color: #000;
+}
+
+
+.googleButton{
+    margin-left: 70px;
 }
