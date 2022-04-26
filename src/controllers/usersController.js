@@ -74,6 +74,35 @@ usuarioController.login = (req, res) => {
     });
 }
 
+
+usuarioController.loginGoogle = (req, res) => {
+    const {nombre, correo} = req.body;
+    let contraseya = "google"
+    
+    req.getConnection((err, conn)=>{
+        conn.query("SELECT * FROM usuario WHERE correo = ?", [correo], (err, usuario)=>{
+            if(err){
+                res.status(402).json(err)
+            }
+            else if(usuario.length == 0){
+                //registro
+                conn.query("INSERT INTO usuario(nombre, correo, contraseya) VALUES (?,?,?)", [nombre, correo, contraseya], (err, usuario)=>{
+                    if(err){
+                        res.json(err)
+                    }else {
+                        req.session.correo = correo
+                        res.redirect('/')
+                    }
+                }); 
+            }
+            else{
+                req.session.correo = usuario[0].correo
+                res.redirect('/');
+            }
+        })
+    })
+}
+
 usuarioController.login_page = (req, res) => {
     
     res.render('login.ejs');
@@ -286,5 +315,7 @@ usuarioController.deleteUsuarioTest = (req, res) =>{
     });
 
 }
+
+
 
 module.exports = usuarioController;
