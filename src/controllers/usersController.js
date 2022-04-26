@@ -51,9 +51,10 @@ usuarioController.login = (req, res) => {
                 res.status(402).render('login.ejs', { error: "No existe el usuario/ contraseña incorrecta" });
             }
             else{
+                console.log(req.session.imagen);
                 req.session.correo = usuario[0].correo;
                 req.session.imagen = usuario[0].imagen;
-
+                console.log("hola");
                 //aqui esta el problema, devuelve 302 porque esta siendo redireccionada O_o
                 res.redirect('/');
                 //res.sendStatus(201).render('index.ejs');

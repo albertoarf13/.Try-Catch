@@ -200,23 +200,22 @@ preguntasController.actualizar_pregunta = (req, res) => {
     }
 
     let imagen = null;
-    let query = 'UPDATE pregunta SET titulo = ?, descripcion = ?, '
-    let queryArgs = [titulo, descripcion, id];
+    let query = 'UPDATE pregunta SET titulo = ?, descripcion = ? '
+    let queryArgs = [titulo, descripcion, id,req.session.correo];
 
     if(req.file != undefined){
         imagen = req.file.buffer.toString('base64');
         queryArgs = [titulo, descripcion, imagen, id,req.session.correo];
-        query += 'imagen = ? '
+        query += ',imagen = ? '
     }
 
     if(imgBorrada == "true"){
-        query += 'imagen = ? '
+        query += ',imagen = ? '
         queryArgs = [titulo, descripcion, imagen, id, req.session.correo];
         imagen = 'null';
     }
 
     req.getConnection((err, conn)=>{
-
         conn.query(query + 'WHERE id = ? AND correo = ?', queryArgs, (err, result)=>{
             if(err){
                 res.json(err);

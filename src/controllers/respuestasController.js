@@ -113,7 +113,7 @@ respuestasController.actualizar_respuesta = (req, res) =>{
     }
 
     let query = 'UPDATE respuesta SET descripcion = ? '
-    let queryArgs = [descripcion, id];
+    let queryArgs = [descripcion, id, req.session.correo];
 
     let imagen = null;
 
@@ -129,9 +129,8 @@ respuestasController.actualizar_respuesta = (req, res) =>{
         imagen = 'null';
     }
 
-
     req.getConnection((err, conn)=>{
-
+       
         conn.query(query + 'WHERE id = ? AND correo = ? ', queryArgs, (err, result)=>{
             
             if(err){
