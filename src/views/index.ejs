@@ -1,10 +1,12 @@
 
 <%- include('partials/_header') %>
 
+
+
 <div class="contenedor">
-    <div class="sidebar">
-        gato sexo
-    </div>
+
+    <%- include('partials/_sidebar') %>
+
 
     <div class="main">
         <div class="content-container">
@@ -22,6 +24,9 @@
                       <a class="card-header text-decoration-none" href="/preguntas/mostrar/<%= preg.id %>"><%= preg.titulo %></a>
                       <div class="card-body">
                       <p class="card-text preg_desc"><%= preg.descripcion %></p>
+                      <!-- Esto es provisional -->
+                      <span class="badge bg-primary num_respondidas"><%= preg.num_respuestas %> respuestas</span>
+                      <br>
                       <div class="tagsynombrecontainer">
                         <div>
                           <% preg.etiquetas.forEach(function(etiqueta){ %>
@@ -29,7 +34,9 @@
                           <% }); %>
                         </div>
                         <div>
-                          <span class="usernamelink"><img class="user_img" src="/user_icon.png"><%= preg.correo %></span>
+                          <a href="/usuarios/<%= preg.correo %>" class="usernamelink">
+                            <i class='fas fa-user-circle user_img' style='font-size:20px;color:royalblue'></i><%= preg.correo %>
+                          </a>
                         </div>
                       </div>
                       </div>

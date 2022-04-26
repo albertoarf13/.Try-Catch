@@ -14,7 +14,7 @@ test('[Responder pregunta] con sesion iniciada', async () => {
 
     const usuario = { correo: 'alberiva@ucm.es', contraseya: '123'};
     const respuesta = {
-        respuesta: "Respuesta de test iniciando sesion"
+        descripcion: "Respuesta de test iniciando sesion"
     }
 
     let testSession = session(app);
@@ -29,7 +29,7 @@ test('[Responder pregunta] vacia', async () => {
 
     const usuario = { correo: 'alberiva@ucm.es', contraseya: '123'};
     const respuesta = {
-        respuesta: ""
+        descripcion: ""
     }
 
     let testSession = session(app);
@@ -43,7 +43,7 @@ test('[Responder pregunta] vacia', async () => {
 test('[Responder pregunta] sin iniciar sesión', async () => {
 
     const respuesta = {
-        respuesta: "Respuesta de test sin iniciar sesion"
+        descripcion: "Respuesta de test sin iniciar sesion"
     }
 
     let testSession = session(app);

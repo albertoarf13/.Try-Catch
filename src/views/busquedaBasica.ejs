@@ -2,14 +2,59 @@
 
 
 <div class="contenedor">
-    <div class="sidebar">
-        
-    </div>
+
+    <%- include('partials/_sidebar') %>
 
     <div class="main">
         <div class="content-container">
           <div class="pregsheader">
             <h5>Resultados:</h5>
+
+            <div class="botones-filtros-container">
+
+              <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                  Ordenar
+                </button>
+                
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                  <% if(!query.vals) { %>
+                    <li><a class="dropdown-item" href="<%= currentPage%>vals=true" >Numero de valoraciones ↑</a></li>
+                    <li><a class="dropdown-item" href="<%= currentPage%>vals=false">Numero de valoraciones ↓</a></li>
+                    <li><a class="dropdown-item" onClick="eliminarFiltro()">Sin ordenar</a></li>
+                  <% } else { %>
+                    <li><a class="dropdown-item" onClick="setFiltroOrdenarValTrue()" >Numero de valoraciones ↑</a></li>
+                    <li><a class="dropdown-item" onClick="setFiltroOrdenarValFalse()">Numero de valoraciones ↓</a></li>
+                    <li><a class="dropdown-item" onClick="eliminarFiltro()">Sin ordenar</a></li>
+                  <% } %>
+                  
+                </ul>
+              </div>
+              <div class="btn-group" role="group" aria-label="Basic outlined example">
+                  
+                <% if(query.respondidas) { %>
+  
+                  <% if(query.respondidas == "false") { %>
+                    <a class="btn btn-primary">No respondidas</a>
+                  <% } else { %>
+                    <a onClick="setFiltroRespondidasFalse()" class="btn btn-outline-primary">No respondidas</a>
+                  <% } %>
+  
+                  <% if(query.respondidas == "true") { %>
+                    <a class="btn btn-primary">Respondidas</a>
+                  <% } else { %>
+                    <a onClick="setFiltroRespondidasTrue()" class="btn btn-outline-primary">Respondidas</a>
+                  <% } %>
+  
+                  <a onClick="eliminarFiltroDeRespondidas()" class="btn btn-outline-primary"><button type="button" class="btn-close" aria-label="Close"></button></a>
+                
+                <% } else { %>
+                  <a href="<%= currentPage%>respondidas=false" class="btn btn-outline-primary">No respondidas</a>
+                  <a href="<%= currentPage%>respondidas=true" class="btn btn-outline-primary">Respondidas</a>
+                <% } %>
+                  
+              </div>
+            </div>
           </div>
             <br>
             <% if(preguntas.length == 0) { %>
@@ -21,6 +66,8 @@
                       <a class="card-header text-decoration-none" href="/preguntas/mostrar/<%= preg.id %>"><%= preg.titulo %></a>
                       <div class="card-body">
                         <p class="card-text preg_desc"><%= preg.descripcion %></p>
+                        <span class="badge bg-primary num_respondidas"><%= preg.num_respuestas %> respuestas</span>
+                        <br>
                         <div class="tagsynombrecontainer">
                           <div>
                             <% preg.etiquetas.forEach(function(etiqueta){ %>
@@ -28,7 +75,9 @@
                             <% }); %>
                           </div>
                           <div>
-                            <span class="usernamelink"><img class="user_img" src="/user_icon.png"><%= preg.correo %></span>
+                            <a href="/usuarios/<%= preg.correo %>" class="usernamelink">
+                              <img class="user_img" src="/user_icon.png"><%= preg.correo %>
+                            </a>
                           </div>
                         </div>
                       </div>
@@ -41,5 +90,68 @@
         </div>
     </div>
 </div>
+
+
+<script>
+
+
+function eliminarFiltroDeRespondidas(){
+  window.location.href = removeUrlParameter(window.location.href, "respondidas");
+}
+
+function setFiltroRespondidasTrue(){
+  window.location.href = window.location.href.replace('respondidas=false', 'respondidas=true');
+}
+
+function setFiltroRespondidasFalse(){
+  window.location.href = window.location.href.replace('respondidas=true', 'respondidas=false');
+}
+
+
+
+function eliminarFiltro(){
+  window.location.href = removeUrlParameter(window.location.href, "vals");
+}
+
+function setFiltroOrdenarValTrue(){
+  window.location.href = window.location.href.replace('vals=false', 'vals=true');
+}
+
+function setFiltroOrdenarValFalse(){
+  window.location.href = window.location.href.replace('vals=true', 'vals=false');
+}
+
+
+// esta funcion me la copie de Stack Overflow jeje
+// es para borrar un parametro del url
+function removeUrlParameter(url, parameter) {
+  var urlParts = url.split('?');
+
+  if (urlParts.length >= 2) {
+    // Get first part, and remove from array
+    var urlBase = urlParts.shift();
+
+    // Join it back up
+    var queryString = urlParts.join('?');
+
+    var prefix = encodeURIComponent(parameter) + '=';
+    var parts = queryString.split(/[&;]/g);
+
+    // Reverse iteration as may be destructive
+    for (var i = parts.length; i-- > 0; ) {
+      // Idiom for string.startsWith
+      if (parts[i].lastIndexOf(prefix, 0) !== -1) {
+          parts.splice(i, 1);
+      }
+    }
+
+    url = urlBase + '?' + parts.join('&');
+  }
+
+  return url;
+}
+
+
+</script>
      
 <%- include('partials/_footer') %>

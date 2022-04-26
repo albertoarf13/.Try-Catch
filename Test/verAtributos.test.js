@@ -10,7 +10,7 @@ beforeAll(() => {
 
 
 test('[Ver Atributos] con id existente', async () => {
-    const response3 = await request(app).get('/preguntas/mostrar/1');
+    const response3 = await request(app).get('/preguntas/mostrar/2');
     expect(response3.status).toBe(450);
 
 });

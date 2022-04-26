@@ -15,6 +15,7 @@ app.use(express.json());
 //middlewares
 app.use(morgan('dev'));
 
+
 app.use(myConnection(mysql, {
     host: 'trycatchserver.mysql.database.azure.com',
     user: 'admintrycatch',

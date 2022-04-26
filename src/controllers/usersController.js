@@ -1,4 +1,7 @@
 const usuarioController = {};
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 var errorList = "";
 
 usuarioController.sign_up = (req, res) => {
@@ -15,18 +18,18 @@ usuarioController.sign_up = (req, res) => {
                 res.json(err);
             }
             else if(usuario.length == 0){
-                conn.query("INSERT INTO usuario(nombre, correo, contraseya) VALUES (?,?,?)", [nombre, email, password], (err, usuario)=>{
-                    if(err){
-                        res.json(err);
-                    }else{
-                        console.log(usuario);
-                        res.status(451).render('login.ejs', { mensaje: "Se ha registrado con exito" });
-                    }
+                bcrypt.hash(password, saltRounds, function(err, hash) {
+                    conn.query("INSERT INTO usuario(nombre, correo, contraseya) VALUES (?,?,?)", [nombre, email, hash], (err, usuario)=>{
+                        if(err){
+                            res.json(err);
+                        }else{
+                            res.status(451).render('login.ejs', { mensaje: "Se ha registrado con exito" });
+                        }
+                    });
                 });
             }else{
                 res.status(402).render('sign-up.ejs', { error: "No se ha podido completar el registro: Ya existe una cuenta con dicho correo" });
             }
-
         });
     });
 
@@ -44,8 +47,8 @@ usuarioController.login = (req, res) => {
     const {correo, contraseya} = req.body;
     
     req.getConnection((err, conn)=>{
-        conn.query("SELECT * FROM usuario WHERE correo = ? AND contraseya = ?", [correo, contraseya], (err, usuario)=>{
-            console.log(usuario);
+        
+        conn.query("SELECT * FROM usuario WHERE correo = ? AND eliminado = 0", [correo, contraseya], (err, usuario)=>{
             if(err){
                 res.status(402).json(err);
             }
@@ -53,16 +56,51 @@ usuarioController.login = (req, res) => {
                 res.status(402).render('login.ejs', { error: "No existe el usuario/ contraseña incorrecta" });
             }
             else{
-                req.session.correo = usuario[0].correo;
-
+                bcrypt.compare(contraseya, usuario[0].contraseya, function(err, result) {
+                    if(result){
+                        req.session.correo = usuario[0].correo;
+                        req.session.imagen = usuario[0].imagen;
+                        res.redirect('/');
+                    }else{
+                        res.status(402).render('login.ejs', { error: "No existe el usuario/ contraseña incorrecta" });
+                    }
+                });
                 //aqui esta el problema, devuelve 302 porque esta siendo redireccionada O_o
-                res.redirect('/');
                 //res.sendStatus(201).render('index.ejs');
                 // pero no se puede devolver 200 no se por que
             }
 
         });
     });
+}
+
+
+usuarioController.loginGoogle = (req, res) => {
+    const {nombre, correo} = req.body;
+    let contraseya = "google"
+    
+    req.getConnection((err, conn)=>{
+        conn.query("SELECT * FROM usuario WHERE correo = ?", [correo], (err, usuario)=>{
+            if(err){
+                res.status(402).json(err)
+            }
+            else if(usuario.length == 0){
+                //registro
+                conn.query("INSERT INTO usuario(nombre, correo, contraseya) VALUES (?,?,?)", [nombre, correo, contraseya], (err, usuario)=>{
+                    if(err){
+                        res.json(err)
+                    }else {
+                        req.session.correo = correo
+                        res.redirect('/')
+                    }
+                }); 
+            }
+            else{
+                req.session.correo = usuario[0].correo
+                res.redirect('/');
+            }
+        })
+    })
 }
 
 usuarioController.login_page = (req, res) => {
@@ -129,6 +167,137 @@ function checkUsername(nombre){
     return nombre.length >= 3;
 }
 
+usuarioController.vista_editar_usuario = (req, res) =>{
+
+    const correo = req.session.correo;
+    
+    req.getConnection((err, conn)=>{
+        
+        conn.query(`select *
+            from usuario
+            where correo = ?;`, [correo], (err, usuarios)=>{
+
+            if(err){
+                res.json(err);
+            }
+            else if(usuarios[0] == null){
+
+                res.status(451).render('editarUsuario.ejs', { error: "El usuario no existe" });
+                return;
+            } 
+            else{
+                
+                res.status(450).render('editarUsuario.ejs', {
+                    usuario: usuarios[0]
+                });
+            }
+
+        });
+    });
+}
+
+
+usuarioController.mostrar = (req, res) => {
+
+    const correo = req.params.correo;
+
+    req.getConnection((err, conn)=>{
+        
+        conn.query(`select *
+            from usuario
+            where correo = ?;`, [correo], (err, usuarios)=>{
+
+            if(err){
+                res.json(err);
+            }
+            else if(usuarios[0] == null){
+
+                res.status(451).render('prueba-mostrar-atributos-usuario.ejs', { error: "El usuario no existe" });
+                return;
+            } 
+            else{
+                
+                res.status(450).render('prueba-mostrar-atributos-usuario.ejs', {
+                    usuario: usuarios[0]
+                });
+            }
+
+
+        });
+    });
+}
+
+
+usuarioController.actualizar_usuario = (req, res) =>{
+
+    const correo = req.params.correo;
+    const {nombre, bio} = req.body;
+    let imagen;
+
+    if(correo != req.session.correo){
+        res.status(450).render('editarUsuario.ejs', { error: "Se ha producido un error." });
+        return;
+    }
+
+    let query = `update usuario
+            set nombre = ?,
+            bio = ?`;
+
+    let queryArgs = [nombre, bio, correo];
+
+    console.log(req.file);
+
+    if(req.file != undefined){
+        imagen = req.file.buffer.toString('base64');
+        queryArgs = [nombre, bio, imagen, correo];
+        query += `, imagen = ?`;
+    }
+
+    console.log("query",query);
+    query += ` where correo = ?`;
+
+    req.getConnection((err, conn)=>{
+        
+        conn.query( query, queryArgs, (err, result)=>{
+
+            if(err){
+                res.json(err);
+            }
+            else{
+                res.redirect('/usuarios/'+correo);
+            }
+
+        });
+    });
+
+}
+
+
+usuarioController.baja_usuario = (req, res) =>{
+
+
+    req.getConnection((err, conn)=>{
+        
+        conn.query(`update usuario
+            set eliminado = 1
+            where correo = ?;`, [req.session.correo], (err, result)=>{
+
+            if(err){
+                res.json(err);
+            }
+            else{
+                req.session.destroy();
+                res.redirect('/');
+            }
+
+
+        });
+    });
+
+}
+
+
+
 //Test
 
 
@@ -146,5 +315,7 @@ usuarioController.deleteUsuarioTest = (req, res) =>{
     });
 
 }
+
+
 
 module.exports = usuarioController;

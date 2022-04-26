@@ -1,27 +1,30 @@
-
 <%- include('partials/_header') %>
-        
-<link rel="stylesheet" href="/styleslogin.css">   
-<div class="contenedor">
-    <div class="main">
-        <div class="content-container">
 
-            <div class="login-container">
-                <div class="login">
-                    
-                    <h1>Iniciar sesion</h1>
-                    <form method="POST" action="/login" autocomplete="off">
-                     
+    <link rel="stylesheet" href="/styleslogin.css">
+    <div class="contenedor">
+        <div class="main">
+            <div class="content-container">
+
+                <div class="login-container">
+                    <div class="login">
+
+                        <h1>Iniciar sesion</h1>
+                        <form method="POST" action="/login" autocomplete="off">
+
                             <div class="inputs">
                                 <label for="email">Correo electronico</label>
-                                <input type="text" placeholder="Introduce el correo" name="correo" required minlength="3" maxlength="30">
-                    
+                                <input type="text" placeholder="Introduce el correo" name="correo" required
+                                    minlength="3" maxlength="30">
+
                                 <label for="password">Contraseña</label>
-                                <input type="password" placeholder="Introduce contraseña" name="contraseya" required maxlength="50">
-                    
+                                <input type="password" placeholder="Introduce contraseña" name="contraseya" required
+                                    maxlength="50">
+
                                 <input type="submit" value="log in">
                             </div>
-                        <!-- <div class="mb-3">
+                            <div class="g-signin2 googleButton" data-onsuccess="onSignIn"></div>
+                            <!-- <a href="#" onclick="signOut();">Sign out</a> -->
+                            <!-- <div class="mb-3">
                             <label for="email" class="form-label">Correo</label>
                             <input class="form-control" name="correo">
                         </div>
@@ -30,30 +33,71 @@
                             <input type="password" class="form-control" name="contraseya">
                         </div> -->
 
-                        <!-- <button type="submit" class="btn btn-primary mb-3">Submit</button> -->
+                            <!-- <button type="submit" class="btn btn-primary mb-3">Submit</button> -->
 
 
-                        <% if(typeof mensaje !== 'undefined' && mensaje) { %>
-                            <div class="alert alert-success mb-3" role="alert">
-                                <%= mensaje %>
-                            </div>
-                        <% } %>
+                            <% if(typeof mensaje !=='undefined' && mensaje) { %>
+                                <div class="alert alert-success mb-3" role="alert">
+                                    <%= mensaje %>
+                                </div>
+                                <% } %>
 
-                        <% if(typeof error !== 'undefined' && error) { %>
-                            <div class="alert alert-danger mb-3" role="alert">
-                                <%= error %>
-                            </div>
-                        <% } %>
+                                    <% if(typeof error !=='undefined' && error) { %>
+                                        <div class="alert alert-danger mb-3" role="alert">
+                                            <%= error %>
+                                        </div>
+                                        <% } %>
 
-                    </form>
-        
+                        </form>
+
+                    </div>
                 </div>
+
+
+
             </div>
-                
-           
-    
         </div>
     </div>
-</div>
-    
-<%- include('partials/_footer') %>
+
+    <script>
+        function onSignIn(googleUser) {
+            // Useful data for your client-side scripts:
+            var profile = googleUser.getBasicProfile();
+            console.log("ID: " + profile.getId());
+            console.log('Full Name: ' + profile.getName());
+            console.log('Given Name: ' + profile.getGivenName());
+            console.log('Family Name: ' + profile.getFamilyName());
+            console.log("Image URL: " + profile.getImageUrl());
+            console.log("Email: " + profile.getEmail());
+
+            // The ID token you need to pass to your backend:
+            var id_token = googleUser.getAuthResponse().id_token;
+            console.log("ID Token: " + id_token);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/loginGoogle');
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onload = function () {
+                console.log('Signed in as: ' + xhr.responseText);
+                if (xhr.status != 402) {
+                    location.assign('/')
+                    googleUser.disconnect()
+                }else{
+                    signOut();
+                }
+            };
+            const data = { "nombre": profile.getGivenName(), "correo": profile.getEmail() };
+            xhr.send(JSON.stringify(data));
+
+
+        }
+
+        function signOut() {
+             var auth2 = gapi.auth2.getAuthInstance();
+             auth2.signOut().then(function () {
+                 console.log('User signed out.');
+             });
+        }
+    </script>
+
+    <%- include('partials/_footer') %>

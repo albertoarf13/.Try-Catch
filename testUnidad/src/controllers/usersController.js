@@ -46,6 +46,13 @@ usuarioController.logout = (req, res) => {
     res.redirect('/');
 }
 
+usuarioController.baja_usuario = (req, res) =>{
+    
+    req.session.destroy();
+    res.redirect('/');
+}
+
+
 function all_data(datos){//Comprueba que todas las entradas reciben datos
     for(var key in datos){
         if(!datos[key])
@@ -98,4 +105,45 @@ function checkUsername(nombre){
     return nombre.length >= 3;
 }
 
+usuarioController.mostrar = (req, res) => {
+
+    const correo = req.params.correo;
+
+    var dummie = {
+        correo: "test@ucm.es",
+        nombre: "pepitoTest",
+        id: 0,
+        descripcion: "Buenas soy pepito y estudio Ingenieria del Software"
+    }
+
+    if(dummie == null || correo != dummie.correo){
+        res.status(451).send(null);
+        return;
+    }
+    else{
+        res.status(450).send(dummie);
+    }
+}
+
+usuarioController.vista_editar_usuario = (req, res) =>{
+
+    const correo = req.session.correo;
+ 
+                res.status(450).render('editarUsuario.ejs', {
+                    usuario: usuarios[0]
+                });
+           
+
+ 
+}
+
+
+usuarioController.actualizar_usuario = (req, res) =>{
+
+    const correo = req.params.correo;
+    const {nombre, bio} = req.body;
+    res.redirect('/usuarios/editar-mi-perfil');
+            
+
+}
 module.exports = usuarioController;

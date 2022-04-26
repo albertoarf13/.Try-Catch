@@ -15,3 +15,99 @@
     margin-top: 0.5%;
     margin-left: 80%;
 }
+
+.pregunta .pregunta__header{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1em;
+}
+
+.pregunta .pregunta__header .btn-group{
+    height: min-content;
+}
+
+.respuesta .respuesta__correo{
+    color: black;
+    text-decoration: none;
+}
+
+.respuestaARespuesta .respuestaARespuesta__correo{
+    color: black;
+    text-decoration: none;
+}
+.erasePregunta {
+    text-align: end;
+}
+.eraseRespuesta{
+    text-align: end;
+}
+
+
+.respuesta .respuesta__header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.respuestaARespuesta .respuestaARespuesta__header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+button.dislike{
+	width: 30px;
+	height: 30px;
+	margin: 0 auto;
+	border-radius: 50%;
+	color: rgb(58, 58, 58);
+    background-color:rgba(187, 187, 187, 0.3);
+    border-color: rgb(58, 58, 58);
+	border-width: 1px;
+	font-size: 15px;
+}
+button.dislike.dislike--activo{
+	color: rgba(255,82,82 ,1);
+	background-color: rgba(255,138,128 ,0.3);
+	border-color: rgba(255,82,82 ,1);
+}
+button.like{
+    width: 30px;
+    height: 30px;
+    margin: 0 auto;
+    border-radius: 50%;
+    color: rgb(58, 58, 58);
+    background-color:rgba(187, 187, 187, 0.3);
+    border-color: rgb(58, 58, 58);
+    border-width: 1px;
+    font-size: 15px;
+}
+button.like.like--activo{
+    color: rgba(0,150,136 ,1);
+    background-color:rgba(38,166,154 ,0.3);
+    border-color: rgba(0,150,136 ,1);
+}
+
+.container-like-y-dislike-pregunta{
+    display: flex;
+    justify-content: right;
+    margin-bottom: 1em;
+}
+.container-like-y-dislike-aclaracion{
+    display: flex;
+    justify-content: right;
+}
+
+.container-like-y-dislike-pregunta form, .container-like-y-dislike-aclaracion form{
+    margin-left: 1em;
+}
+
+.codeBox{
+    margin-left: 1%;
+    border: 2px;
+    border-radius: 15px;
+}
+
+.cuadro{
+    height: 200px;
+}

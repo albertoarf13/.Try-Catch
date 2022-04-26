@@ -1,0 +1,103 @@
+<%- include('partials/_header') %>
+        
+<link rel="stylesheet" href="/stylescrearPregunta.css">  
+<div class="contenedor">
+
+    <%- include('partials/_sidebar') %>
+
+    <div class="main">
+        <div class="content-container">
+
+            <div class="crearPregunta-container">
+                <div class="crearPregunta">
+                    
+                    <h5>Editar Pregunta:</h5>
+                    <br>
+                    <!-- Juntar con Back-End -->
+                    <form method="POST" action="/preguntas/<%= pregunta.id %>/actualizar" enctype="multipart/form-data">
+                     
+                            <div class="inputs">
+                                <p>
+                                    <!-- <h2>Introduce un titulo</h2> -->
+                                    <label for="respuesta">Editar titulo</label>
+                                    <input class="titulo" name="titulo" required maxlength="100" value="<%= pregunta.titulo %>">
+                                </p>
+                                <p>
+                                    <!-- <h2>Escribe tu Pregunta</h2> -->
+                                    <label for="respuesta">Editar tu Pregunta</label>
+                                    <textarea class="cuadro" name="descripcion" required maxlength="20000" ><%= pregunta.descripcion %></textarea>
+                                </p>
+                                <p>
+                                    <div>
+                                        <% pregunta.etiquetas.forEach(function(etiqueta){ %>
+                                          <span class="badge bg-secondary"><%= etiqueta %></span>
+                                        <% }); %>
+                                    </div>
+                                    <br>
+                                    <!-- <h2>Etiquetas (se pueden seleccionar varias con Ctrl)</h2> -->
+                                    <label for="respuesta">Etiquetas (se pueden seleccionar varias con Ctrl)</label>
+                                    <select class="form-select" multiple name="etiquetas" required>
+                                        <% etiquetas.forEach(function(etiqueta){ %>
+                                            <% if(pregunta.etiquetas.includes(etiqueta.nombre)){ %>
+                                                <option value="<%= etiqueta.id %>" selected><%= etiqueta.nombre %></option>
+                                            <% }else{ %>
+                                                <option value="<%= etiqueta.id %>"><%= etiqueta.nombre %></option>
+                                            <% } %>
+                                        <% }); %>
+                                    </select>
+
+                                    <% if(pregunta.imagen != null) { %>
+                                        <br>
+                                        <h6>Imagen actual:</h6>
+                                        <div class="imagen_atb">
+                                        <img id="imgActual" src="data:image/png;base64,<%= pregunta.imagen %>" style="width: 100%; max-width: 700px;" alt="">
+                                        <br>
+                                        </div>
+                                        <label id="label" for="borrarImagen">Borrar imagen actual: </label>
+                                        <button type="button" class="btn btn-outline-primary" id="borrarButton" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-trash"></i></button>
+                                        <input type="hidden" id="delImage" name="delImagen" value="false"/>
+                                    <% } %>
+                                </p>
+                                <p>
+                                    <label for="imageFile">Selecciona una imagen:</label>
+                                    <input type="file" accept="image/*" name="imagen">
+                                </p>
+                                <p>
+                                    <button type="submit" class="btn btn-primary">Editar</button>
+                                </p>
+                            </div>
+
+                            <% if(typeof error !== 'undefined' && error) { %>
+                                <div class="alert alert-danger mb-3" role="alert">
+                                    <%= error %>
+                                </div>
+                            <% } %>
+                    </form>
+        
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var borrarImg = document.getElementById("delImage");
+    var borrarImgButton = document.getElementById("borrarButton");
+    var imagenActual = document.getElementById("imgActual");
+    var labelBorrar = document.getElementById("label");
+
+    borrarImgButton.onclick = () => {
+        if(borrarImg.value == "false"){
+            borrarImg.value = "true";
+            imagenActual.style.display = "none";
+            labelBorrar.textContent = "Recuperar imagen actual: ";
+        }else{
+            borrarImg.value = "false";
+            imagenActual.style.display = "block";
+            labelBorrar.textContent = "Borrar imagen actual: ";
+        }
+    }
+
+</script>
+    
+<%- include('partials/_footer') %>

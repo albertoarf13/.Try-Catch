@@ -1,26 +1,46 @@
 <%- include('partials/_header') %>
-
+<link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <div class="contenedor">
-    <div class="sidebar">
-        
-    </div>
 
+    <%- include('partials/_sidebar') %>
     
     <div class="main">
-        
+
         <div class="content-container">
             <% if (typeof error !== 'undefined' && error) { %>
                 <div class="alert alert-danger mb-3" role="alert">
                     <%= error %>
                 </div>
-              <% } else { %>
-                <div class="card preg_box">
+            <% } else { %>
+                <div class="card preg_box pregunta">
                     <br>
-                    <h3 class="card-title card-titulo"><%= preguntas.titulo %></h3>
+                    <div class="pregunta__header">
+                        <h3 class="card-title card-titulo"><%= preguntas.titulo %></h3>
+                        <% if(locals.correo) { %>
+                            <% if(locals.correo == preguntas.correo) { %>
+                                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                    <button onclick=changeModalRoute("/preguntas/<%= preguntas.id %>/borrar_pregunta") class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-trash"></i></button>
+                                    <a href="/preguntas/<%= preguntas.id %>/editar" class="btn btn-outline-primary"><i class="fas fa-pencil"></i></a>
+                                </div>
+                            <% } %>
+                        <% } %>
+                    </div>
+                    
                     <hr>
                     <div class="card-body">
-                      <p class="card-text"><%= preguntas.descripcion %></p>
-                      
+                        <% preguntas.descripcion.forEach(function(elem){ %>
+                            <% console.log(elem) %>
+                            <% if(!elem.code) { %>
+                                <p class="card-text"><%= elem.text %></p>
+                            <% } else { %>
+                                <div class="codeBox">
+                                    <pre><code><%= elem.text %></code></pre>
+                                </div>
+                            <% } %>
+                        <% }); %>
                     </div>
                     <% if(preguntas.imagen != null){ %>
                         <hr>
@@ -39,11 +59,12 @@
                               <% }); %>
                             </div>
                             <div>
-                              <span class="usernamelink"><img class="user_img" src="/user_icon.png"><%= preguntas.correo %></span>
+                              <a href="/usuarios/<%= preguntas.correo %>" class="usernamelink">
+                                <i class='fas fa-user-circle user_img' style='font-size:20px;color:royalblue'></i><%= preguntas.correo %>
+                              </a>
                             </div>
                           </div>
-                    </div>
-                    
+                    </div>  
                   </div>
                   <br> 
                   <div class="preg_box">
@@ -51,7 +72,10 @@
     
                         <div class="form-group mb-3">
                             <label for="respuesta">Realiza tu respuesta</label>
-                            <textarea class="form-control" name="respuesta" rows="3" required minlength="3" maxlength="2000"></textarea>
+                            <div>
+                                <button id="codeButton" type="button" class="btn btn-primary btn-sm">Code</button>
+                                <textarea id="txtArea" class="form-control cuadro" name="descripcion" required maxlength="20000"></textarea>
+                            </div>
                         </div>
                         
                         <div class="mb-3">
@@ -77,14 +101,35 @@
                     <h5>Respuestas de usuarios:</h5>
                     <br>
                     <% respuestas.forEach(function(respuesta){ %>
-        
-                        <div class="card mb-3 preg_box">
-                            <div class="card-header">
-                                <i class="fa-solid fa-user"></i> <%= respuesta.correo %>
+                        
+                        <div class="card mb-3 preg_box respuesta">
+                            <div class="card-header respuesta__header">
+                                <div>
+                                    <a href="/usuarios/<%= respuesta.correo %>" class="respuesta__correo">
+                                        <i class="fa-solid fa-user"></i> <%= respuesta.correo %>
+                                    </a>
+                                </div>
+                                <% if(locals.correo) { %>
+                                    <% if(locals.correo == respuesta.correo) { %>
+                                        <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                            <button onclick=changeModalRoute("/preguntas/<%= respuesta.id %>/borrar_respuesta") class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-trash"></i></button>
+                                            <a href="/preguntas/<%= respuesta.id %>/editar" class="btn btn-outline-primary"><i class="fas fa-pencil"></i></a>
+                                        </div>
+                                    <% } %>
+                                <% } %>
+                                   
                             </div>
                             <div class="card-body">
-                                <p class="card-text"><%= respuesta.descripcion %></p>
-                                
+                                <% respuesta.descripcion.forEach(function(elem){ %>
+                                    <% console.log(elem) %>
+                                    <% if(!elem.code) { %>
+                                        <p class="card-text"><%= elem.text %></p>
+                                    <% } else { %>
+                                        <div class="codeBox">
+                                            <pre><code><%= elem.text %></code></pre>
+                                        </div>
+                                    <% } %>
+                                <% }); %>
                                 <div class="imagen_atb">
                                     <% if(respuesta.imagen != null){ %>
                                         <img src="data:image/png;base64,<%= respuesta.imagen %>" style="width: 100%; max-width: 700px;" alt="">
@@ -92,9 +137,33 @@
                                         <div class="mb-3"></div>
                                     <% } %>
                                 </div>
-        
+                              
+                            
+                                <div class="container-like-y-dislike-pregunta">
+                                    <form method="POST" action="/preguntas/respuesta/like">
+                                        <button class="like <% if(respuesta.has_dado_like){ %>like--activo<% } %>">   
+                                            <i class="fas fa-thumbs-up"></i>
+                                        </button>
+    
+                                        <span><%= respuesta.likes %></span>
+                                        
+                                        <input type="hidden" name="correo" value="<%= locals.correo %>" />
+                                        <input type="hidden" name="idRespuesta" value="<%= respuesta.id %>" />
+                                    </form>
+
+                                    <form method="POST" action="/preguntas/respuesta/dislike">
+                                        <button class="dislike <% if(respuesta.has_dado_dislike){ %>dislike--activo<% } %>">   
+                                            <i class="fas fa-thumbs-down"></i>
+                                        </button>
+                                        <span><%= respuesta.dislikes %></span>
+                                        
+                                        <input type="hidden" name="correo" value="<%= locals.correo %>" />
+                                        <input type="hidden" name="idRespuesta" value="<%= respuesta.id %>" />
+                                    </form>
+                                </div>
+
                                 <button id="boton-responder-respuesta-<%= respuesta.id %>" onClick="hacerAlgo(<%= respuesta.id %>)" class="btn btn-outline-secondary">Responder</button>
-        
+                               
                                 <div class="d-none" id="form-responder-respuesta-<%= respuesta.id %>">
                                     <form method="POST" action="/preguntas/<%= preguntas.id %>/responder-respuesta/<%= respuesta.id %>">
         
@@ -104,22 +173,69 @@
                         
                                         <button type="submit" class="btn btn-primary">Submit</button>
             
-                                    </form>
+                                    </form>  
                                 </div>
-        
+
                                 <% if(respuesta.respuestasARespuesta.length > 0){ %>
                                     <div class="mt-3">
                                         <% respuesta.respuestasARespuesta.forEach(function(respuestaARespuesta){ %>
             
-                                            <div class="card mb-3">
-                                                <div class="card-header">
-                                                    <i class="fa-solid fa-user"></i> <%= respuestaARespuesta.correo %>
+                                            <div class="card mb-3 respuestaARespuesta">
+                                                <div class="card-header respuestaARespuesta__header">
+                                                    <div>
+                                                        <a href="/usuarios/<%= respuestaARespuesta.correo %>" class="respuestaARespuesta__correo">
+                                                            <i class="fa-solid fa-user"></i> <%= respuestaARespuesta.correo %>
+                                                        </a>
+                                                    </div>
+                                                    <% if(locals.correo) { %>
+                                                        <% if(locals.correo == respuesta.correo) { %>
+                                                            <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                                                <button onclick=changeModalRoute("/preguntas/<%= respuestaARespuesta.id %>/borrar_respuesta_respuesta") class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-trash"></i></button>
+                                                                <a href="/preguntas/<%= respuesta.id %>/editar" class="btn btn-outline-primary"><i class="fas fa-pencil"></i></a>
+                                                            </div>
+                                                        <% } %>
+                                                    <% } %>
+                                                    
                                                 </div>
                                                 <div class="card-body">
-                                                    <p class="card-text"><%= respuestaARespuesta.descripcion %></p>
+                                                    <% respuestaARespuesta.descripcion.forEach(function(elem){ %>
+                                                        <% console.log(elem) %>
+                                                        <% if(!elem.code) { %>
+                                                            <p class="card-text"><%= elem.text %></p>
+                                                        <% } else { %>
+                                                            <div class="codeBox">
+                                                                <pre><code><%= elem.text %></code></pre>
+                                                            </div>
+                                                        <% } %>
+                                                    <% }); %>
+                                                    <div class="container-boton-responder-y-likes-y-dislikes">                                                
+                                                        <div class="container-like-y-dislike-aclaracion">
+                                                            <form method="POST" action="/preguntas/aclaracion/like">
+                                                                <button class="like <% if(respuestaARespuesta.has_dado_like){ %>like--activo<% } %>">   
+                                                                    <i class="fas fa-thumbs-up"></i>
+                                                                </button>
+                            
+                                                                <span><%= respuestaARespuesta.likes %></span>
+                                                                
+                                                                <input type="hidden" name="correo" value="<%= locals.correo %>" />
+                                                                <input type="hidden" name="idAclaracion" value="<%= respuestaARespuesta.id %>" />
+                                                            </form>
+                    
+                                                            <form method="POST" action="/preguntas/aclaracion/dislike">
+                                                                <button class="dislike <% if(respuestaARespuesta.has_dado_dislike){ %>dislike--activo<% } %>">   
+                                                                    <i class="fas fa-thumbs-down"></i>
+                                                                </button>
+                                                                <span><%= respuestaARespuesta.dislikes %></span>
+                                                                
+                                                                <input type="hidden" name="correo" value="<%= locals.correo %>" />
+                                                                <input type="hidden" name="idAclaracion" value="<%= respuestaARespuesta.id %>" />
+                                                            </form>
+                                                        </div>
+                                                        
+                                                    </div>
                                                 </div>
                                             </div>
-                                            
+                                        
                                         <% }); %>
                                     </div>
                                 <% } %>
@@ -130,10 +246,55 @@
                     <% }); %>
         
                 </div> 
-              <% } %>  
+            <% } %>  
         </div>
+
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Advertencia</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de que quieres eliminar este comentario?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <a type="button" id="modalbutton" class="btn btn-primary" href="#">Eliminar</a>
+            </div>
+        </div>
+    </div>
+</div>  
+
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel2">Editar aclaracion</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="formModal" method="POST" action="">
+            <div class="mb-3">
+              <label for="message-text" class="col-form-label">Aclaracion:</label>
+              <textarea id ="textareaModal" name="respuesta" class="form-control" id="message-text" required></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button class="btn btn-primary">Editar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 <script>
     
     let formsResponder = document.querySelectorAll('[id^="form-responder-respuesta-"]');
@@ -158,8 +319,27 @@
         formContainer.classList.remove('d-none');
     }
     
+    let modalButton = document.getElementById("modalbutton")
+
+    function changeModalRoute(tipo){
+        modalButton.setAttribute("href", tipo);
+        console.log(tipo);
+    }
     
     
+</script>
+<script>
+    var codebutton = document.getElementById("codeButton");
+    var txtArea = document.getElementById("txtArea");
+
+
+    codebutton.onclick = () =>{
+        const [start, end] = [txtArea.selectionStart, txtArea.selectionEnd];
+        txtArea.setRangeText('\n-code-\n\n\-code-', start, end, 'select');
+    }
+
+
+
 </script>
   
 <%- include('partials/_footer') %>

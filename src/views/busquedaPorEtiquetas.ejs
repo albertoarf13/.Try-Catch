@@ -1,9 +1,10 @@
 <%- include('partials/_header') %>
         
-<link rel="stylesheet" href="/stylescrearPregunta.css">
+<link rel="stylesheet" href="/stylescrearPregunta.css">  
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <div class="contenedor">
 
     <%- include('partials/_sidebar') %>
@@ -15,37 +16,25 @@
                 <div class="crearPregunta">
                     
                   
-                    <form method="POST" action="/preguntas/crear" enctype="multipart/form-data">
+                    <form method="GET" action="/preguntas/busqueda-por-etiquetas">
                      
                             <div class="inputs">
                                 <p>
-                                    <!-- <h2>Introduce un titulo</h2> -->
-                                    <label for="respuesta">Introduce un titulo</label>
-                                    <input class="form-control me-2" name="titulo" required maxlength="100">
+                                    <label for="bus">Término de búsqueda</label>
+                                    <input class="form-control" name="bus" required maxlength="100">
                                 </p>
+
                                 <p>
-                                    <!-- <h2>Escribe tu Pregunta</h2> -->
-                                    <p>Escribe tu Pregunta</p>
-                                    <div>
-                                        <button id="codeButton" type="button" class="btn btn-primary btn-sm">Code</button>
-                                        <textarea id="txtArea" class="form-control cuadro" name="descripcion" required maxlength="20000"></textarea>
-                                    </div>
-                                </p>
-                                <p>
-                                    <!-- <h2>Etiquetas (se pueden seleccionar varias con Ctrl)</h2> -->
-                                    <label for="respuesta">Etiquetas (5 max)</label>
+                                    <label for="respuesta">Etiquetas (se pueden seleccionar varias con Ctrl)</label>
                                     <select class="js-example-basic-multiple" name="etiquetas" multiple="multiple" required style="width: 100%">
                                         <% etiquetas.forEach(function(etiqueta){ %>
                                             <option value="<%= etiqueta.id %>"><%= etiqueta.nombre %></option>
                                         <% }); %>
                                     </select>
                                 </p>
+
                                 <p>
-                                    <label for="imageFile">Selecciona una imagen:</label>
-                                    <input type="file" accept="image/*" name="imagen">
-                                </p>
-                                <p>
-                                    <button type="submit" class="btn btn-primary">Crear</button>
+                                    <button type="submit" class="btn btn-primary">Buscar</button>
                                 </p>
                             </div>
 
@@ -72,14 +61,6 @@
             theme: "classic"
         });
     });
-    var codebutton = document.getElementById("codeButton");
-    var txtArea = document.getElementById("txtArea");
-
-
-    codebutton.onclick = () =>{
-        const [start, end] = [txtArea.selectionStart, txtArea.selectionEnd];
-        txtArea.setRangeText('\n-code-\n\n\-code-', start, end, 'select');
-    }
 
 </script>
     

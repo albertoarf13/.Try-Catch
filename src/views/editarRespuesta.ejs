@@ -1,0 +1,115 @@
+<%- include('partials/_header') %>
+        
+<link rel="stylesheet" href="/stylescrearPregunta.css">  
+<div class="contenedor">
+
+    <%- include('partials/_sidebar') %>
+
+    <div class="main">
+        <div class="content-container">
+            <div class="card preg_box pregunta">
+                <br>
+                <div class="pregunta__header">
+                    <h3 class="card-title card-titulo"><%= pregunta.titulo %></h3>
+                </div>
+                
+                <hr>
+                <div class="card-body">
+                  <p class="card-text"><%= pregunta.descripcion %></p>
+                  
+                </div>
+                <% if(pregunta.imagen != null){ %>
+                    <hr>
+                    <div class="imagen_atb">
+                        <img src="data:image/png;base64,<%= pregunta.imagen %>" style="width: 100%; max-width: 700px;" alt="">
+                    <br>
+                    <div class="mb-3"></div>
+                    </div>
+                <% } %>
+                <hr>    
+                <div class="card-body">
+                    <div class="tagsynombrecontainer">
+                        <div>
+                          <% pregunta.etiquetas.forEach(function(etiqueta){ %>
+                            <span class="badge bg-secondary"><%= etiqueta %></span>
+                          <% }); %>
+                        </div>
+                        <div>
+                          <a href="/usuarios/<%= pregunta.correo %>" class="usernamelink">
+                            <img class="user_img" src="/user_icon.png"><%= pregunta.correo %>
+                          </a>
+                        </div>
+                      </div>
+                </div>
+                
+              </div>
+              <br> 
+            <div class="crearPregunta-container">
+                <div class="crearPregunta">
+                    
+                    <!-- Juntar con Back-End -->
+                    <form method="POST" action="/preguntas/respuesta/<%= respuesta.id %>/actualizar" enctype="multipart/form-data">
+                     
+                            <div class="inputs">
+                                <p>
+                                    <!-- <h2>Escribe tu Pregunta</h2> -->
+                                    <label for="respuesta">Edita tu respuesta</label>
+                                    <textarea  class="form-control" name="descripcion" required maxlength="20000" ><%= respuesta.descripcion %></textarea>
+                                </p>
+                                <p>
+                                    <% if(respuesta.imagen != null) { %>
+                                        <br>
+                                        <h6>Imagen actual:</h6>
+                                        <div class="imagen_atb">
+                                        <img id="imgActual" src="data:image/png;base64,<%= respuesta.imagen %>" style="width: 100%; max-width: 700px;" alt="">
+                                        <br>
+                                        </div>
+                                        <label id="label" for="borrarImagen">Borrar imagen actual: </label>
+                                        <button type="button" class="btn btn-outline-primary" id="borrarButton" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-trash"></i></button>
+                                        <input type="hidden" id="delImage" name="delImagen" value="false"/>
+                                    <% } %>
+                                </p>
+                                <p>
+                                    <label for="imageFile">Selecciona una imagen:</label>
+                                    <input type="file" accept="image/*" name="imagen">
+                                    <input type="hidden" id="delImage" name="idPregunta" value="<%= pregunta.id %>"/>
+                                </p>
+                                <p>
+                                    <button type="submit" class="btn btn-primary">Editar</button>
+                                </p>
+                            </div>
+
+                            <% if(typeof error !== 'undefined' && error) { %>
+                                <div class="alert alert-danger mb-3" role="alert">
+                                    <%= error %>
+                                </div>
+                            <% } %>
+                    </form>
+        
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var borrarImg = document.getElementById("delImage");
+    var borrarImgButton = document.getElementById("borrarButton");
+    var imagenActual = document.getElementById("imgActual");
+    var labelBorrar = document.getElementById("label");
+
+    borrarImgButton.onclick = () => {
+        if(borrarImg.value == "false"){
+            borrarImg.value = "true";
+            imagenActual.style.display = "none";
+            labelBorrar.textContent = "Recuperar imagen actual: ";
+        }else{
+            borrarImg.value = "false";
+            imagenActual.style.display = "block";
+            labelBorrar.textContent = "Borrar imagen actual: ";
+        }
+    }
+
+</script>
+    
+<%- include('partials/_footer') %>

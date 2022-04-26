@@ -11,7 +11,7 @@ beforeAll(() => {
 
 test('[Crear pregunta] con sesion iniciada', async () => {
 
-    const usuario = { correo: 'prueba@prueba.es', contraseya: '1234567Aa'};
+    const usuario = { correo: 'alberiva@ucm.es', contraseya: '123'};    
     const pregunta = {
         titulo: "Pregunta de test",
         descripcion: "test",
@@ -43,7 +43,7 @@ test('[Crear pregunta] sin sesion iniciada', async () => {
 
 test('[Crear pregunta] descripcion vacia', async () => {
 
-    const usuario = { correo: 'alberiva@ucm.es', contraseya: '123'};
+    const usuario = { correo: 'alberiva@ucm.es', contraseya: '123'};    
     const pregunta = {
         titulo: "Pregunta de test",
         descripcion: "",
@@ -62,7 +62,7 @@ test('[Crear pregunta] descripcion vacia', async () => {
 
 test('[Crear pregunta] titulo vacia', async () => {
 
-    const usuario = { correo: 'alberiva@ucm.es', contraseya: '123'};
+    const usuario = { correo: 'alberiva@ucm.es', contraseya: '123'};    
     const pregunta = {
         titulo: "",
         descripcion: "hola",
@@ -80,7 +80,7 @@ test('[Crear pregunta] titulo vacia', async () => {
 
 test('[Crear pregunta] etiquetas vacia', async () => {
 
-    const usuario = { correo: 'alberiva@ucm.es', contraseya: '123'};
+    const usuario = { correo: 'alberiva@ucm.es', contraseya: '123'};    
     const pregunta = {
         titulo: "Pregunta test",
         descripcion: "hola",
@@ -98,7 +98,7 @@ test('[Crear pregunta] etiquetas vacia', async () => {
 
 test('[Crear pregunta] todos vacia', async () => {
 
-    const usuario = { correo: 'alberiva@ucm.es', contraseya: '123'};
+    const usuario = { correo: 'alberiva@ucm.es', contraseya: '123'};    
     const pregunta = {
         titulo: "",
         descripcion: "",

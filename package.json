@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --forceExit --testTimeout=10000",
+    "test": "jest --forceExit --testTimeout=10000 ./testUnidad ./Test",
     "test:coverage": "jest --coverage --testTimeout=10000",
     "dev": "nodemon src/index.js"
   },
@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "ejs": "^3.1.6",
     "express": "^4.17.3",
     "express-myconnection": "^1.0.4",
