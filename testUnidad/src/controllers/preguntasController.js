@@ -478,9 +478,8 @@ preguntasController.borrar_respuesta_respuesta = (req, res) =>{
     const idRespuesta = req.params.idRespuesta;
     //dummy
     const respuesta = {
-        titulo: "Pregunta test",
-        descripcion: "Pregunta con etiqueta ",
-        etiquetas: [1]
+        descripcion: "Descripcion respuesta",
+        correo: "prueba@ucm.es"
     }
     respuestas = new Map();
     respuestas.set('1',respuesta);
