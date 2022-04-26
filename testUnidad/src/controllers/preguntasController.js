@@ -465,11 +465,34 @@ preguntasController.busqueda_por_etiquetas = (req, res) => {
 
 
 preguntasController.borrar_respuesta_respuesta = (req, res) =>{
-    
-    let id = req.params.id;
+    const idPregunta = req.params.idPregunta;
+    //dummy
+    const pregunta = {
+        titulo: "Pregunta test",
+        descripcion: "Pregunta con etiqueta ",
+        etiquetas: [1]
+    }
+    preguntas = new Map();
+    preguntas.set('1',pregunta);
 
-    if(id <= 0){
-        res.render('/preguntas/:id/borrar_respuesta_respuesta?error=' + encodeURIComponent('El id no puede ser menor que 0'));
+    const idRespuesta = req.params.idRespuesta;
+    //dummy
+    const respuesta = {
+        titulo: "Pregunta test",
+        descripcion: "Pregunta con etiqueta ",
+        etiquetas: [1]
+    }
+    respuestas = new Map();
+    respuestas.set('1',respuesta);
+    console.log(respuestas.get(idRespuesta));
+
+    if(preguntas.get(idPregunta) == undefined){
+         res.status(451).render('atributosPregunta.ejs', { error: "No se ha podido encontrar la pregunta" });
+    }else if(respuestas.get(idRespuesta) == undefined){
+        res.status(451).render('atributosPregunta.ejs', { error: "No se ha podido encontrar la respuesta" });
+    }
+    else{
+        res.status(450).render('atributosPregunta.ejs', {preguntas:preguntas.get(idPregunta), respuestas: []});
     }
 };
 
