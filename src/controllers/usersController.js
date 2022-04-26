@@ -1,4 +1,7 @@
 const usuarioController = {};
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 var errorList = "";
 
 usuarioController.sign_up = (req, res) => {
@@ -15,17 +18,18 @@ usuarioController.sign_up = (req, res) => {
                 res.json(err);
             }
             else if(usuario.length == 0){
-                conn.query("INSERT INTO usuario(nombre, correo, contraseya) VALUES (?,?,?)", [nombre, email, password], (err, usuario)=>{
-                    if(err){
-                        res.json(err);
-                    }else{
-                        res.status(451).render('login.ejs', { mensaje: "Se ha registrado con exito" });
-                    }
+                bcrypt.hash(password, saltRounds, function(err, hash) {
+                    conn.query("INSERT INTO usuario(nombre, correo, contraseya) VALUES (?,?,?)", [nombre, email, hash], (err, usuario)=>{
+                        if(err){
+                            res.json(err);
+                        }else{
+                            res.status(451).render('login.ejs', { mensaje: "Se ha registrado con exito" });
+                        }
+                    });
                 });
             }else{
                 res.status(402).render('sign-up.ejs', { error: "No se ha podido completar el registro: Ya existe una cuenta con dicho correo" });
             }
-
         });
     });
 
@@ -43,7 +47,8 @@ usuarioController.login = (req, res) => {
     const {correo, contraseya} = req.body;
     
     req.getConnection((err, conn)=>{
-        conn.query("SELECT * FROM usuario WHERE correo = ? AND contraseya = ? AND eliminado = 0", [correo, contraseya], (err, usuario)=>{
+        
+        conn.query("SELECT * FROM usuario WHERE correo = ? AND eliminado = 0", [correo, contraseya], (err, usuario)=>{
             if(err){
                 res.status(402).json(err);
             }
@@ -51,11 +56,16 @@ usuarioController.login = (req, res) => {
                 res.status(402).render('login.ejs', { error: "No existe el usuario/ contraseña incorrecta" });
             }
             else{
-                req.session.correo = usuario[0].correo;
-                req.session.imagen = usuario[0].imagen;
-
+                bcrypt.compare(contraseya, usuario[0].contraseya, function(err, result) {
+                    if(result){
+                        req.session.correo = usuario[0].correo;
+                        req.session.imagen = usuario[0].imagen;
+                        res.redirect('/');
+                    }else{
+                        res.status(402).render('login.ejs', { error: "No existe el usuario/ contraseña incorrecta" });
+                    }
+                });
                 //aqui esta el problema, devuelve 302 porque esta siendo redireccionada O_o
-                res.redirect('/');
                 //res.sendStatus(201).render('index.ejs');
                 // pero no se puede devolver 200 no se por que
             }
