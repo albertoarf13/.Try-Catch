@@ -57,8 +57,6 @@ router.post('/usuarios/:correo/update', usersController.actualizar_usuario);
 router.get('/usuarios/:correo', usersController.mostrar);
 
 
-
-
 function isLogged(req, res, next){
     if(req.session.correo){
         next();
