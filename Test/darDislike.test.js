@@ -14,7 +14,7 @@ test('[Dar dislike]', async () =>{
 
     const response = await testSession.post('/login').send(usuario);
     const response1 = await request(app).post("/preguntas/respuesta/dislike").send({id:1 , correo:"prueba@prueba.es"});
-    expect(response1.text).toBe(200);
+    expect(response1.status).toBe(302);
 });
 
 test('[Dar dislike]', async () =>{
@@ -22,7 +22,7 @@ test('[Dar dislike]', async () =>{
 
     const response = await testSession.post('/login').send(usuario);
     const response1 = await request(app).post("/preguntas/respuesta/dislike").send({id:2 , correo:"prueba@prueba.es"});;
-    expect(response1.text).toBe(200);
+    expect(response1.status).toBe(302);
 });
 
 test('[Dar dislike]', async () =>{
@@ -30,5 +30,5 @@ test('[Dar dislike]', async () =>{
 
     const response = await testSession.post('/login').send(usuario);
     const response1 = await request(app).post("/preguntas/respuesta/dislike").send({id:3 , correo:"prueba@prueba.es"});;
-    expect(response1.text).toBe();
+    expect(response1.status).toBe(302);
 });

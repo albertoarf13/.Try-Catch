@@ -18,7 +18,26 @@ restoreBD.restore = async () =>{
             if(err){
                 res.json(err);
             }
-            console.log(usuario);
+            con.end();
+        })
+    });
+}
+restoreBD.reactive = async () =>{
+    var con = mysql.createConnection({
+        host: 'trycatchserver.mysql.database.azure.com',
+        user: 'admintrycatch',
+        password: 'zbCm8AVJC2vzyaGU',
+        port: 3306,
+        database: 'database1'
+    });
+    
+    con.connect(function(err) {
+        if (err) throw err;
+        console.log("Connected!");
+        con.query('update usuario set eliminado=0 where correo = ?', ["hola122@ucm.es"], (err, usuario)=>{
+            if(err){
+                res.json(err);
+            }
             con.end();
         })
     });

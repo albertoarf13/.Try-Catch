@@ -1,7 +1,8 @@
 const request = require('supertest');
 const app = require('../src/app');
 const routes = require('../src/routes/routes');
-const session = require('supertest-session');;
+const session = require('supertest-session');
+const restoreBD = require('./restorebd');
 const { beforeAll} = require('@jest/globals');
 
 beforeAll(() => {
@@ -10,13 +11,14 @@ beforeAll(() => {
 
 test('[Baja usuario] correcto', async () => {
 
-    const usuario = { correo: 'alberiva@ucm.es', contraseya: '123'};
+    const usuario = { correo: 'hola122@ucm.es', contraseya: '124542'};
     let testSession = session(app);
 
     const response = await testSession.post('/login').send(usuario);
     const response2 = await testSession.post('/usuarios/baja');
     expect(response2.status).toBe(302);
     expect(response2.text).toBe("Found. Redirecting to /");
+    restoreBD.reactive();
 
 });
 test('[Baja usuario]  incorrecto sin session inciada', async () => {
