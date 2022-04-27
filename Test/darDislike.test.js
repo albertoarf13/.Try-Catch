@@ -8,27 +8,49 @@ beforeAll(() => {
     app.use('/', routes);  
 });
 
-const usuario = { correo: 'prueba@prueba.es', contraseya: '1234567Aa'};
-test('[Dar dislike]', async () =>{
+const usuario = { correo: 'alberiva@ucm.es', contraseya: '123'};    
+test('[Dar dislike Respuesta]', async () =>{
     let testSession = session(app);
 
     const response = await testSession.post('/login').send(usuario);
-    const response1 = await request(app).post("/preguntas/respuesta/dislike").send({id:1 , correo:"prueba@prueba.es"});
+    const response1 = await testSession.post("/preguntas/respuesta/dislike").send({idRespuesta:3 , correo:"alberiva@ucm.es"});
     expect(response1.status).toBe(302);
 });
 
-test('[Dar dislike]', async () =>{
+test('[Dar dislike Respuesta: quitar]', async () =>{
     let testSession = session(app);
 
     const response = await testSession.post('/login').send(usuario);
-    const response1 = await request(app).post("/preguntas/respuesta/dislike").send({id:2 , correo:"prueba@prueba.es"});;
+    const response1 = await testSession.post("/preguntas/respuesta/dislike").send({idRespuesta:3 , correo:"alberiva@ucm.es"});
+    expect(response1.status).toBe(302);
+});
+test('[Dar dislike Respuesta: Error]', async () =>{
+    let testSession = session(app);
+
+    const response = await testSession.post('/login').send(usuario);
+    const response1 = await testSession.post("/preguntas/respuesta/dislike").send({idRespuesta:3 , correo:"prueba@ucm.es"});
+    expect(response1.status).toBe(450);
+});
+
+test('[Dar dislike aclaracion:]', async () =>{
+    let testSession = session(app);
+
+    const response = await testSession.post('/login').send(usuario);
+    const response1 = await testSession.post("/preguntas/aclaracion/dislike").send({idAclaracion:4 , correo:"alberiva@ucm.es"});;
     expect(response1.status).toBe(302);
 });
 
-test('[Dar dislike]', async () =>{
+test('[Dar dislike aclaracion:quitar]', async () =>{
     let testSession = session(app);
 
     const response = await testSession.post('/login').send(usuario);
-    const response1 = await request(app).post("/preguntas/respuesta/dislike").send({id:3 , correo:"prueba@prueba.es"});;
+    const response1 = await testSession.post("/preguntas/aclaracion/dislike").send({idAclaracion:4 , correo:"alberiva@ucm.es"});;
     expect(response1.status).toBe(302);
+});
+test('[Dar dislike aclaracion:Error]', async () =>{
+    let testSession = session(app);
+
+    const response = await testSession.post('/login').send(usuario);
+    const response1 = await testSession.post("/preguntas/aclaracion/dislike").send({idAclaracion:4 , correo:"prueba@ucm.es"});;
+    expect(response1.status).toBe(450);
 });

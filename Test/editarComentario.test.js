@@ -31,6 +31,27 @@ test('[Editar pregunta] con sesion iniciada', async () => {
 
 });
 
+test('[Editar pregunta] vacia', async () => {
+
+    const usuario = { correo: 'testcrear@pregunta.es', contraseya: '1234567Aa'};
+    const pregunta = {
+        id: 161,
+        titulo: "Pregunta de testito",
+        descripcion: "",
+        etiquetas: [1,2,4]
+    }
+
+    let testSession = session(app);
+
+
+    const response = await testSession.post('/login').send(usuario);
+    
+    const response2 = await testSession.post('/preguntas/'+ pregunta.id +'/actualizar').send(pregunta);
+    console.log(response2.text);
+    expect(response2.status).toBe(450);
+
+});
+
 
 test('[Editar pregunta] sin sesion iniciada', async () => {
 
@@ -88,6 +109,25 @@ test('[Editar respuesta] con sesion iniciada', async () => {
     const response2 = await testSession.post('/preguntas/respuesta/'+ respuesta.id +'/actualizar').send(respuesta);
     expect(response2.status).toBe(302);
     expect(response2.text).toBe('Found. Redirecting to /preguntas/mostrar/'+respuesta.idPregunta)
+
+});
+test('[Editar respuesta] vacia', async () => {
+
+    const usuario = { correo: 'testcrear@pregunta.es', contraseya: '1234567Aa'};
+    const respuesta = {
+        idPregunta: 161,
+        id: 433,
+        descripcion: "",
+        delImagen: null
+    }
+
+    let testSession = session(app);
+
+
+    const response = await testSession.post('/login').send(usuario);
+    
+    const response2 = await testSession.post('/preguntas/respuesta/'+ respuesta.id +'/actualizar').send(respuesta);
+    expect(response2.status).toBe(450);
 
 });
 
@@ -148,7 +188,25 @@ test('[Editar aclaracion] con sesion iniciada', async () => {
     expect(response2.text).toBe('Found. Redirecting to /');
 
 });
+test('[Editar aclaracion] vacia', async () => {
 
+    const usuario = { correo: 'testcrear@pregunta.es', contraseya: '1234567Aa'};
+    const aclaracion = {
+        idPregunta: 161,
+        id: 238,
+        respuesta: "",
+    }
+
+    let testSession = session(app);
+
+
+    const response = await testSession.post('/login').send(usuario);
+    
+    const response2 = await testSession.post('/preguntas/aclaracion/'+ aclaracion.id +'/actualizar').send(aclaracion);
+    console.log(response2.text);
+    expect(response2.status).toBe(450);
+
+});
 
 test('[Editar aclaracion] sin sesion iniciada', async () => {
 

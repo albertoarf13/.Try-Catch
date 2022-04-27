@@ -12,7 +12,6 @@ respuestasController.likeRespuesta = (req,res) => {
 
     req.getConnection((err, conn)=>{
         conn.query('select likes, dislikes from valorar where correo = ? and idRespuesta = ?;', [correo, idRespuesta], (err,result)=>{
-
             if(err){
                 return -1;
             }else if(result.length == 0){
@@ -20,6 +19,7 @@ respuestasController.likeRespuesta = (req,res) => {
                 conn.query('insert into valorar values (?,?,0,1);', [correo, idRespuesta], (err, resultInsert)=>{
         
                     if(err){
+                        console.log(err);
                         res.status(500).json(err);
                     }else{
                         res.redirect('back');

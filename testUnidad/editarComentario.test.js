@@ -131,7 +131,7 @@ test('[Editar respuesta] incorrecto', async () => {
 
 test('[Editar aclaracion] con sesion iniciada', async () => {
 
-    const usuario = { correo: 'prueab@prueba.es', contraseya: '1234567Aa'};
+    const usuario = { correo: 'prueba@prueba.es', contraseya: '1234567Aa'};
     const aclaracion = {
         idPregunta: 1,
         id: 1,
@@ -144,9 +144,8 @@ test('[Editar aclaracion] con sesion iniciada', async () => {
     const response = await testSession.post('/login').send(usuario);
     
     const response2 = await testSession.post('/preguntas/aclaracion/'+ aclaracion.id +'/actualizar').send(aclaracion);
-    console.log(response2.text);
     expect(response2.status).toBe(302);
-    expect(response2.text).toBe('Found. Redirecting to /login');
+    expect(response2.text).toBe('Found. Redirecting to /');
 
 });
 

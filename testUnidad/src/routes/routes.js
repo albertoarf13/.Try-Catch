@@ -39,11 +39,13 @@ router.post('/usuarios/baja',isLogged, usersController.baja_usuario);
 //Respuestas
 router.post('/preguntas/respuesta/:id/actualizar', isLogged, upload.single("imagen"), respuestasController.actualizar_respuesta);
 router.post('/preguntas/respuesta/like', isLogged, respuestasController.likeRespuesta);
+router.post('/preguntas/respuesta/dislike', isLogged, respuestasController.dislikeRespuesta);
 router.get('/preguntas/respuesta/:id/editar', isLogged, respuestasController.vista_editar_respuesta);
 
 //Aclaracion
 router.post('/preguntas/aclaracion/:id/actualizar', isLogged, aclaracionesController.actualizar_aclaracion);
 router.post('/preguntas/aclaracion/like', isLogged, aclaracionesController.likeRespuesta);
+router.post('/preguntas/aclaracion/dislike', isLogged, aclaracionesController.dislikeRespuesta);
 
 //Busqueda por etiquetas
 router.get('/preguntas/busqueda-por-etiquetas-vista', preguntasController.busqueda_por_etiquetas_vista);

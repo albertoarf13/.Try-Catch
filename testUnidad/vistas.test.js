@@ -67,3 +67,16 @@ test('[Ver vista terminar sesion] con sesion', async () => {
     expect(response2.status).toBe(302);
 
 });
+
+
+test('[Ver vista editar pregunta] con sesion', async () => {
+    const usuario = { correo: 'prueba@prueba.es', contraseya: '1234567Aa'};
+  
+    let testSession = session(app);
+
+    const response = await testSession.post('/login').send(usuario);
+    
+    const response2 = await testSession.get('/preguntas/1/editar');
+    expect(response2.status).toBe(302);
+
+});

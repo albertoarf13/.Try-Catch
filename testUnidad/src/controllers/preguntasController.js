@@ -536,46 +536,11 @@ preguntasController.busqueda_por_etiquetas = (req, res) => {
     });
     
 }
-preguntasController.vista_editar_pregunta = (req, res) => {
-    let id = req.params.id;
-    //Añadir pregunta
-    if(pregunta[0].id == id){
-        pregunta.map(pregunta=>{
-            pregunta.etiquetas = pregunta.etiquetas.split(',');
-            return pregunta.etiquetas;
-        })
-
-        res.render('editarPregunta.ejs', {
-            pregunta: pregunta[0],
-            etiquetas: etiquetas
-        });
-                
-    }else{
-        console.log("hola");
-        res.redirect('/preguntas/mostrar/'+ id);  
-    }
-}
-
-
 
 preguntasController.vista_editar_pregunta = (req, res) => {
     let id = req.params.id;
     //Añadir pregunta
-    if(pregunta[0].id == id){
-        pregunta.map(pregunta=>{
-            pregunta.etiquetas = pregunta.etiquetas.split(',');
-            return pregunta.etiquetas;
-        })
-
-        res.render('editarPregunta.ejs', {
-            pregunta: pregunta[0],
-            etiquetas: etiquetas
-        });
-                
-    }else{
-        console.log("hola");
-        res.redirect('/preguntas/mostrar/'+ id);  
-    }
+    res.redirect('/preguntas/mostrar/'+ id);  
 }
 
 module.exports = preguntasController;
