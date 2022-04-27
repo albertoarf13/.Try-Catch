@@ -445,97 +445,13 @@ preguntasController.busqueda_basica = (req, res) => {
 
 
 preguntasController.busqueda_por_etiquetas_vista = (req, res) => {
-
-    req.getConnection((err, conn)=>{
-        conn.query('SELECT * FROM etiqueta', (err, etiquetas)=>{
-            
-            if(err){
-                res.json(err);
-            }
-
-            res.render('busquedaPorEtiquetas.ejs', {
-                etiquetas: etiquetas,
-                error: req.query.error
-            });
-        })
+       
+    res.render('busquedaPorEtiquetas.ejs', {
+        etiquetas: [],
+        error: req.query.error
     });
-
 }
 
-preguntasController.busqueda_por_etiquetas = (req, res) => {
-    let page = req.query.page;
-    let offset;
-    console.log("pagina", page);
-    page = parseInt(page);
-
-    if(page == undefined || isNaN(page) || page <= 1){
-        offset = 0;
-        page = 1;
-    }else{
-        page = page*1;
-        offset = (page*10) - 10;
-    }
-
-
-    let {busqueda, etiquetas} = req.query;
-
-
-    if(!Array.isArray(etiquetas)){
-        etiquetas = [etiquetas];
-    }
-
-    var dynamicInput = '%'.concat(busqueda.concat('%'));
-
-    req.getConnection((err, conn)=>{
-
-        conn.query(`select pregunta.*, ifnull(GROUP_CONCAT(etiqueta.nombre), '') as etiquetas
-        from pregunta
-        left join etiqueta_pregunta
-        on pregunta.id =  etiqueta_pregunta.id_pregunta
-        left join etiqueta
-        on etiqueta_pregunta.id_etiqueta = etiqueta.id
-        where pregunta.id IN (
-            select distinct pregunta.id
-            from etiqueta_pregunta
-            inner join pregunta
-            on etiqueta_pregunta.id_pregunta = pregunta.id
-            where titulo LIKE ? and id_etiqueta in (?)
-        )
-        group by pregunta.id
-        order by pregunta.id desc
-        limit 10 offset ?;`, [dynamicInput, etiquetas, offset] ,(err, lista_preguntas)=>{
-            
-            lista_preguntas.map(pregunta=>{
-                pregunta.etiquetas = pregunta.etiquetas.split(',');
-                return pregunta.etiquetas;
-            })
-            
-            if(err){
-                res.json(err);
-            }
-            else {
-
-                let currentPage = req.url;
-
-                if(currentPage.indexOf('page=') == -1){
-                    currentPage = currentPage + '&';
-                }
-                else{
-                    currentPage = currentPage.substring(0, currentPage.indexOf('page='));
-                }
-
-                var preguntas = JSON.parse(JSON.stringify(lista_preguntas));
-                res.status(401).render('busquedaBasica.ejs', {
-                    preguntas : preguntas, 
-                    currentPage: currentPage, 
-                    pag: page
-                });
-            }
-        });
-
-    });
-    
-}
 
 preguntasController.vista_editar_pregunta = (req, res) => {
     let id = req.params.id;
