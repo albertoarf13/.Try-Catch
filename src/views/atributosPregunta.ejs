@@ -189,9 +189,12 @@
                                                     </div>
                                                     <% if(locals.correo) { %>
                                                         <% if(locals.correo == respuesta.correo) { %>
+                                                            <% let total = ""; respuestaARespuesta.descripcion.forEach(function(a){total += a.text}); %>
+                                                            <% console.log("toti",total); %>
+
                                                             <div class="btn-group" role="group" aria-label="Basic outlined example">
                                                                 <button onclick=changeModalRoute("/preguntas/<%= respuestaARespuesta.id %>/borrar_respuesta_respuesta") class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-trash"></i></button>
-                                                                <a href="/preguntas/<%= respuesta.id %>/editar" class="btn btn-outline-primary"><i class="fas fa-pencil"></i></a>
+                                                                <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2" onclick= "editarAclaración('<%= total %>' , '<%= respuestaARespuesta.id %>')"><i class="fas fa-pencil"></i></button>
                                                             </div>
                                                         <% } %>
                                                     <% } %>
@@ -322,6 +325,7 @@
     let modalButton = document.getElementById("modalbutton")
 
     function changeModalRoute(tipo){
+        console.log()
         modalButton.setAttribute("href", tipo);
         console.log(tipo);
     }
@@ -333,9 +337,20 @@
     var txtArea = document.getElementById("txtArea");
 
 
-    codebutton.onclick = () =>{
+    codebutton.onclick = () => {
         const [start, end] = [txtArea.selectionStart, txtArea.selectionEnd];
         txtArea.setRangeText('\n-code-\n\n\-code-', start, end, 'select');
+    }
+
+    
+
+    let textAreaModal = document.getElementById("textareaModal");
+    formModal = document.getElementById("formModal");
+
+    function editarAclaración(texto, id){
+        textAreaModal.textContent = texto;
+        formModal.setAttribute("action", "/preguntas/aclaracion/"+ id + "/actualizar")
+        console.log(texto);
     }
 
 
