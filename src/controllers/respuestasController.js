@@ -152,12 +152,13 @@ respuestasController.vista_editar_respuesta = (req, res) =>{
 
         conn.query('select * from respuesta where id = ? AND correo = ?', [id, req.session.correo], (err, respuesta)=>{
             
+            console.log("editar:", respuesta[0])
             if(err){
                 res.status(500).json(err);
                 return;
             }
             
-            if(respues[0].id != id)
+            if(respuesta[0].id != id)
             {
                 res.redirect('/preguntas/mostrar/'+ id);  
                 return;

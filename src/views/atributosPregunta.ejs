@@ -113,7 +113,7 @@
                                     <% if(locals.correo == respuesta.correo) { %>
                                         <div class="btn-group" role="group" aria-label="Basic outlined example">
                                             <button onclick=changeModalRoute("/preguntas/<%= respuesta.id %>/borrar_respuesta") class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-trash"></i></button>
-                                            <a href="/preguntas/<%= respuesta.id %>/editar" class="btn btn-outline-primary"><i class="fas fa-pencil"></i></a>
+                                            <a href="/preguntas/respuesta/<%= respuesta.id %>/editar" class="btn btn-outline-primary"><i class="fas fa-pencil"></i></a>
                                         </div>
                                     <% } %>
                                 <% } %>
@@ -123,7 +123,7 @@
                                 <% respuesta.descripcion.forEach(function(elem){ %>
                                     <% console.log(elem) %>
                                     <% if(!elem.code) { %>
-                                        <p class="card-text"><%= elem.text %></p>
+                                        <p class="card-text" style="white-space: pre-line"><%= elem.text %></p>
                                     <% } else { %>
                                         <div class="codeBox">
                                             <pre><code><%= elem.text %></code></pre>
@@ -201,7 +201,7 @@
                                                     <% respuestaARespuesta.descripcion.forEach(function(elem){ %>
                                                         <% console.log(elem) %>
                                                         <% if(!elem.code) { %>
-                                                            <p class="card-text"><%= elem.text %></p>
+                                                            <p class="card-text"style="white-space: pre-line"><%= elem.text %></p>
                                                         <% } else { %>
                                                             <div class="codeBox">
                                                                 <pre><code><%= elem.text %></code></pre>
