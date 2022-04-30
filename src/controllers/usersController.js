@@ -264,6 +264,9 @@ usuarioController.actualizar_usuario = (req, res) =>{
                 res.json(err);
             }
             else{
+                if(req.file != undefined){
+                    req.session.imagen = imagen;
+                }
                 res.redirect('/usuarios/'+correo);
             }
 

@@ -34,7 +34,7 @@
                         <% preguntas.descripcion.forEach(function(elem){ %>
                             <% console.log(elem) %>
                             <% if(!elem.code) { %>
-                                <p class="card-text"><%= elem.text %></p>
+                                <p class="card-text" style="white-space: pre-line"><%= elem.text %></p>
                             <% } else { %>
                                 <div class="codeBox">
                                     <pre><code><%= elem.text %></code></pre>
